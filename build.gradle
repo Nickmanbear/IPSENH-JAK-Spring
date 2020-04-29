@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id "org.sonarqube" version "2.8"
 }
 
 group = 'com.example'
@@ -21,4 +22,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "Nickmanbear_IPSENH-JAK-Spring"
+  }
 }
