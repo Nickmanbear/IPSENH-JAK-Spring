@@ -5,11 +5,11 @@ env:
 - BUILD_DIR="~/builds/backend-test/"
 addons:
   sonarcloud:
-    organization: "nickmanbear"
+    organization: nickmanbear
     token:
-      secure: "IN0V3NSKaBp5NqSJFtbt+5A9M3AwxE8lfpac+WewiEE7yFQ5paHTq7a2+RdG0sLW0LcQUtZeGS4ryYyBG3oPR01CVab/oSlwyv1deQY0oZzMPo8qRn2uy4doV6VTYjBkihvkN6tiJn6Ht2leR9l2yhpHiI50OqjCxu8TZj077Qnu8AGRxpE+V20UpVUoaCuuSU7kSUbCxQMtcntKjH6iGeW07WPZC13EnuKe2+tQLl3spxCTE/XswfMuSLfP9Hb0TSvka+cVbJk1J9FLqMOiLC4y+CfYejr4n5LAwGUnxnW/cds+iQOyoRtpKD0pcGgDZtHmKpl5n114x9ZOuzeOEf89TKqhmG//NgI2zTmcHClgpjbkXcljc/XXRYL66ZJh0a1lm/v1HENR6JYv+SduZx3stn8tI60MKDTnyplLsohm8xZEPvaNpxcQz8B1CD5WYniaLbvzhq9BcU3q5FnqXdivMh59AdwaMbAIsItFRWF6suKXh8HqjKIdTgSPiqyqvWbPOyGYLBfoWsSg6rrGthYPpC6Id7x04Qzk0HpxW7HYeepdL6lgNAlVLbluEMbqMGelBuPEUk8CW29wU4Stlnl1xIeFHoHURCud/Xok73Hucax/ABakqvrdIPV9CRDkQsLyML+mY8k4dYz8RHaQGgEvsq5LZnvYPcD7LRuao90="
+      secure: IN0V3NSKaBp5NqSJFtbt+5A9M3AwxE8lfpac+WewiEE7yFQ5paHTq7a2+RdG0sLW0LcQUtZeGS4ryYyBG3oPR01CVab/oSlwyv1deQY0oZzMPo8qRn2uy4doV6VTYjBkihvkN6tiJn6Ht2leR9l2yhpHiI50OqjCxu8TZj077Qnu8AGRxpE+V20UpVUoaCuuSU7kSUbCxQMtcntKjH6iGeW07WPZC13EnuKe2+tQLl3spxCTE/XswfMuSLfP9Hb0TSvka+cVbJk1J9FLqMOiLC4y+CfYejr4n5LAwGUnxnW/cds+iQOyoRtpKD0pcGgDZtHmKpl5n114x9ZOuzeOEf89TKqhmG//NgI2zTmcHClgpjbkXcljc/XXRYL66ZJh0a1lm/v1HENR6JYv+SduZx3stn8tI60MKDTnyplLsohm8xZEPvaNpxcQz8B1CD5WYniaLbvzhq9BcU3q5FnqXdivMh59AdwaMbAIsItFRWF6suKXh8HqjKIdTgSPiqyqvWbPOyGYLBfoWsSg6rrGthYPpC6Id7x04Qzk0HpxW7HYeepdL6lgNAlVLbluEMbqMGelBuPEUk8CW29wU4Stlnl1xIeFHoHURCud/Xok73Hucax/ABakqvrdIPV9CRDkQsLyML+mY8k4dYz8RHaQGgEvsq5LZnvYPcD7LRuao90=
 script:
-  - ./gradlew sonarqube
+- "./gradlew sonarqube"
 before_install:
 - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
   -in id_rsa-travis-ci.enc -out id_rsa -d
@@ -20,30 +20,31 @@ before_install:
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@jak.cherement.nl pwd
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 services:
 - docker
 jobs:
   include:
   - stage: Tests
-    script: ./gradlew test
+    script: "./gradlew test"
   - stage: Deployment-Test.server
     script:
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
+    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
+    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
     - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
-
   - stage: Deployment-prod.server
     env:
-      - BUILD_DIR="~/builds/backend-prod/"
+    - BUILD_DIR="~/builds/backend-prod/"
     script:
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
+    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
+    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
     - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
-
-
