@@ -1,5 +1,4 @@
 dist: xenial
-sudo: false
 language: java
 env:
 - BUILD_DIR="~/builds/backend-test/"
