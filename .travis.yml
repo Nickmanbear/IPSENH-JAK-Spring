@@ -16,7 +16,7 @@ before_install:
 - chmod 600 ./id_rsa
 - echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
-- ssh -i ./id_rsa travis-ci@jak.cherement.nl pwd
+- ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
