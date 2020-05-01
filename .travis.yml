@@ -14,7 +14,7 @@ before_install:
   -in id_rsa-travis-ci.enc -out id_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./id_rsa
-- echo -e "Host jak.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@jak.cherement.nl pwd
 before_cache:
@@ -33,16 +33,16 @@ jobs:
   - stage: Deployment-Test.server
     script:
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
+      --progress build/libs/*.jar travis-ci@swarm.cherement.nl:$BUILD_DIR\app.jar
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
+    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
   - stage: Deployment-prod.server
     env:
     - BUILD_DIR="~/builds/backend-prod/"
     script:
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress build/libs/*.jar travis-ci@jak.cherement.nl:$BUILD_DIR\app.jar
+      --progress build/libs/*.jar travis-ci@swarm.cherement.nl:$BUILD_DIR\app.jar
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
+    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
