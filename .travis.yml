@@ -23,6 +23,8 @@ cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
+install:
+- "./gradlew build"
 services:
 - docker
 jobs:
@@ -37,8 +39,7 @@ jobs:
     skip_cleanup: true
     script: bash  ".travis/deploy-test.sh"
     on:
-      branch: dev
-  
+      branch: dev 
   - stage: Deployment-prod.server
     if: branch = master
     env:
