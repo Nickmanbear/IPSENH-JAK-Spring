@@ -35,11 +35,11 @@ jobs:
   - stage: Deployment-Test.server
     if: branch = dev
     deploy:
-    provider: script
-    skip_cleanup: true
-    script: bash  ".travis/deploy-test.sh"
-    on:
-      branch: dev 
+      provider: script
+      skip_cleanup: true
+      script: bash  ".travis/deploy-test.sh"
+      on:
+        branch: dev 
   - stage: Deployment-prod.server
     if: branch = master
     env:
