@@ -1,5 +1,4 @@
-# 
-IPSENH-JAK-Spring 
+# IPSENH-JAK-Spring 
 REST API For JakBan  
 [![Build Status](https://travis-ci.com/Nickmanbear/IPSENH-JAK-Spring.svg?branch=master)](https://travis-ci.com/Nickmanbear/IPSENH-JAK-Spring)
 
