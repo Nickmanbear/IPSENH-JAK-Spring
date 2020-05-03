@@ -32,7 +32,6 @@ services:
 jobs:
   include:
   - stage: Tests
-    script: "./gradlew test"
     script: "./gradlew sonarqube"
   - stage: Deployment-Test.server
     if: branch = dev
@@ -41,14 +40,14 @@ jobs:
       skip_cleanup: true
       script: bash  ".travis/deploy-test.sh"
       on:
-        branch: dev 
+        branch: dev
   - stage: Deployment-prod.server
     if: branch = master
     env:
     - BUILD_DIR="~/builds/backend-prod/"
     deploy:
       provider: script
-      skip_cleanup: true 
+      skip_cleanup: true
       script: bash ".travis/deploy-prod.sh"
       on:
         branch: master
