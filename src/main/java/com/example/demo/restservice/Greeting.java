@@ -1,22 +1,31 @@
 package com.example.demo.restservice;
 
-/**
- * @author NAMEHERE
- */
-public class Greeting {
-    private final long id;
-    private final String content;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
+@Entity
+public class Greeting {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer id;
+
+    private String content;
+
+    public Integer getId() {
+        return id;
     }
 
-    public long getId() {
-        return id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
