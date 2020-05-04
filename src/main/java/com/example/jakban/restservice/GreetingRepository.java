@@ -1,6 +1,5 @@
-package com.example.demo.restservice;
+package com.example.jakban.restservice;
 
-import com.example.demo.restservice.Greeting;
 import org.springframework.data.repository.CrudRepository;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository

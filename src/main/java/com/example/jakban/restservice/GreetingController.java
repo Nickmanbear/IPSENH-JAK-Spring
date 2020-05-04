@@ -1,4 +1,4 @@
-package com.example.demo.restservice;
+package com.example.jakban.restservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
