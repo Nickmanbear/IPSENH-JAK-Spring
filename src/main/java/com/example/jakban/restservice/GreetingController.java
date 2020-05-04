@@ -13,7 +13,7 @@ public class GreetingController {
     @Autowired
     private GreetingRepository greetingRepository;
 
-    private static final String template = "Hello, %s!";
+    private static final String template = "Hi, %s!";
 
     @PostMapping(path="/add")
     public @ResponseBody String addNewGreeting (@RequestParam String content) {
