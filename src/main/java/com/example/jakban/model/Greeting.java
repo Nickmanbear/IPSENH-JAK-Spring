@@ -1,4 +1,4 @@
-package com.example.jakban.restservice;
+package com.example.jakban.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

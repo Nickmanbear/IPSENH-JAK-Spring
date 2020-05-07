@@ -1,5 +1,7 @@
-package com.example.jakban.restservice;
+package com.example.jakban.controller;
 
+import com.example.jakban.model.Greeting;
+import com.example.jakban.Repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
