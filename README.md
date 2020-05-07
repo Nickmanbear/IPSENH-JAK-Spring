@@ -3,7 +3,7 @@ REST API For JakBan
 [![Build Status](https://travis-ci.com/Nickmanbear/IPSENH-JAK-Spring.svg?branch=master)](https://travis-ci.com/Nickmanbear/IPSENH-JAK-Spring)
 
 ## Installation
-You can install the project via git    
+You can install the project via Git    
 ```bash
 git clone git@github.com:Nickmanbear/IPSENH-JAK-Spring.git
 cd IPSENH-JAK-Spring 
