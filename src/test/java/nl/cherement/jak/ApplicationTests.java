@@ -1,4 +1,4 @@
-package com.example.jakban;
+package nl.cherement.jak;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
