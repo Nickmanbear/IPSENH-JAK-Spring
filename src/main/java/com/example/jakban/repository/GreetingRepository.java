@@ -1,4 +1,4 @@
-package com.example.jakban.Repository;
+package com.example.jakban.repository;
 
 import com.example.jakban.model.Greeting;
 import org.springframework.data.repository.CrudRepository;

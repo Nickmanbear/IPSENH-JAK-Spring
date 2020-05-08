@@ -1,10 +1,12 @@
 package com.example.jakban.controller;
 
+import com.example.jakban.model.User;
+import com.example.jakban.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -14,18 +16,23 @@ import java.util.Base64;
 @CrossOrigin
 public class UserController {
 
+    @Autowired
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping("/login")
     public boolean login(@RequestBody SecurityProperties.User user) {
         return
 
-                user.getName().equals("user") && user.getPassword().equals("password");
+                user.getName().equals(userService.loadUserByUsername(user.getName()).getUsername());
     }
 
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        String authToken = request.getHeader("Authorization")
-                .substring("Basic".length()).trim();
-        return () ->  new String(Base64.getDecoder()
-                .decode(authToken)).split(":")[0];
+    @GetMapping("/user")
+    public User user(HttpServletRequest request) {
+        return null;
+
     }
 }
