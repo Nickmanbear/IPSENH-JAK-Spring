@@ -29,7 +29,7 @@ public class CardService {
      
     public CardEntity single(Long id) throws RecordNotFoundException {
         return repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException());
+                .orElseThrow(RecordNotFoundException::new);
     }
      
     public CardEntity update(CardModel cardModel) throws RecordNotFoundException {

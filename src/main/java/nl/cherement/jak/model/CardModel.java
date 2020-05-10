@@ -1,7 +1,5 @@
 package nl.cherement.jak.model;
 
-import nl.cherement.jak.entity.CardEntity;
-
 public class CardModel {
 
     private long id;
