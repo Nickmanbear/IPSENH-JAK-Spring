@@ -45,6 +45,6 @@ public class CardModel {
     @Override
     public String toString() {
         return "CardModel [id=" + id + ", columnId=" + columnId +
-                ", name=" + name + ", description=" + description   + "]";
+                ", name=" + name + ", description=" + description + "]";
     }
 }
