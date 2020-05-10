@@ -17,10 +17,10 @@ public class ColumnService {
     ColumnRepository repository;
      
     public List<ColumnEntity> all() {
-        List<ColumnEntity> ColumnEntities = repository.findAll();
+        List<ColumnEntity> columnEntities = repository.findAll();
          
-        if(!ColumnEntities.isEmpty()) {
-            return ColumnEntities;
+        if(!columnEntities.isEmpty()) {
+            return columnEntities;
         } else {
             return new ArrayList<>();
         }

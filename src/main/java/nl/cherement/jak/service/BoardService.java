@@ -17,10 +17,10 @@ public class BoardService {
     BoardRepository repository;
      
     public List<BoardEntity> all() {
-        List<BoardEntity> BoardEntities = repository.findAll();
+        List<BoardEntity> boardEntities = repository.findAll();
          
-        if(!BoardEntities.isEmpty()) {
-            return BoardEntities;
+        if(!boardEntities.isEmpty()) {
+            return boardEntities;
         } else {
             return new ArrayList<>();
         }
