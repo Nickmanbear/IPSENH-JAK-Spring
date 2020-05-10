@@ -2,7 +2,6 @@ package nl.cherement.jak.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import nl.cherement.jak.exception.RecordNotFoundException;
 import nl.cherement.jak.repository.CardRepository;
@@ -20,7 +19,7 @@ public class CardService {
     public List<Card> all() {
         List<Card> cards = repository.findAll();
          
-        if(cards.size() > 0) {
+        if(!cards.isEmpty()) {
             return cards;
         } else {
             return new ArrayList<>();
@@ -29,7 +28,7 @@ public class CardService {
      
     public Card single(Long id) throws RecordNotFoundException {
         return repository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("No card record exist for given id"));
+                .orElseThrow(() -> new RecordNotFoundException());
     }
      
     public Card update(Card card) throws RecordNotFoundException {
@@ -37,7 +36,7 @@ public class CardService {
             if (repository.findById(card.getId()).isPresent()) {
                 return repository.save(card);
             } else {
-                throw new RecordNotFoundException("No card record exist for given id");
+                throw new RecordNotFoundException();
             }
         } else {
             return repository.save(card);
@@ -48,7 +47,7 @@ public class CardService {
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
         } else {
-            throw new RecordNotFoundException("No card record exist for given id");
+            throw new RecordNotFoundException();
         }
     }
 }
