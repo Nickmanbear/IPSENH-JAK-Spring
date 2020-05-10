@@ -1,11 +1,9 @@
 package nl.cherement.jak.entity;
 
-import nl.cherement.jak.model.CardModel;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="TBL_CARDS")
+@Table(name="cards")
 public class CardEntity {
 
     @Id
@@ -20,13 +18,6 @@ public class CardEntity {
 
 	@Column(name="description")
     private String description;
-
-	public CardEntity(CardModel model) {
-		setId(model.getId());
-		setColumnId(model.getColumnId());
-		setName(model.getName());
-		setDescription(model.getDescription());
-	}
     
     public long getId() {
 		return id;
