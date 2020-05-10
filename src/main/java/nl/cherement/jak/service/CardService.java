@@ -33,7 +33,9 @@ public class CardService {
     }
      
     public CardEntity update(CardModel cardModel) throws RecordNotFoundException {
-        CardEntity cardEntity = new CardEntity(cardModel);
+        CardEntity cardEntity = new CardEntity();
+        cardEntity.importModal(cardModel);
+
         if (cardEntity.getId() > 0) {
             if (repository.findById(cardModel.getId()).isPresent()) {
                 return repository.save(cardEntity);

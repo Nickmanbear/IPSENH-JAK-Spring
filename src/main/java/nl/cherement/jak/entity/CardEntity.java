@@ -1,9 +1,11 @@
 package nl.cherement.jak.entity;
 
+import nl.cherement.jak.model.CardModel;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="cards")
+@Table(name="card")
 public class CardEntity {
 
     @Id
@@ -49,6 +51,13 @@ public class CardEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void importModal(CardModel cardModel) {
+		setId(cardModel.getId());
+		setColumnId(cardModel.getColumnId());
+		setName(cardModel.getName());
+		setDescription(cardModel.getDescription());
 	}
 
     @Override
