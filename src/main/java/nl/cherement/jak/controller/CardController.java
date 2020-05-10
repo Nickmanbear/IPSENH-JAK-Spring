@@ -2,6 +2,7 @@ package nl.cherement.jak.controller;
 
 import java.util.List;
 
+import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.exception.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.cherement.jak.model.Card;
+import nl.cherement.jak.model.CardModel;
 import nl.cherement.jak.service.CardService;
  
 @RestController
@@ -24,22 +25,22 @@ public class CardController {
     CardService service;
  
     @GetMapping
-    public ResponseEntity<List<Card>> all() {
-        List<Card> list = service.all();
+    public ResponseEntity<List<CardEntity>> all() {
+        List<CardEntity> list = service.all();
  
         return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<Card> single(@PathVariable("id") Long id) throws RecordNotFoundException {
-        Card card = service.single(id);
+    public ResponseEntity<CardEntity> single(@PathVariable("id") Long id) throws RecordNotFoundException {
+        CardEntity card = service.single(id);
  
         return new ResponseEntity<>(card, new HttpHeaders(), HttpStatus.OK);
     }
  
     @PostMapping
-    public ResponseEntity<Card> update(Card card) throws RecordNotFoundException {
-        Card updatedCard = service.update(card);
+    public ResponseEntity<CardEntity> update(CardModel card) throws RecordNotFoundException {
+        CardEntity updatedCard = service.update(card);
 
         return new ResponseEntity<>(updatedCard, new HttpHeaders(), HttpStatus.OK);
     }

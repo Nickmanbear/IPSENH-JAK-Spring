@@ -1,12 +1,11 @@
 package nl.cherement.jak.repository;
 
+import nl.cherement.jak.entity.CardEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import nl.cherement.jak.model.Card;
  
 @Repository
 public interface CardRepository
-        extends JpaRepository<Card, Long> {
+        extends JpaRepository<CardEntity, Long> {
  
 }
