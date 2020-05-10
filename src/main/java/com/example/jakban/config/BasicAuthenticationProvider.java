@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BasicAuthenticationProvider implements AuthenticationProvider {
+public class    BasicAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
 

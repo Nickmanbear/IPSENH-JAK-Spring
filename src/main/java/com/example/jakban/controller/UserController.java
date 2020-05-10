@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public User user(HttpServletRequest request) {
-        return null;
+    public UserDetails user(HttpServletRequest request) {
+        return  userService.loadUserByUsername("user");
 
     }
 }
