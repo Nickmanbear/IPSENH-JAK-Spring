@@ -7,116 +7,73 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
-    protected LocalDateTime expireDate;
-    protected UserStatus status = UserStatus.ACTIVE;   // load from DB
-    @Transient
-    protected boolean accountNotExpired = true;
+    private int active;
+    private String roles = "";
+    private String permissions = "";
 
-    @Transient
-    protected boolean accountNotLocked = false;
-
-    @Transient
-    protected boolean credentialsNotExpired = true;
-
-    public Long getId() {
-        return id;
+    public User(String username, String password, String roles, String permissions){
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.permissions = permissions;
+        this.active = 1;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    protected User(){}
+
+    public long getId() {
+        return id;
     }
 
     public String getUsername() {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public int getActive() {
+        return active;
     }
 
-    public LocalDateTime getExpireDate() {
-        return expireDate;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setExpireDate(LocalDateTime expireDate) {
-        this.expireDate = expireDate;
+    public String getPermissions() {
+        return permissions;
     }
 
-    public UserStatus getStatus() {
-        return status;
+    public List<String> getRoleList(){
+        if(this.roles.length() > 0){
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
     }
 
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
-
-    public boolean isAccountNotExpired() {
-        return accountNotExpired;
-    }
-
-    public void setAccountNotExpired(boolean accountNotExpired) {
-        this.accountNotExpired = accountNotExpired;
-    }
-
-    public boolean isAccountNotLocked() {
-        return accountNotLocked;
-    }
-
-    public void setAccountNotLocked(boolean accountNotLocked) {
-        this.accountNotLocked = accountNotLocked;
-    }
-
-    public boolean isCredentialsNotExpired() {
-        return credentialsNotExpired;
-    }
-
-    public void setCredentialsNotExpired(boolean credentialsNotExpired) {
-        this.credentialsNotExpired = credentialsNotExpired;
+    public List<String> getPermissionList(){
+        if(this.permissions.length() > 0){
+            return Arrays.asList(this.permissions.split(","));
+        }
+        return new ArrayList<>();
     }
 }
 

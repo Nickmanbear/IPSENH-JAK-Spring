@@ -1,23 +1,21 @@
 package com.example.jakban.config;
 
-import com.example.jakban.service.UserService;
+import com.example.jakban.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class    BasicAuthenticationProvider implements AuthenticationProvider {
+public class BasicAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public BasicAuthenticationProvider(UserService userDetailsService) {
+    public BasicAuthenticationProvider(UserPrincipalDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

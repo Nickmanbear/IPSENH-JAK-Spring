@@ -15,16 +15,5 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public CommandLineRunner demo(UserRespository repository) {
-        return (args) -> {
-            // save a few customers
-            User user = new User();
-            user.setUsername("user4");
-            BCryptPasswordEncoder bCryptPasswordEncoder =new BCryptPasswordEncoder();
-            user.setPassword(bCryptPasswordEncoder.encode("password"));
-            repository.save(user);
 
-        };
-    }
 }
