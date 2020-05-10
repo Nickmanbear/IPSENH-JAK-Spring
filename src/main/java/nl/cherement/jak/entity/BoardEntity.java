@@ -5,7 +5,7 @@ import nl.cherement.jak.model.BoardModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="board")
+@Table(name="boards")
 public class BoardEntity {
 
     @Id

@@ -5,7 +5,7 @@ import nl.cherement.jak.model.ColumnModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="column")
+@Table(name="columns")
 public class ColumnEntity {
 
     @Id

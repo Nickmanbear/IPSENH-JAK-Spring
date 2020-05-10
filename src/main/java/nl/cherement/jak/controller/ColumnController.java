@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/column")
 public class ColumnController {
     @Autowired
     ColumnService service;

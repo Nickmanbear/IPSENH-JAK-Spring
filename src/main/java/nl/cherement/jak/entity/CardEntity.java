@@ -5,7 +5,7 @@ import nl.cherement.jak.model.CardModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="card")
+@Table(name="cards")
 public class CardEntity {
 
     @Id
