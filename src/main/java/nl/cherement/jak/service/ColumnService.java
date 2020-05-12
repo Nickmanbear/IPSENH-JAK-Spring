@@ -5,28 +5,14 @@ import nl.cherement.jak.repository.ColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ColumnService {
+public class ColumnService extends ServiceAbstract<ColumnEntity>{
 
     @Autowired
     ColumnRepository repository;
 
-    public List<ColumnEntity> all() {
-        return repository.findAll();
-    }
-
-    public Optional<ColumnEntity> single(Long id) {
-        return repository.findById(id);
-    }
-
-    public ColumnEntity update(ColumnEntity columnEntity) {
-        return repository.save(columnEntity);
-    }
-
-    public void remove(Long id) {
-        repository.deleteById(id);
+    public ColumnService(ColumnRepository repository) {
+        super(repository);
     }
 }

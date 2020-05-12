@@ -19,12 +19,12 @@ public class ColumnController {
 
     @GetMapping
     public List<ColumnEntity> all() {
-        return service.all();
+        return service.findAll();
     }
 
     @GetMapping("/{id}")
     public Optional<ColumnEntity> single(@PathVariable("id") Long id) {
-        return service.single(id);
+        return service.get(id);
     }
 
     @PostMapping
@@ -37,7 +37,7 @@ public class ColumnController {
 
     @DeleteMapping("/{id}")
     public HttpStatus remove(@PathVariable("id") Long id) {
-        service.remove(id);
+        service.deleteById(id);
 
         return HttpStatus.FORBIDDEN;
     }
