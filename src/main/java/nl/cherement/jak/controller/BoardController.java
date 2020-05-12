@@ -1,46 +1,42 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.exception.RecordNotFoundException;
 import nl.cherement.jak.model.BoardModel;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/board")
 public class BoardController {
+
     @Autowired
     BoardService service;
  
     @GetMapping
-    public ResponseEntity<List<BoardEntity>> all() {
-        List<BoardEntity> list = service.all();
- 
-        return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
+    public List<BoardEntity> all() {
+        return service.all();
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<BoardEntity> single(@PathVariable("id") Long id) throws RecordNotFoundException {
-        BoardEntity board = service.single(id);
- 
-        return new ResponseEntity<>(board, new HttpHeaders(), HttpStatus.OK);
+    public Optional<BoardEntity> single(@PathVariable("id") Long id) {
+        return service.single(id);
     }
  
     @PostMapping
-    public ResponseEntity<BoardEntity> update(BoardModel board) throws RecordNotFoundException {
-        BoardEntity updatedBoard = service.update(board);
+    public BoardEntity update(BoardModel boardModel) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.importModal(boardModel);
 
-        return new ResponseEntity<>(updatedBoard, new HttpHeaders(), HttpStatus.OK);
+        return service.update(boardEntity);
     }
  
     @DeleteMapping("/{id}")
-    public HttpStatus remove(@PathVariable("id") Long id) throws RecordNotFoundException {
+    public HttpStatus remove(@PathVariable("id") Long id) {
         service.remove(id);
 
         return HttpStatus.FORBIDDEN;
