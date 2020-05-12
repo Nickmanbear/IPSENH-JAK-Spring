@@ -1,9 +1,9 @@
 package nl.cherement.jak.repository;
 
-import nl.cherement.jak.model.User;
+import nl.cherement.jak.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRespository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+public interface UserRespository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByUsername(String username);
 
 }

@@ -1,8 +1,9 @@
 package nl.cherement.jak.service;
 
-import nl.cherement.jak.model.User;
+import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.model.UserPrinicipal;
 import nl.cherement.jak.repository.UserRespository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
 
+    @Autowired
     private UserRespository userRespository;
 
     public UserPrincipalDetailsService(UserRespository userRespository) {
@@ -23,7 +25,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRespository.findByUsername(username);
+        UserEntity user = this.userRespository.findByUsername(username);
         UserPrinicipal userPrinicipal = new UserPrinicipal(user);
         return userPrinicipal;
     }
@@ -34,15 +36,15 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     }
 
 
-    public List<User> findAll() {
+    public List<UserEntity> findAll() {
         return this.userRespository.findAll();
     }
 
-    public Optional<User> get(Long id) {
+    public Optional<UserEntity> get(Long id) {
         return this.userRespository.findById(id);
     }
 
-    public void add(User user) {
+    public void add(UserEntity user) {
         this.userRespository.save(user);
     }
 }

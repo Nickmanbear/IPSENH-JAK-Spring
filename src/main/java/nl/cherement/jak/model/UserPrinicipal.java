@@ -1,5 +1,6 @@
 package nl.cherement.jak.model;
 
+import nl.cherement.jak.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class UserPrinicipal implements UserDetails {
 
-    private User user;
+    private UserEntity user;
 
-    public UserPrinicipal(User user) {
+    public UserPrinicipal(UserEntity user) {
         this.user = user;
     }
 

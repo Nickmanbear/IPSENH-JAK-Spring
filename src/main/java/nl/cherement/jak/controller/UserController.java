@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
-import nl.cherement.jak.model.User;
+import nl.cherement.jak.entity.UserEntity;
+import nl.cherement.jak.model.UserModel;
 import nl.cherement.jak.repository.UserRespository;
 import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +22,14 @@ public class UserController {
     @Autowired
     private UserPrincipalDetailsService userPrincipalDetailsService;
 
-    private UserRespository userRepository;
-
-    public UserController(UserRespository userService) {
-        this.userRepository = userService;
-    }
-
 
     @GetMapping("/all")
-    public List<User> user(HttpServletRequest request) {
+    public List<UserEntity> user(HttpServletRequest request) {
         return userPrincipalDetailsService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<User> get(HttpServletRequest request, @PathVariable("id") Long id) {
+    public Optional<UserEntity> get(HttpServletRequest request, @PathVariable("id") Long id) {
         return userPrincipalDetailsService.get(id);
     }
     @GetMapping("/me")
@@ -43,8 +38,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity newUser(@RequestBody User user) {
-        userPrincipalDetailsService.add(user);
+    public ResponseEntity newUser(@RequestBody UserModel userModel) {
+
+        userPrincipalDetailsService.add(new UserEntity(userModel.username,userModel.password,userModel.roles,
+                userModel.permissions, userModel.active));
         return ResponseEntity.ok().build();
     }
 }
