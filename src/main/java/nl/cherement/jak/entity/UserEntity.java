@@ -1,4 +1,4 @@
-package nl.cherement.jak.model;
+package nl.cherement.jak.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class User {
+@Table(name="users")
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -28,15 +29,15 @@ public class User {
     private String roles = "";
     private String permissions = "";
 
-    public User(String username, String password, String roles, String permissions){
+    public UserEntity(String username, String password, String roles, String permissions, int active){
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.permissions = permissions;
-        this.active = 1;
+        this.active = active;
     }
 
-    protected User(){}
+    protected UserEntity(){}
 
     public long getId() {
         return id;
