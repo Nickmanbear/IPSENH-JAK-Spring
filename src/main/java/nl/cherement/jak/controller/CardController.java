@@ -3,15 +3,9 @@ package nl.cherement.jak.controller;
 import java.util.List;
 import java.util.Optional;
 
-import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.CardEntity;
-import nl.cherement.jak.exception.RecordNotFoundException;
-import nl.cherement.jak.model.BoardModel;
-import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
