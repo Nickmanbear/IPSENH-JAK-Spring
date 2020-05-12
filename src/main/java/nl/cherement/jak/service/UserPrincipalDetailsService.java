@@ -1,14 +1,12 @@
-package com.example.jakban.service;
+package nl.cherement.jak.service;
 
-import com.example.jakban.model.User;
-import com.example.jakban.model.UserPrinicipal;
-import com.example.jakban.repository.UserRespository;
+import nl.cherement.jak.model.User;
+import nl.cherement.jak.model.UserPrinicipal;
+import nl.cherement.jak.repository.UserRespository;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

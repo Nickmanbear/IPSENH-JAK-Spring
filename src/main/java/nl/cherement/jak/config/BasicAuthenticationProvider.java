@@ -1,6 +1,6 @@
-package com.example.jakban.config;
+package nl.cherement.jak.config;
 
-import com.example.jakban.service.UserPrincipalDetailsService;
+import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;

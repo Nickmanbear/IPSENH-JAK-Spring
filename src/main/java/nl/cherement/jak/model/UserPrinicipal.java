@@ -1,4 +1,4 @@
-package com.example.jakban.model;
+package nl.cherement.jak.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

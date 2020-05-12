@@ -1,8 +1,8 @@
-package com.example.jakban.controller;
+package nl.cherement.jak.controller;
 
-import com.example.jakban.model.User;
-import com.example.jakban.repository.UserRespository;
-import com.example.jakban.service.UserPrincipalDetailsService;
+import nl.cherement.jak.model.User;
+import nl.cherement.jak.repository.UserRespository;
+import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
