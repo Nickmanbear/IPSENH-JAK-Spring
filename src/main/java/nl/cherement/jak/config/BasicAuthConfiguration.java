@@ -19,7 +19,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
-    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
 
     public BasicAuthConfiguration(UserPrincipalDetailsService userPrincipalDetailsService) {
         this.userPrincipalDetailsService = userPrincipalDetailsService;

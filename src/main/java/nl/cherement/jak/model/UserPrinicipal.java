@@ -1,6 +1,7 @@
 package nl.cherement.jak.model;
 
 import nl.cherement.jak.entity.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +12,13 @@ import java.util.List;
 
 public class UserPrinicipal implements UserDetails {
 
-    private UserEntity user;
+    @Autowired
+    private transient UserEntity user;
 
     public UserPrinicipal(UserEntity user) {
-        this.user = user;
+        this.user =user;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
