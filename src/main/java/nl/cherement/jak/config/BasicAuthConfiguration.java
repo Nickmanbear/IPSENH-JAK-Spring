@@ -30,7 +30,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST, "/user/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/**");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/index.html").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
 
