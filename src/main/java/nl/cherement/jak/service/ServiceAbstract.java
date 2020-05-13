@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public abstract class ServiceAbstract<T> {
 
-    private JpaRepository repository;
+    private JpaRepository<T, Long> repository;
 
-    public ServiceAbstract(JpaRepository repository) {
+    public ServiceAbstract(JpaRepository<T, Long> repository) {
         this.repository = repository;
     }
 
     public T update(T o) {
-        return (T) this.repository.save(o);
+        return this.repository.save(o);
     }
 
     public void delete(T o) {
