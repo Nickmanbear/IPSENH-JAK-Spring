@@ -2,10 +2,8 @@ package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.model.UserModel;
-import nl.cherement.jak.repository.UserRespository;
 import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -32,16 +30,23 @@ public class UserController {
     public Optional<UserEntity> get(HttpServletRequest request, @PathVariable("id") Long id) {
         return userPrincipalDetailsService.get(id);
     }
+
     @GetMapping("/me")
     public UserDetails auth(Authentication authentication) {
         return userPrincipalDetailsService.auth(authentication);
     }
 
     @PostMapping
-    public ResponseEntity newUser(@RequestBody UserModel userModel) {
-
-        userPrincipalDetailsService.add(new UserEntity(userModel.username,userModel.password,userModel.roles,
-                userModel.permissions, userModel.active));
-        return ResponseEntity.ok().build();
+    public UserEntity newUser(@RequestBody UserModel userModel) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setActive(userModel.getActive());
+        userEntity.setId(userModel.getId());
+        userEntity.setPassword(userModel.getPassword());
+        userEntity.setPermissions(userModel.getPermissions());
+        userEntity.setRoles(userModel.getRoles());
+        userEntity.setUsername(userModel.getUsername());
+        return userPrincipalDetailsService.add(userEntity);
     }
+
+
 }
