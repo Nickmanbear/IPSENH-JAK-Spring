@@ -20,6 +20,12 @@ public class CardEntity {
 
 	@Column(name="description")
     private String description;
+
+	@Column(name="priority")
+    private Long priority;
+
+	@Column(name="points")
+    private Long points;
     
     public long getId() {
 		return id;
@@ -53,16 +59,35 @@ public class CardEntity {
 		this.description = description;
 	}
 
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(long priority) {
+		this.priority = priority;
+	}
+
+	public Long getPoints() {
+		return points;
+	}
+
+	public void setPoints(long points) {
+		this.points = points;
+	}
+
 	public void importModal(CardModel cardModel) {
 		setId(cardModel.getId());
 		setColumnId(cardModel.getColumnId());
 		setName(cardModel.getName());
 		setDescription(cardModel.getDescription());
+		setPriority(cardModel.getPriority());
+		setPoints(cardModel.getPoints());
 	}
 
     @Override
     public String toString() {
         return "CardEntity [id=" + id + ", columnId=" + columnId +
-                ", name=" + name + ", description=" + description   + "]";
+                ", name=" + name + ", description=" + description   +
+				", priority=" + priority + ", points=" + points + "]";
     }
 }

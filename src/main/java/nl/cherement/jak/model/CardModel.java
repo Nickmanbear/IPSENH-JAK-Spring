@@ -9,6 +9,10 @@ public class CardModel {
     private String name;
 
     private String description;
+
+    private Long priority;
+
+    private Long points;
     
     public long getId() {
 		return id;
@@ -42,9 +46,26 @@ public class CardModel {
 		this.description = description;
 	}
 
-    @Override
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(long priority) {
+		this.priority = priority;
+	}
+
+	public Long getPoints() {
+		return points;
+	}
+
+	public void setPoints(long points) {
+		this.points = points;
+	}
+
+	@Override
     public String toString() {
         return "CardModel [id=" + id + ", columnId=" + columnId +
-                ", name=" + name + ", description=" + description + "]";
+                ", name=" + name + ", description=" + description   +
+				", priority=" + priority + ", points=" + points + "]";
     }
 }
