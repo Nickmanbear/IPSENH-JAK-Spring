@@ -22,6 +22,11 @@ public class ColumnController {
         return service.findAll();
     }
 
+    @GetMapping("/board/{id}")
+    public List<ColumnEntity> byBoard(@PathVariable("id") Long id) {
+        return service.getByBoardId(id);
+    }
+
     @GetMapping("/{id}")
     public Optional<ColumnEntity> single(@PathVariable("id") Long id) {
         return service.get(id);
