@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/column")
 public class ColumnController {
@@ -33,7 +34,7 @@ public class ColumnController {
     }
 
     @PostMapping
-    public ColumnEntity update(ColumnModel columnModel) {
+    public ColumnEntity update(@RequestBody ColumnModel columnModel) {
         ColumnEntity columnEntity = new ColumnEntity();
         columnEntity.importModal(columnModel);
 
