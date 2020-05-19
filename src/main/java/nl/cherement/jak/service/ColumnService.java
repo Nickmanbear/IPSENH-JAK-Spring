@@ -5,6 +5,7 @@ import nl.cherement.jak.repository.ColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class ColumnService extends AbstractService<ColumnEntity> {
@@ -15,4 +16,9 @@ public class ColumnService extends AbstractService<ColumnEntity> {
     public ColumnService(ColumnRepository repository) {
         super(repository);
     }
+
+    public List<ColumnEntity> getByBoardId(Long id) {
+        return this.repository.getByBoardId(id);
+    }
+
 }
