@@ -9,41 +9,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class UserPrincipalDetailsService implements UserDetailsService {
+public class UserPrincipalDetailsService extends AbstractService<UserEntity> implements UserDetailsService {
 
     @Autowired
-    private final UserRespository userRespository;
+    UserRespository repository;
 
-    public UserPrincipalDetailsService(UserRespository userRespository) {
-        this.userRespository = userRespository;
+    public UserPrincipalDetailsService(UserRespository repository) {
+        super(repository);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserEntity user = this.userRespository.findByUsername(username);
+        UserEntity user = this.repository.findByUsername(username);
         return new UserPrinicipal(user);
 
     }
 
-
-    public UserDetails auth(Authentication authentication) {
-        return (UserDetails) authentication.getPrincipal();
-    }
-
-
-    public List<UserEntity> findAll() {
-        return this.userRespository.findAll();
-    }
-
-    public Optional<UserEntity> get(Long id) {
-        return this.userRespository.findById(id);
-    }
-
-    public UserEntity add(UserEntity user) {
-        return this.userRespository.save(user);
+    public UserEntity auth(Authentication authentication) {
+        return repository.findByUsername(authentication.getName());
     }
 }

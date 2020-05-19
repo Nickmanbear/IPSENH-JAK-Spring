@@ -5,15 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ServiceAbstract<T> {
+public abstract class AbstractService<T> {
 
     private JpaRepository<T, Long> repository;
 
-    public ServiceAbstract(JpaRepository<T, Long> repository) {
+    public AbstractService(JpaRepository<T, Long> repository) {
         this.repository = repository;
     }
 
-    public T update(T o) {
+    public T save(T o) {
         return this.repository.save(o);
     }
 
@@ -30,7 +30,7 @@ public abstract class ServiceAbstract<T> {
         return this.repository.findAll();
     }
 
-    public Optional<T> get(Long id) {
+    public Optional<T> findById(Long id) {
         return this.repository.findById(id);
     }
 

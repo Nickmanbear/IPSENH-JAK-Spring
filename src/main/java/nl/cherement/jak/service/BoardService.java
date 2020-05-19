@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class BoardService extends ServiceAbstract<BoardEntity>{
+public class BoardService extends AbstractService<BoardEntity> {
      
     @Autowired
     BoardRepository repository;

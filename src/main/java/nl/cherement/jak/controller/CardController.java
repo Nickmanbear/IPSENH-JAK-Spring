@@ -20,27 +20,27 @@ public class CardController {
     CardService service;
 
     @GetMapping
-    public List<CardEntity> all() {
+    public List<CardEntity> findAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<CardEntity> single(@PathVariable("id") Long id) {
-        return service.get(id);
+    public Optional<CardEntity> findById(@PathVariable("id") Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public CardEntity update(CardModel cardModel) {
+    public CardEntity save(@RequestBody CardModel cardModel) {
         CardEntity cardEntity = new CardEntity();
         cardEntity.importModal(cardModel);
 
-        return service.update(cardEntity);
+        return service.save(cardEntity);
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus remove(@PathVariable("id") Long id) {
+    public HttpStatus deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
 
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.OK;
     }
 }
