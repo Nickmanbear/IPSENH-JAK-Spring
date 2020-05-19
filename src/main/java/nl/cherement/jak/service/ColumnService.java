@@ -18,7 +18,7 @@ public class ColumnService extends ServiceAbstract<ColumnEntity>{
     }
 
     public List<ColumnEntity> getByBoardId(Long id) {
-        return this.repository.findAll();
+        return this.repository.getByBoardId(id);
     }
 
 }
