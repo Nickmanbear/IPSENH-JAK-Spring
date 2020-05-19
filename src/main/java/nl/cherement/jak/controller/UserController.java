@@ -5,7 +5,6 @@ import nl.cherement.jak.model.UserModel;
 import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,23 +21,23 @@ public class UserController {
     private UserPrincipalDetailsService userPrincipalDetailsService;
 
 
-    @GetMapping("/all")
-    public List<UserEntity> user(HttpServletRequest request) {
+    @GetMapping
+    public List<UserEntity> findAll(HttpServletRequest request) {
         return userPrincipalDetailsService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<UserEntity> get(HttpServletRequest request, @PathVariable("id") Long id) {
-        return userPrincipalDetailsService.get(id);
+    public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
+        return userPrincipalDetailsService.findById(id);
     }
 
     @GetMapping("/me")
-    public UserDetails auth(Authentication authentication) {
+    public UserEntity auth(Authentication authentication) {
         return userPrincipalDetailsService.auth(authentication);
     }
 
     @PostMapping
-    public UserEntity newUser(@RequestBody UserModel userModel) {
+    public UserEntity save(@RequestBody UserModel userModel) {
         UserEntity userEntity = new UserEntity();
         userEntity.setActive(userModel.getActive());
         userEntity.setId(userModel.getId());
@@ -46,8 +45,6 @@ public class UserController {
         userEntity.setPermissions(userModel.getPermissions());
         userEntity.setRoles(userModel.getRoles());
         userEntity.setUsername(userModel.getUsername());
-        return userPrincipalDetailsService.add(userEntity);
+        return userPrincipalDetailsService.save(userEntity);
     }
-
-
 }

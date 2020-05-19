@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CardService extends ServiceAbstract<CardEntity>{
+public class CardService extends AbstractService<CardEntity> {
 
     @Autowired
     CardRepository repository;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ColumnService extends ServiceAbstract<ColumnEntity>{
+public class ColumnService extends AbstractService<ColumnEntity> {
 
     @Autowired
     ColumnRepository repository;

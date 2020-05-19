@@ -19,27 +19,27 @@ public class BoardController {
     BoardService service;
  
     @GetMapping
-    public List<BoardEntity> all() {
+    public List<BoardEntity> findAll() {
         return service.findAll();
     }
  
     @GetMapping("/{id}")
-    public Optional<BoardEntity> single(@PathVariable("id") Long id) {
-        return service.get(id);
+    public Optional<BoardEntity> findById(@PathVariable("id") Long id) {
+        return service.findById(id);
     }
  
     @PostMapping
-    public BoardEntity update(@RequestBody BoardModel boardModel) {
+    public BoardEntity save(@RequestBody BoardModel boardModel) {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.importModal(boardModel);
 
-        return service.update(boardEntity);
+        return service.save(boardEntity);
     }
  
     @DeleteMapping("/{id}")
-    public HttpStatus remove(@PathVariable("id") Long id) {
+    public HttpStatus deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
 
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.OK;
     }
 }

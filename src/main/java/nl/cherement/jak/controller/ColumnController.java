@@ -19,7 +19,7 @@ public class ColumnController {
     ColumnService service;
 
     @GetMapping
-    public List<ColumnEntity> all() {
+    public List<ColumnEntity> findAll() {
         return service.findAll();
     }
 
@@ -29,22 +29,22 @@ public class ColumnController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ColumnEntity> single(@PathVariable("id") Long id) {
-        return service.get(id);
+    public Optional<ColumnEntity> findById(@PathVariable("id") Long id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public ColumnEntity update(@RequestBody ColumnModel columnModel) {
+    public ColumnEntity save(@RequestBody ColumnModel columnModel) {
         ColumnEntity columnEntity = new ColumnEntity();
         columnEntity.importModal(columnModel);
 
-        return service.update(columnEntity);
+        return service.save(columnEntity);
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus remove(@PathVariable("id") Long id) {
+    public HttpStatus deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
 
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.OK;
     }
 }
