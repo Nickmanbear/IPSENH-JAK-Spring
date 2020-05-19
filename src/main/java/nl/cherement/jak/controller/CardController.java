@@ -1,15 +1,14 @@
 package nl.cherement.jak.controller;
 
-import java.util.List;
-import java.util.Optional;
-
 import nl.cherement.jak.entity.CardEntity;
+import nl.cherement.jak.model.CardModel;
+import nl.cherement.jak.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import nl.cherement.jak.model.CardModel;
-import nl.cherement.jak.service.CardService;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -22,6 +21,11 @@ public class CardController {
     @GetMapping
     public List<CardEntity> all() {
         return service.findAll();
+    }
+
+    @GetMapping("/column/{id}")
+    public List<CardEntity> byColumn(@PathVariable("id") Long id) {
+        return service.getByColumnId(id);
     }
 
     @GetMapping("/{id}")
