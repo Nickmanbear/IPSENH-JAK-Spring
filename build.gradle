@@ -39,3 +39,13 @@ sonarqube {
         property "sonar.projectKey", "Nickmanbear_IPSENH-JAK-Spring"
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+plugins.withType(JacocoPlugin) {
+    tasks["test"].finalizedBy 'jacocoTestReport'
+}
