@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 class UserEntityTests {
@@ -24,6 +25,13 @@ class UserEntityTests {
     void userName() {
         userEntity.setUsername("UserTest");
         assertEquals("UserTest", userEntity.getUsername());
+    }
+
+    @Test
+    void password() {
+        userEntity.setPassword("PasswordTest");
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        assertNotEquals(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode("PasswordTest")), userEntity.getPassword());
     }
 
     @Test
