@@ -27,13 +27,6 @@ class UserEntityTests {
     }
 
     @Test
-    void password() {
-        userEntity.setPassword("PasswordTest");
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        assertEquals(bCryptPasswordEncoder.encode("PasswordTest"), userEntity.getPassword());
-    }
-
-    @Test
     void roles() {
         userEntity.setRoles("GUEST,ADMIN");
         assertEquals("GUEST,ADMIN", userEntity.getRoles());
@@ -48,7 +41,7 @@ class UserEntityTests {
     @Test
     void permissions() {
         userEntity.setPermissions("READ,WRITE");
-        assertEquals("READ,WRITE", userEntity.getRoles());
+        assertEquals("READ,WRITE", userEntity.getPermissions());
     }
 
     @Test
