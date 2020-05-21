@@ -47,20 +47,6 @@ public class WebBasicSecurity extends WebSecurityConfigurerAdapter {
 
     }
 
-//
-//    @Bean
-//    DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
-//
-//        return daoAuthenticationProvider;
-//    }
-
-
-
-
-
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

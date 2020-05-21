@@ -2,8 +2,6 @@ package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRespository;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         UserEntity user = repository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);

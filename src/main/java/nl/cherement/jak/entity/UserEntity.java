@@ -1,6 +1,6 @@
 package nl.cherement.jak.entity;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import nl.cherement.jak.model.UserModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +24,8 @@ public class UserEntity implements Serializable {
     private int active;
     private String roles = "";
     private String permissions = "";
+
+
 
     public UserEntity(String username, String password, String roles, String permissions, int active){
         this.username = username;
@@ -97,5 +99,16 @@ public class UserEntity implements Serializable {
         }
         return new ArrayList<>();
     }
+
+    public void importModal(UserModel userModel) {
+        this.setUsername(userModel.getUsername());
+        this.setRoles(userModel.getRoles());
+        this.setPermissions(userModel.getPermissions());
+        this.setPassword(userModel.getPassword());
+        this.setId(userModel.getId());
+        this.setActive(userModel.getActive());
+    }
+
+
 }
 

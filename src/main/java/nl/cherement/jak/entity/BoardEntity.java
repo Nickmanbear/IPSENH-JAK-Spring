@@ -3,6 +3,8 @@ package nl.cherement.jak.entity;
 import nl.cherement.jak.model.BoardModel;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="boards")
@@ -12,8 +14,8 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-	@Column(name="user_id")
-	private long userId;
+	@ManyToMany
+	private List<UserEntity> users;
 
     @Column(name="name", nullable = false)
     private String name;
@@ -26,12 +28,12 @@ public class BoardEntity {
 		this.id = id;
 	}
 
-	public long getUserId() {
-		return userId;
+	public List<UserEntity> getUsers() {
+		return users;
 	}
 
-	public void setUserId(long columnId) {
-		this.userId = columnId;
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
 	}
 
 	public String getName() {
@@ -44,12 +46,14 @@ public class BoardEntity {
 
 	public void importModal(BoardModel boardModel) {
 		setId(boardModel.getId());
-		setUserId(boardModel.getUserId());
+		setUsers(boardModel.getUsers());
 		setName(boardModel.getName());
 	}
 
     @Override
     public String toString() {
-        return "BoardEntity [id=" + id + ", userId=" + userId + ", name=" + name + "]";
+        return "BoardEntity [id=" + id + ", userId=" + users + ", name=" + name + "]";
     }
+
+
 }

@@ -2,8 +2,8 @@ package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.model.UserModel;
-import nl.cherement.jak.repository.UserRespository;
 import nl.cherement.jak.service.UserDetailsServiceImpl;
+import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +20,11 @@ public class UserController {
 
 
     @Autowired
-    private UserRespository userRespository;
+    private UserService userService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -28,24 +32,26 @@ public class UserController {
 
     @GetMapping
     public List<UserEntity> findAll(HttpServletRequest request) {
-        return userRespository.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
     public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
-        return userRespository.findById(id);
+        return userService.findById(id);
     }
 
     @GetMapping("/me")
-    public UserEntity findUser(Authentication authentication) {
+    public UserEntity getUser(Authentication authentication) {
 
-        return userRespository.findByUsername((String) authentication.getPrincipal());
+        return userService.findByUsername((String) authentication.getPrincipal());
     }
 
 
     @PostMapping("/register")
-    public void signUp(@RequestBody UserEntity user) {
+    public void signUp(@RequestBody UserModel userModel) {
+        UserEntity user = new UserEntity();
+        user.importModal(userModel);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        this.userRespository.save(user);
+        this.userService.save(user);
     }
 }

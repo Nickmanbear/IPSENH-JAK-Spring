@@ -5,6 +5,7 @@ import nl.cherement.jak.model.BoardModel;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class BoardController {
     BoardService service;
  
     @GetMapping
-    public List<BoardEntity> findAll() {
-        return service.findAll();
+    public List<BoardEntity> findAll(Authentication authentication) {
+
+        return service.findByUser(authentication);
     }
  
     @GetMapping("/{id}")

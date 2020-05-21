@@ -1,10 +1,14 @@
 package nl.cherement.jak.model;
 
+import nl.cherement.jak.entity.UserEntity;
+
+import java.util.List;
+
 public class BoardModel {
 
     private long id;
 
-	private long userId;
+	private List<UserEntity> users;
 
     private String name;
     
@@ -16,12 +20,12 @@ public class BoardModel {
 		this.id = id;
 	}
 
-	public long getUserId() {
-		return userId;
+	public List<UserEntity> getUsers() {
+		return users;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
 	}
 
 	public String getName() {
@@ -34,6 +38,6 @@ public class BoardModel {
 
     @Override
     public String toString() {
-        return "BoardModel [id=" + id + ", userId=" + userId + ", name=" + name + "]";
+        return "BoardModel [id=" + id + ", userId=" + users + ", name=" + name + "]";
     }
 }
