@@ -10,6 +10,9 @@ public class UserModel {
     private String roles = "";
     private String permissions = "";
 
+    public UserModel() {
+    }
+
     public UserModel(long id, String username, String password, int active, int status, String roles, String permissions) {
         this.id = id;
         this.username = username;

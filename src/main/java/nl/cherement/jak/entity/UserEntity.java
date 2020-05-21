@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name="users")
 public class UserEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, unique=true)
@@ -48,8 +48,8 @@ public class UserEntity implements Serializable {
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.password = bCryptPasswordEncoder.encode(password);
+
+        this.password = password;
     }
 
     public void setActive(int active) {
