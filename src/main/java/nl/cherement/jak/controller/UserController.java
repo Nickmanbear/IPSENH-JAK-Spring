@@ -5,6 +5,7 @@ import nl.cherement.jak.model.UserModel;
 import nl.cherement.jak.repository.UserRespository;
 import nl.cherement.jak.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,12 @@ public class UserController {
     @GetMapping("/{id}")
     public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
         return userRespository.findById(id);
+    }
+
+    @GetMapping("/me")
+    public UserEntity findUser(Authentication authentication) {
+
+        return userRespository.findByUsername((String) authentication.getPrincipal());
     }
 
 
