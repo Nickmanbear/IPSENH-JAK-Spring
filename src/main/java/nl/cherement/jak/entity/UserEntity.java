@@ -25,16 +25,6 @@ public class UserEntity implements Serializable {
     private String roles = "";
     private String permissions = "";
 
-    public UserEntity(String username, String password, String roles, String permissions, int active){
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.permissions = permissions;
-        this.active = active;
-    }
-
-    public UserEntity(){}
-
     public long getId() {
         return id;
     }
