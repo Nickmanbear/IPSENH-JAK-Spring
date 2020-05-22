@@ -1,6 +1,5 @@
-package nl.cherement.jak;
+package nl.cherement.jak.entity;
 
-import nl.cherement.jak.entity.ColumnEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

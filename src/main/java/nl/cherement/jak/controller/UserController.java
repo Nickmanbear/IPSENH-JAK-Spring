@@ -43,6 +43,11 @@ public class UserController {
 
 class UserDTO extends UserEntity {
 
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
         userEntity.setActive(getActive());
