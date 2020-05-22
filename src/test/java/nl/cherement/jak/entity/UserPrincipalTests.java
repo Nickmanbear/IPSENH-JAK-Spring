@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class UserPrincipalTests {
+class UserPrincipalTests {
 
     private final UserPrincipal userPrincipal = new UserPrincipal(new UserEntity());
 
