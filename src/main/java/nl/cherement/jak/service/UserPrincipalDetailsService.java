@@ -1,7 +1,7 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.model.UserPrinicipal;
+import nl.cherement.jak.entity.UserPrincipal;
 import nl.cherement.jak.repository.UserRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,7 @@ public class UserPrincipalDetailsService extends AbstractService<UserEntity> imp
     @Override
     public UserDetails loadUserByUsername(String username) {
         UserEntity user = this.repository.findByUsername(username);
-        return new UserPrinicipal(user);
+        return new UserPrincipal(user);
 
     }
 
