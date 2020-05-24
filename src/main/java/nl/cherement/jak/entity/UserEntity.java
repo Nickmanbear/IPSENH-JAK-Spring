@@ -19,7 +19,7 @@ public class UserEntity implements Serializable {
     private String username;
 
     @Column(nullable = false)
-    private String password;
+    protected String password;
 
     private int active;
     private String roles = "";
@@ -86,6 +86,13 @@ public class UserEntity implements Serializable {
             return Arrays.asList(this.permissions.split(","));
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity [id=" + id + ", username=" + username +
+                ", password=" + password + ", active=" + active   +
+                ", roles=" + roles + ", permissions=" + permissions + "]";
     }
 }
 

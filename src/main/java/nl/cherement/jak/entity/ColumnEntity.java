@@ -1,7 +1,5 @@
 package nl.cherement.jak.entity;
 
-import nl.cherement.jak.model.ColumnModel;
-
 import javax.persistence.*;
 
 @Entity
@@ -40,12 +38,6 @@ public class ColumnEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void importModal(ColumnModel columnModel) {
-		setId(columnModel.getId());
-		setBoardId(columnModel.getBoardId());
-		setName(columnModel.getName());
 	}
 
     @Override

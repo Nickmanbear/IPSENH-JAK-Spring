@@ -1,7 +1,6 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.model.UserModel;
 import nl.cherement.jak.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,14 +36,27 @@ public class UserController {
     }
 
     @PostMapping
-    public UserEntity save(@RequestBody UserModel userModel) {
+    public UserEntity save(@RequestBody UserDTO userDTO) {
+        return userPrincipalDetailsService.save(userDTO.toEntity());
+    }
+}
+
+class UserDTO extends UserEntity {
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setActive(userModel.getActive());
-        userEntity.setId(userModel.getId());
-        userEntity.setPassword(userModel.getPassword());
-        userEntity.setPermissions(userModel.getPermissions());
-        userEntity.setRoles(userModel.getRoles());
-        userEntity.setUsername(userModel.getUsername());
-        return userPrincipalDetailsService.save(userEntity);
+        userEntity.setActive(getActive());
+        userEntity.setId(getId());
+        userEntity.setPassword(getPassword());
+        userEntity.setPermissions(getPermissions());
+        userEntity.setRoles(getRoles());
+        userEntity.setUsername(getUsername());
+
+        return userEntity;
     }
 }

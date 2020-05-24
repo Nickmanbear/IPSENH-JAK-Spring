@@ -1,7 +1,6 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.ColumnEntity;
-import nl.cherement.jak.model.ColumnModel;
 import nl.cherement.jak.service.ColumnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +33,8 @@ public class ColumnController {
     }
 
     @PostMapping
-    public ColumnEntity save(@RequestBody ColumnModel columnModel) {
-        ColumnEntity columnEntity = new ColumnEntity();
-        columnEntity.importModal(columnModel);
-
-        return service.save(columnEntity);
+    public ColumnEntity save(@RequestBody ColumnDTO columnDTO) {
+        return service.save(columnDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
@@ -46,5 +42,17 @@ public class ColumnController {
         service.deleteById(id);
 
         return HttpStatus.OK;
+    }
+}
+
+class ColumnDTO extends ColumnEntity {
+
+    ColumnEntity toEntity() {
+        ColumnEntity columnEntity = new ColumnEntity();
+        columnEntity.setId(getId());
+        columnEntity.setBoardId(getBoardId());
+        columnEntity.setName(getName());
+
+        return columnEntity;
     }
 }

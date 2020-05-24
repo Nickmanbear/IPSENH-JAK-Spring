@@ -1,7 +1,5 @@
-package nl.cherement.jak.model;
+package nl.cherement.jak.entity;
 
-import nl.cherement.jak.entity.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,25 +8,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class UserPrinicipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
-    @Autowired
-    private transient UserEntity user;
+    private final transient UserEntity user;
 
-    public UserPrinicipal(UserEntity user) {
-        this.user =user;
+    public UserPrincipal(UserEntity user) {
+        this.user = user;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorityList= new ArrayList<>();
-        this.user.getPermissionList().forEach(p->{
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+        this.user.getPermissionList().forEach(p -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(p);
             authorityList.add(authority);
         });
 
-        this.user.getRoleList().forEach(r->{
+        this.user.getRoleList().forEach(r -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
             authorityList.add(authority);
         });
