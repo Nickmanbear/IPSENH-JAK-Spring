@@ -9,17 +9,17 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
-    private String password;
+    protected String password;
 
     private int active;
     private String roles = "";
@@ -38,8 +38,7 @@ public class UserEntity implements Serializable {
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.password = bCryptPasswordEncoder.encode(password);
+        this.password = password;
     }
 
     public void setActive(int active) {
@@ -74,15 +73,15 @@ public class UserEntity implements Serializable {
         return permissions;
     }
 
-    public List<String> getRoleList(){
-        if(this.roles.length() > 0){
+    public List<String> getRoleList() {
+        if (this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
         }
         return new ArrayList<>();
     }
 
-    public List<String> getPermissionList(){
-        if(this.permissions.length() > 0){
+    public List<String> getPermissionList() {
+        if (this.permissions.length() > 0) {
             return Arrays.asList(this.permissions.split(","));
         }
         return new ArrayList<>();
@@ -91,7 +90,7 @@ public class UserEntity implements Serializable {
     @Override
     public String toString() {
         return "UserEntity [id=" + id + ", username=" + username +
-                ", password=" + password + ", active=" + active   +
+                ", password=" + password + ", active=" + active +
                 ", roles=" + roles + ", permissions=" + permissions + "]";
     }
 }

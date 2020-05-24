@@ -1,10 +1,10 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.model.UserModel;
-import nl.cherement.jak.service.UserPrincipalDetailsService;
+import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
 
@@ -48,16 +44,15 @@ public class UserController {
     @PostMapping("/register")
     public UserEntity signUp(@RequestBody UserDTO userDTO) {
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+
         return userService.save(userDTO.toEntity());
 
     }
 }
 class UserDTO extends UserEntity {
-
-    @Override
-    public void setPassword(String password) {
-        this.password = bCryptPasswordEncoder.encode(password);
-    }
 
     UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();

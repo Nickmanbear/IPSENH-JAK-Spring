@@ -43,6 +43,6 @@ public class BoardEntity {
 
     @Override
     public String toString() {
-        return "BoardEntity [id=" + id + ", userId=" + users + ", name=" + name + "]";
+        return "BoardEntity [id=" + id + ", users=" + users + ", name=" + name + "]";
     }
 }
