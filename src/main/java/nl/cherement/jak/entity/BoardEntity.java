@@ -4,7 +4,6 @@ import nl.cherement.jak.model.BoardModel;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="boards")
