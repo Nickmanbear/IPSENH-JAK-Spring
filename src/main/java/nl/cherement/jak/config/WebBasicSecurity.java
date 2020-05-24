@@ -1,6 +1,7 @@
 package nl.cherement.jak.config;
 
 import nl.cherement.jak.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,13 +21,12 @@ import static nl.cherement.jak.config.SecurityConstants.SIGN_UP_URL;
 @EnableWebSecurity
 public class WebBasicSecurity extends WebSecurityConfigurerAdapter {
 
-
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public WebBasicSecurity(UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebBasicSecurity(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override

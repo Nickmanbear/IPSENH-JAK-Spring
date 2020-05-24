@@ -3,13 +3,10 @@ package nl.cherement.jak.controller;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -21,23 +18,10 @@ public class UserController {
     private UserService userService;
 
 
-
-
-
-    @GetMapping
-    public List<UserEntity> findAll(HttpServletRequest request) {
-        return userService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
-        return userService.findById(id);
-    }
-
     @GetMapping("/me")
-    public UserEntity getUser(Authentication authentication) {
+    public UserEntity getUser(Principal principal) {
 
-        return userService.findByUsername((String) authentication.getPrincipal());
+        return userService.findByUsername(principal.getName());
     }
 
 
