@@ -27,11 +27,8 @@ jobs:
       if: branch = dev
       env:
         - BUILD_DIR="~/builds/backend-test/"
-      script:
-        - openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in application.properties.staging.enc -out src/main/resources/application.properties -d
-        - ./gradlew build
-        - ./gradlew check
-        - ./gradlew sonarqube
+      before_install: openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in application.properties.staging.enc -out src/main/resources/application.properties -d
+      after_script: ./gradlew sonarqube
       deploy:
         provider: script
         skip_cleanup: true
@@ -42,11 +39,8 @@ jobs:
       if: branch = master
       env:
         - BUILD_DIR="~/builds/backend-prod/"
-      script:
-        - openssl aes-256-cbc -K $encrypted_15782c7e30ad_key -iv $encrypted_15782c7e30ad_iv -in application.properties.production.enc -out src/main/resources/application.properties -d
-        - ./gradlew build
-        - ./gradlew check
-        - ./gradlew sonarqube
+      before_install: openssl aes-256-cbc -K $encrypted_15782c7e30ad_key -iv $encrypted_15782c7e30ad_iv -in application.properties.production.enc -out src/main/resources/application.properties -d
+      after_script: ./gradlew sonarqube
       deploy:
         provider: script
         skip_cleanup: true
