@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserPrincipalTests {
@@ -53,6 +53,23 @@ class UserPrincipalTests {
     }
 
     @Test
+    void username() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("TestUser");
+        userPrincipal = new UserPrincipal(userEntity);
+        assertEquals("TestUser", userPrincipal.getUsername());
+    }
+
+    @Test
+    void password() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setPassword("PasswordTest");
+        userPrincipal = new UserPrincipal(userEntity);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        assertNotEquals(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode("PasswordTest")), userEntity.getPassword());
+    }
+
+    @Test
     void expired() {
         assertTrue(userPrincipal.isAccountNonExpired());
     }
@@ -74,5 +91,14 @@ class UserPrincipalTests {
         userPrincipal = new UserPrincipal(userEntity);
 
         assertTrue(userPrincipal.isEnabled());
+    }
+
+    @Test
+    void disabled() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setActive(0);
+        userPrincipal = new UserPrincipal(userEntity);
+
+        assertFalse(userPrincipal.isEnabled());
     }
 }
