@@ -1,5 +1,6 @@
 package nl.cherement.jak.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class UserEntity implements Serializable {
     private String username;
 
     @Column(nullable = false)
+    @JsonIgnore
     protected String password;
 
     private int active;

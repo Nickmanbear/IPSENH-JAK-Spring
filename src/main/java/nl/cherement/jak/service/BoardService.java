@@ -17,16 +17,12 @@ public class BoardService extends AbstractService<BoardEntity> {
     @Autowired
     BoardRepository repository;
 
-    @Autowired
-    UserRespository userRespository;
-
     public BoardService(BoardRepository repository) {
         super(repository);
     }
 
-    public List<BoardEntity> findByUser(Authentication authentication) {
-        UserEntity userEntity= userRespository.findByUsername((String) authentication.getPrincipal());
-        return repository.findByUsers(userEntity);
+    public List<BoardEntity> findByUserName(String username) {
+        return repository.findByUsers_Username(username);
     }
 
 }

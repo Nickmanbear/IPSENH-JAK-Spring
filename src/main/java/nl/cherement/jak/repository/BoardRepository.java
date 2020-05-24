@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface BoardRepository
         extends JpaRepository<BoardEntity, Long> {
-    List<BoardEntity> findByUsers(UserEntity user);
+    List<BoardEntity> findByUsers_Username(String username);
 }

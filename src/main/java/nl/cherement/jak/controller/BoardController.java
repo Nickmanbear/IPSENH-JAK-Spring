@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,8 @@ public class BoardController {
     BoardService service;
  
     @GetMapping
-    public List<BoardEntity> findAll(Authentication authentication) {
-
-        return service.findByUser(authentication);
+    public List<BoardEntity> findAll(Principal principal) {
+        return service.findByUserName(principal.getName());
     }
  
     @GetMapping("/{id}")
