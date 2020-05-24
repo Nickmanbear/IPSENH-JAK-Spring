@@ -14,6 +14,7 @@ cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
+after_script: ./gradlew sonarqube
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv -in id_rsa-travis-ci.enc -out id_rsa -d
   - eval "$(ssh-agent -s)"
@@ -28,7 +29,6 @@ jobs:
       env:
         - BUILD_DIR="~/builds/backend-test/"
       before_install: openssl aes-256-cbc -K $encrypted_2f692484526a_key -iv $encrypted_2f692484526a_iv -in src/main/resources/application.properties.staging.enc -out src/main/resources/application.properties -d
-      after_script: ./gradlew sonarqube
       deploy:
         provider: script
         skip_cleanup: true
@@ -40,7 +40,6 @@ jobs:
       env:
         - BUILD_DIR="~/builds/backend-prod/"
       before_install: openssl aes-256-cbc -K $encrypted_15782c7e30ad_key -iv $encrypted_15782c7e30ad_iv -in src/main/resources/application.properties.production.enc -out src/main/resources/application.properties -d
-      after_script: ./gradlew sonarqube
       deploy:
         provider: script
         skip_cleanup: true
