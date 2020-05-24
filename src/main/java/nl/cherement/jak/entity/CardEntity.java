@@ -1,7 +1,5 @@
 package nl.cherement.jak.entity;
 
-import nl.cherement.jak.model.CardModel;
-
 import javax.persistence.*;
 
 @Entity
@@ -73,15 +71,6 @@ public class CardEntity {
 
 	public void setPoints(long points) {
 		this.points = points;
-	}
-
-	public void importModal(CardModel cardModel) {
-		setId(cardModel.getId());
-		setColumnId(cardModel.getColumnId());
-		setName(cardModel.getName());
-		setDescription(cardModel.getDescription());
-		setPriority(cardModel.getPriority());
-		setPoints(cardModel.getPoints());
 	}
 
     @Override

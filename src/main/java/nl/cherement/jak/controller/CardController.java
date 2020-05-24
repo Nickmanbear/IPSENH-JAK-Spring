@@ -1,7 +1,6 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.CardEntity;
-import nl.cherement.jak.model.CardModel;
 import nl.cherement.jak.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +33,8 @@ public class CardController {
     }
 
     @PostMapping
-    public CardEntity save(@RequestBody CardModel cardModel) {
-        CardEntity cardEntity = new CardEntity();
-        cardEntity.importModal(cardModel);
-
-        return service.save(cardEntity);
+    public CardEntity save(@RequestBody CardDTO cardDTO) {
+        return service.save(cardDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
@@ -46,5 +42,20 @@ public class CardController {
         service.deleteById(id);
 
         return HttpStatus.OK;
+    }
+}
+
+class CardDTO extends CardEntity {
+
+    CardEntity toEntity() {
+        CardEntity cardEntity = new CardEntity();
+        cardEntity.setId(getId());
+        cardEntity.setColumnId(getColumnId());
+        cardEntity.setName(getName());
+        cardEntity.setDescription(getDescription());
+        cardEntity.setPriority(getPriority());
+        cardEntity.setPoints(getPoints());
+
+        return cardEntity;
     }
 }

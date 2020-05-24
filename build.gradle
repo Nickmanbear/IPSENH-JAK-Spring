@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id "org.sonarqube" version "2.8"
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -39,4 +40,14 @@ sonarqube {
     properties {
         property "sonar.projectKey", "Nickmanbear_IPSENH-JAK-Spring"
     }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+plugins.withType(JacocoPlugin) {
+    tasks["test"].finalizedBy 'jacocoTestReport'
 }

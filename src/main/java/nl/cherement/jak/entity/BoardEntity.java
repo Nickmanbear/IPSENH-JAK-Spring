@@ -1,7 +1,5 @@
 package nl.cherement.jak.entity;
 
-import nl.cherement.jak.model.BoardModel;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -43,16 +41,8 @@ public class BoardEntity {
 		this.name = name;
 	}
 
-	public void importModal(BoardModel boardModel) {
-		setId(boardModel.getId());
-		setUsers(boardModel.getUsers());
-		setName(boardModel.getName());
-	}
-
     @Override
     public String toString() {
         return "BoardEntity [id=" + id + ", userId=" + users + ", name=" + name + "]";
     }
-
-
 }

@@ -1,7 +1,6 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.model.BoardModel;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,11 +30,8 @@ public class BoardController {
     }
  
     @PostMapping
-    public BoardEntity save(@RequestBody BoardModel boardModel) {
-        BoardEntity boardEntity = new BoardEntity();
-        boardEntity.importModal(boardModel);
-
-        return service.save(boardEntity);
+    public BoardEntity save(@RequestBody BoardDTO boardDTO) {
+        return service.save(boardDTO.toEntity());
     }
  
     @DeleteMapping("/{id}")
@@ -43,5 +39,17 @@ public class BoardController {
         service.deleteById(id);
 
         return HttpStatus.OK;
+    }
+}
+
+class BoardDTO extends BoardEntity {
+
+    BoardEntity toEntity() {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(getId());
+        boardEntity.setUserId(getUserId());
+        boardEntity.setName(getName());
+
+        return boardEntity;
     }
 }
