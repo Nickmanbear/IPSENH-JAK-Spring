@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class BoardServiceTests {
@@ -48,6 +48,8 @@ class BoardServiceTests {
         doReturn(Optional.of(board)).when(repository).findById(any(Long.class));
 
         doReturn(board).when(repository).save(any(BoardEntity.class));
+
+        doNothing().when(repository).deleteById(any());
     }
 
 
@@ -84,5 +86,8 @@ class BoardServiceTests {
     void deleteById(){
 
         service.deleteById(1l);
+
+        verify(repository, times(1)).deleteById(any());
+
     }
 }
