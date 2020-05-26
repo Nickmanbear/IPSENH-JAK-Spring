@@ -60,10 +60,10 @@ class CardControllerTests {
     @Test
     void DTO() {
         cardDTO.setId(1);
-        cardDTO.setColumnId(1);
+        cardDTO.setColumnId(1l);
         cardDTO.setName("TestCard");
         cardDTO.setDescription("TestCardDescription");
-        cardDTO.setPriority(1);
+        cardDTO.setPriority(1l);
         cardDTO.setPoints(1);
 
         assertEquals("CardEntity [id=" + cardDTO.getId() + ", columnId=" + cardDTO.getColumnId() +

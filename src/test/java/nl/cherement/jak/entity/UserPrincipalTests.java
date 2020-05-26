@@ -65,8 +65,9 @@ class UserPrincipalTests {
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword("PasswordTest");
         userPrincipal = new UserPrincipal(userEntity);
+        userPrincipal.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        assertNotEquals(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode("PasswordTest")), userEntity.getPassword());
+        assertNotEquals(bCryptPasswordEncoder.encode("PasswordTest"), userPrincipal.getPassword());
     }
 
     @Test

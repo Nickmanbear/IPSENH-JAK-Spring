@@ -3,9 +3,9 @@ package nl.cherement.jak.controller;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 
 
 @RestController
@@ -18,7 +18,7 @@ public class UserController {
 
 
     @GetMapping("/me")
-    public UserEntity getUser(Authentication principal) {
+    public UserEntity getUser(Principal principal) {
 
         return userService.findByUsername(principal.getName());
     }
