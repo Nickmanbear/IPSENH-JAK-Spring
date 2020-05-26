@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-public class ColumnnServiceTests {
+class ColumnnServiceTests {
 
     private List<ColumnEntity> columns;
     private ColumnEntity column;
@@ -30,10 +30,10 @@ public class ColumnnServiceTests {
     private ColumnRepository repository;
 
     @BeforeEach
-    public void initialize(){
+    public void initialize() {
         column = new ColumnEntity();
         column2 = new ColumnEntity();
-        columns =  new ArrayList<ColumnEntity>();
+        columns = new ArrayList<ColumnEntity>();
 
         column.setId(1l);
         column2.setId(1l);
@@ -41,7 +41,6 @@ public class ColumnnServiceTests {
         columns.add(column2);
 
         doReturn(columns).when(repository).getByBoardId(any(Long.class));
-
 
 
     }

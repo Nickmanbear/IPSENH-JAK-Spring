@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-public class UserServiceTests {
+class UserServiceTests {
 
     private UserEntity user;
 
@@ -24,7 +24,7 @@ public class UserServiceTests {
     private UserRespository repository;
 
     @BeforeEach
-    public void initialize(){
+    public void initialize() {
         user = new UserEntity();
         user.setId(1);
         user.setActive(1);
@@ -37,7 +37,7 @@ public class UserServiceTests {
     }
 
     @Test
-    void findByUsername(){
+    void findByUsername() {
         assertSame(user.getUsername(), service.findByUsername("admin").getUsername());
     }
 }

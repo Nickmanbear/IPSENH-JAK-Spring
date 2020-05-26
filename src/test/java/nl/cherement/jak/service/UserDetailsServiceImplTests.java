@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-public class UserDetailsServiceImplTests {
+class UserDetailsServiceImplTests {
 
 
     private UserEntity user;
@@ -43,7 +43,7 @@ public class UserDetailsServiceImplTests {
 
     @Test
     void loadUserByUsername() {
-        assertEquals(user.getUsername(), service.loadUserByUsername(null).getUsername());
+        assertEquals(user.getUsername(), service.loadUserByUsername("admin").getUsername());
 
     }
 }

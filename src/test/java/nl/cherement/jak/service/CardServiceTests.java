@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-public class CardServiceTests {
+class CardServiceTests {
 
     private List<CardEntity> cards;
     private CardEntity card;
@@ -30,10 +30,10 @@ public class CardServiceTests {
     private CardRepository repository;
 
     @BeforeEach
-    public void initialize(){
+    public void initialize() {
         card = new CardEntity();
         card2 = new CardEntity();
-        cards=  new ArrayList<CardEntity>();
+        cards = new ArrayList<CardEntity>();
 
         card.setId(1l);
         card2.setId(1l);
