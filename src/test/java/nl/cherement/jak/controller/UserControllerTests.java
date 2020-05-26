@@ -41,5 +41,4 @@ class UserControllerTests {
         assertEquals(Arrays.asList("READ", "WRITE"), userEntity.getPermissionList());
         assertEquals("TestUser", userEntity.getUsername());
     }
-
 }

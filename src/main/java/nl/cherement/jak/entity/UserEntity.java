@@ -2,6 +2,8 @@ package nl.cherement.jak.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +41,8 @@ public class UserEntity implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.password = bCryptPasswordEncoder.encode(password);
     }
 
     public void setActive(int active) {
