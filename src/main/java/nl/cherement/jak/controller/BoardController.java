@@ -4,6 +4,7 @@ import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/board")
+@MessageMapping("/board")
 public class BoardController {
 
     @Autowired
@@ -37,6 +39,11 @@ public class BoardController {
         service.deleteById(id);
 
         return HttpStatus.OK;
+    }
+
+    @MessageMapping("/{id}")
+    public boolean cardMoved() {
+        return true;
     }
 }
 
