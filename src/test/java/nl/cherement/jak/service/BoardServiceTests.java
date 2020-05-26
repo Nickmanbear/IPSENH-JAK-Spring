@@ -80,6 +80,8 @@ class BoardServiceTests {
     void delete(){
 
         service.delete(board);
+        verify(repository, times(1)).delete(any());
+
     }
 
     @Test
