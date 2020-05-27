@@ -27,7 +27,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         return boardRepository.findByUsers_Username(username);
     }
 
-    public void addUser(Long boardId, Long userId) {
+    public BoardEntity addUser(Long boardId, Long userId) {
         BoardEntity board = boardRepository.getOne(boardId);
         UserEntity user = userRespository.getOne(userId);
 
@@ -36,6 +36,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         board.setUsers(boardUsers);
 
         boardRepository.save(board);
+        return board;
     }
 
 }

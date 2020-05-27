@@ -47,10 +47,8 @@ public class BoardController {
     }
 
     @PostMapping("/user/{boardId}/{userId}")
-    public HttpStatus addUser(@PathVariable("boardId") Long boardId, @PathVariable("userId") Long userId) {
-        service.addUser(boardId, userId);
-
-        return HttpStatus.OK;
+    public BoardEntity addUser(@PathVariable("boardId") Long boardId, @PathVariable("userId") Long userId) {
+        return service.addUser(boardId, userId);
     }
 }
 
