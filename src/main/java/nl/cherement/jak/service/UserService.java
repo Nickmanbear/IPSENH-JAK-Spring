@@ -19,13 +19,13 @@ public class UserService  extends AbstractService<UserEntity>{
     }
 
     public Hashtable<Long, String> findAllShortened() {
-        Hashtable<Long, String> users = new Hashtable<>();
-        List<UserEntity> allUsers = repository.findAll();
+        Hashtable<Long, String> shortenedUsers = new Hashtable<>();
+        List<UserEntity> userEntities = repository.findAll();
 
-        for (UserEntity user : allUsers) {
-            users.put(user.getId(), user.getUsername());
+        for (UserEntity user : userEntities) {
+            shortenedUsers.put(user.getId(), user.getUsername());
         }
-        return users;
+        return shortenedUsers;
     }
 
     public UserEntity findByUsername(String username){
