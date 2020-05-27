@@ -23,7 +23,7 @@ public class CardEntity {
     private Long priority;
 
 	@Column(name="points")
-    private Long points;
+    private long points;
     
     public long getId() {
 		return id;
@@ -61,11 +61,11 @@ public class CardEntity {
 		return priority;
 	}
 
-	public void setPriority(long priority) {
+	public void setPriority(Long priority) {
 		this.priority = priority;
 	}
 
-	public Long getPoints() {
+	public long getPoints() {
 		return points;
 	}
 
