@@ -20,7 +20,7 @@ public class CardEntity {
     private String description;
 
 	@Column(name="priority")
-    private long priority;
+    private Long priority;
 
 	@Column(name="points")
     private long points;
@@ -57,11 +57,11 @@ public class CardEntity {
 		this.description = description;
 	}
 
-	public long getPriority() {
+	public Long getPriority() {
 		return priority;
 	}
 
-	public void setPriority(long priority) {
+	public void setPriority(Long priority) {
 		this.priority = priority;
 	}
 
