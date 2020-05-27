@@ -35,8 +35,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         boardUsers.add(user);
         board.setUsers(boardUsers);
 
-        boardRepository.save(board);
-        return board;
+        return boardRepository.save(board);
     }
 
 }
