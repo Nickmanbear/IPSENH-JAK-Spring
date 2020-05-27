@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +23,8 @@ class UserControllerTests {
     private final UserDTO userDTO = new UserDTO();
 
     private UserEntity userEntity = new UserEntity();
+
+    private HashMap<Long, String> shortenedUsers = new HashMap<>();
 
     @Autowired
     private UserController controller;
@@ -48,8 +51,14 @@ class UserControllerTests {
         userDTO.setRoles("GUEST,ADMIN");
         userDTO.setUsername("TestUser");
 
+        shortenedUsers.put(1L, "username1");
+        shortenedUsers.put(2L, "username2");
+        shortenedUsers.put(3L, "username3");
+
 
         doReturn("admin").when(principal).getName();
+
+        doReturn(shortenedUsers).when(service).findAllShortened();
 
         doReturn(userEntity).when(service).findByUsername(any());
 
@@ -86,9 +95,15 @@ class UserControllerTests {
     }
 
     @Test
+    void findAllShortened() {
+
+        assertSame(shortenedUsers, controller.findAllShortened());
+    }
+
+    @Test
     void getUser() {
 
-        assertSame(userEntity, controller.getUser(principal));
+        assertSame(userEntity, controller.findUser(principal));
 
 
     }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Map;
 
 
 @RestController
@@ -16,9 +17,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public Map<Long, String> findAllShortened() {
+        return userService.findAllShortened();
+    }
 
     @GetMapping("/me")
-    public UserEntity getUser(Principal principal) {
+    public UserEntity findUser(Principal principal) {
 
         return userService.findByUsername(principal.getName());
     }
