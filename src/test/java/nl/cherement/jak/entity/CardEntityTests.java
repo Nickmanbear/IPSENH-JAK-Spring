@@ -36,7 +36,7 @@ class CardEntityTests {
 
     @Test
     void priority() {
-        cardEntity.setPriority(1l);
+        cardEntity.setPriority(1L);
         assertEquals(1, cardEntity.getPriority());
     }
 
