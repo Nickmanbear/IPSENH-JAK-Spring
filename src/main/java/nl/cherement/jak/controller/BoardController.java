@@ -19,22 +19,22 @@ public class BoardController {
 
     @Autowired
     BoardService service;
- 
+
     @GetMapping
     public List<BoardEntity> findAll(Principal principal) {
         return service.findByUserName(principal.getName());
     }
- 
+
     @GetMapping("/{id}")
     public Optional<BoardEntity> findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
- 
+
     @PostMapping
     public BoardEntity save(@RequestBody BoardDTO boardDTO) {
         return service.save(boardDTO.toEntity());
     }
- 
+
     @DeleteMapping("/{id}")
     public HttpStatus deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
@@ -47,6 +47,12 @@ public class BoardController {
         return true;
     }
 
+    @PostMapping("/user/{id}")
+    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity user) {
+        service.addUser(boardId, user.getId());
+
+        return HttpStatus.OK;
+    }
 }
 
 class BoardDTO extends BoardEntity {
