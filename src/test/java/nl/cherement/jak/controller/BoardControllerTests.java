@@ -59,6 +59,8 @@ class BoardControllerTests {
 
         doReturn(board).when(service).save(any(BoardEntity.class));
 
+        doReturn(board).when(service).addUser(1L, 1L);
+
 
     }
 
@@ -110,6 +112,15 @@ class BoardControllerTests {
 
     @Test
     void cardMoved() {
-        assertTrue(controller.cardMoved());
+        
+      assertTrue(controller.cardMoved());
+    
+    }
+
+    @Test
+    void addUser() {
+
+        assertSame(board, controller.addUser(1L, 1L));
+
     }
 }

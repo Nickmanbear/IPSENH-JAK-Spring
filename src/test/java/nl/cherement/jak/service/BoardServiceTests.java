@@ -1,7 +1,9 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.BoardRepository;
+import nl.cherement.jak.repository.UserRespository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,34 +24,53 @@ class BoardServiceTests {
     private List<BoardEntity> boards;
     private BoardEntity board;
     private BoardEntity board2;
+    private UserEntity user;
 
 
     @Autowired
     private BoardService service;
 
     @MockBean
-    private BoardRepository repository;
+    private BoardRepository boardRepository;
+
+    @MockBean
+    private UserRespository userRespository;
+
+    BoardServiceTests() {
+    }
 
     @BeforeEach
     public void initialize() {
         board = new BoardEntity();
         board2 = new BoardEntity();
         boards = new ArrayList<BoardEntity>();
+        user = new UserEntity();
 
         board.setId(1l);
+        board.setUsers(new ArrayList<>());
         board2.setId(1l);
         boards.add(board);
         boards.add(board2);
 
-        doReturn(boards).when(repository).findByUsers_Username(any());
+        user.setId(1);
+        user.setUsername("test user");
+        user.setPassword("password");
+        user.setPermissions("admin");
+        user.setRoles("ROLE_ADMIN");
 
-        doReturn(boards).when(repository).findAll();
+        doReturn(boards).when(boardRepository).findByUsers_Username(any());
 
-        doReturn(Optional.of(board)).when(repository).findById(any(Long.class));
+        doReturn(boards).when(boardRepository).findAll();
 
-        doReturn(board).when(repository).save(any(BoardEntity.class));
+        doReturn(Optional.of(board)).when(boardRepository).findById(any(Long.class));
 
-        doNothing().when(repository).deleteById(any());
+        doReturn(board).when(boardRepository).save(any(BoardEntity.class));
+
+        doNothing().when(boardRepository).deleteById(any());
+
+        doReturn(board).when(boardRepository).getOne(1L);
+
+        doReturn(user).when(userRespository).getOne(1L);
     }
 
 
@@ -80,7 +101,7 @@ class BoardServiceTests {
     void delete(){
 
         service.delete(board);
-        verify(repository, times(1)).delete(any());
+        verify(boardRepository, times(1)).delete(any());
 
     }
 
@@ -89,7 +110,17 @@ class BoardServiceTests {
 
         service.deleteById(1l);
 
-        verify(repository, times(1)).deleteById(any());
+        verify(boardRepository, times(1)).deleteById(any());
 
+    }
+
+    @Test
+    void addUser() {
+
+        List<UserEntity> tempList = board.getUsers();
+        tempList.add(user);
+        board.setUsers(tempList);
+
+        assertSame(board, service.addUser(1L, 1L));
     }
 }
