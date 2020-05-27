@@ -48,8 +48,8 @@ public class BoardController {
     }
 
     @PostMapping("/user/{id}")
-    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity user) {
-        service.addUser(boardId, user.getId());
+    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity userEntity) {
+        service.addUser(boardId, userEntity.getId());
 
         return HttpStatus.OK;
     }
