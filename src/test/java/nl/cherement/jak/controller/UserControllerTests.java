@@ -88,7 +88,7 @@ class UserControllerTests {
     @Test
     void getUser() {
 
-        assertSame(userEntity, controller.getUser(principal));
+        assertSame(userEntity, controller.findUser(principal));
 
 
     }
