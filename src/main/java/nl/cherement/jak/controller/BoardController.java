@@ -1,7 +1,6 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,9 +46,9 @@ public class BoardController {
         return true;
     }
 
-    @PostMapping("/user/{id}")
-    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity userEntity) {
-        service.addUser(boardId, userEntity.getId());
+    @PostMapping("/user/{boardId}/{userId}")
+    public HttpStatus addUser(@PathVariable("boardId") Long boardId, @PathVariable("userId") Long userId) {
+        service.addUser(boardId, userId);
 
         return HttpStatus.OK;
     }
