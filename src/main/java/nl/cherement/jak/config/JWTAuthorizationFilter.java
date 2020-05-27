@@ -23,8 +23,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         super(authManager);
     }
 
-    @Value( "${spring.secret}" )
-    private String  secret;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -47,7 +45,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(secret.getBytes()))
+            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getsecret().getBytes()))
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();

@@ -41,8 +41,8 @@ public class UserEntity implements Serializable {
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.password = bCryptPasswordEncoder.encode(password);
+
+        this.password = password;
     }
 
     public void setActive(int active) {
