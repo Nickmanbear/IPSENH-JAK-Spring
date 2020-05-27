@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/board")
 @MessageMapping("/board")
@@ -20,8 +20,8 @@ public class BoardController {
     BoardService service;
  
     @GetMapping
-    public List<BoardEntity> findAll() {
-        return service.findAll();
+    public List<BoardEntity> findAll(Principal principal) {
+        return service.findByUserName(principal.getName());
     }
  
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ class BoardDTO extends BoardEntity {
     BoardEntity toEntity() {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setId(getId());
-        boardEntity.setUserId(getUserId());
+        boardEntity.setUsers(getUsers());
         boardEntity.setName(getName());
 
         return boardEntity;

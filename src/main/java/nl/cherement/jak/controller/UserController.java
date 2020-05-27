@@ -1,46 +1,36 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.service.UserPrincipalDetailsService;
+import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
 
     @Autowired
-    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private UserService userService;
 
-
-    @GetMapping
-    public List<UserEntity> findAll(HttpServletRequest request) {
-        return userPrincipalDetailsService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
-        return userPrincipalDetailsService.findById(id);
-    }
 
     @GetMapping("/me")
-    public UserEntity auth(Authentication authentication) {
-        return userPrincipalDetailsService.auth(authentication);
+    public UserEntity getUser(Principal principal) {
+
+        return userService.findByUsername(principal.getName());
     }
 
-    @PostMapping
-    public UserEntity save(@RequestBody UserDTO userDTO) {
-        return userPrincipalDetailsService.save(userDTO.toEntity());
+
+    @PostMapping("/register")
+    public UserEntity signUp(@RequestBody UserDTO userDTO) {
+
+        return userService.save(userDTO.toEntity());
+
     }
 }
-
 class UserDTO extends UserEntity {
 
     @Override
