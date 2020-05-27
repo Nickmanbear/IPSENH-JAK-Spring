@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.exception.AuthenticationException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,8 +24,7 @@ import static nl.cherement.jak.config.SecurityConstants.*;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
 
-    @Value( "${spring.secret}" )
-    private String secret;
+
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -60,7 +58,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withClaim("active", ((User) auth.getPrincipal()).isEnabled())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(secret.getBytes()));
+                .sign(HMAC512(SecurityConstants.getInstance().getsecret().getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
 }
