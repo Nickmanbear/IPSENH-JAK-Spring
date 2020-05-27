@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public HashMap<Long, String> findAllShortened() {
+    public Map<Long, String> findAllShortened() {
         return userService.findAllShortened();
     }
 

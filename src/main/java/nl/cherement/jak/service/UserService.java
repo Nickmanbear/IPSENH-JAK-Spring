@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService  extends AbstractService<UserEntity>{
@@ -18,7 +19,7 @@ public class UserService  extends AbstractService<UserEntity>{
         super(repository);
     }
 
-    public HashMap<Long, String> findAllShortened() {
+    public Map<Long, String> findAllShortened() {
         HashMap<Long, String> shortenedUsers = new HashMap<>();
         List<UserEntity> userEntities = repository.findAll();
 
