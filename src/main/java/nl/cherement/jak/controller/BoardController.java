@@ -47,12 +47,6 @@ public class BoardController {
         return true;
     }
 
-    @PostMapping("/user/{id}")
-    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity user) {
-        service.addUser(boardId, user.getId());
-
-        return HttpStatus.OK;
-    }
 }
 
 class BoardDTO extends BoardEntity {
