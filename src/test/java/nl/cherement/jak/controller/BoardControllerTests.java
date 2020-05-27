@@ -60,6 +60,8 @@ class BoardControllerTests {
 
         doReturn(board).when(service).save(any(BoardEntity.class));
 
+        doReturn(board).when(service).addUser(1L, 1L);
+
 
     }
 
@@ -107,5 +109,11 @@ class BoardControllerTests {
     void deleteById() {
 
         assertSame(HttpStatus.OK, controller.deleteById(1l));
+    }
+
+    @Test
+    void addUser() {
+
+        assertSame(board, controller.addUser(1L, 1L));
     }
 }

@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -16,6 +21,7 @@ import static org.mockito.Mockito.doReturn;
 class UserServiceTests {
 
     private UserEntity user;
+    private List<UserEntity> userList;
 
     @Autowired
     private UserService service;
@@ -33,11 +39,25 @@ class UserServiceTests {
         user.setPermissions("admin");
         user.setRoles("ROLE_ADMIN");
 
+        userList = new ArrayList<>();
+        userList.add(user);
+
         doReturn(user).when(repository).findByUsername(any());
+
+        doReturn(userList).when(repository).findAll();
     }
 
     @Test
     void findByUsername() {
         assertSame(user.getUsername(), service.findByUsername("admin").getUsername());
+    }
+
+    @Test
+    void findAllShortened() {
+
+        Map<Long, String> shortenedUser = new HashMap<>();
+        shortenedUser.put(user.getId(), user.getUsername());
+
+        assertSame(shortenedUser.get(1L), service.findAllShortened().get(1L));
     }
 }
