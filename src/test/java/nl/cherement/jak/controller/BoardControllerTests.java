@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -107,5 +106,10 @@ class BoardControllerTests {
     void deleteById() {
 
         assertSame(HttpStatus.OK, controller.deleteById(1l));
+    }
+
+    @Test
+    void cardMoved() {
+        assertTrue(controller.cardMoved());
     }
 }
