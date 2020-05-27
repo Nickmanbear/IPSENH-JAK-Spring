@@ -1,11 +1,14 @@
 package nl.cherement.jak.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+
+import org.jboss.logging.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import static org.hibernate.bytecode.BytecodeLogger.LOGGER;
 
 public class SecurityConstants {
 
@@ -19,7 +22,7 @@ public class SecurityConstants {
         try (InputStream resourceStream = loader.getResourceAsStream("application.properties")) {
             properties.load(resourceStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Logger.Level.ERROR, e);
         }
     }
     public static SecurityConstants getInstance() {

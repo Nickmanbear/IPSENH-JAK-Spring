@@ -2,7 +2,6 @@ package nl.cherement.jak.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
