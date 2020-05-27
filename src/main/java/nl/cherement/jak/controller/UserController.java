@@ -5,8 +5,9 @@ import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
 
+import java.security.Principal;
+import java.util.Hashtable;
 
 
 @RestController
@@ -17,9 +18,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public Hashtable<Long, String> findAllShortened() {
+        return userService.findAllShortened();
+    }
 
     @GetMapping("/me")
-    public UserEntity getUser(Principal principal) {
+    public UserEntity findUser(Principal principal) {
 
         return userService.findByUsername(principal.getName());
     }

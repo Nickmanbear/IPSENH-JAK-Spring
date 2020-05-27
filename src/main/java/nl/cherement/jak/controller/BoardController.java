@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,13 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public HttpStatus deleteById(@PathVariable("id") Long id) {
         service.deleteById(id);
+
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/user/{id}")
+    public HttpStatus addUser(@PathVariable("id") Long boardId, @RequestBody UserEntity user) {
+        service.addUser(boardId, user.getId());
 
         return HttpStatus.OK;
     }
