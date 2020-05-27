@@ -5,7 +5,7 @@ import nl.cherement.jak.repository.UserRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,8 +18,8 @@ public class UserService  extends AbstractService<UserEntity>{
         super(repository);
     }
 
-    public Hashtable<Long, String> findAllShortened() {
-        Hashtable<Long, String> shortenedUsers = new Hashtable<>();
+    public HashMap<Long, String> findAllShortened() {
+        HashMap<Long, String> shortenedUsers = new HashMap<>();
         List<UserEntity> userEntities = repository.findAll();
 
         for (UserEntity user : userEntities) {
