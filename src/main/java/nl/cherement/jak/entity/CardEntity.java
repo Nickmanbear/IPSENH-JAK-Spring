@@ -10,73 +10,73 @@ public class CardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-	@Column(name="column_id")
-	private long columnId;
+    @Column(name="column_id")
+    private long columnId;
 
     @Column(name="name", nullable = false)
     private String name;
 
-	@Column(name="description")
+    @Column(name="description")
     private String description;
 
-	@Column(name="priority")
+    @Column(name="priority")
     private Long priority;
 
-	@Column(name="points")
+    @Column(name="points")
     private long points;
     
     public long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public long getColumnId() {
-		return columnId;
-	}
+    public long getColumnId() {
+        return columnId;
+    }
 
-	public void setColumnId(long columnId) {
-		this.columnId = columnId;
-	}
+    public void setColumnId(long columnId) {
+        this.columnId = columnId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Long getPriority() {
-		return priority;
-	}
+    public Long getPriority() {
+        return priority;
+    }
 
-	public void setPriority(Long priority) {
-		this.priority = priority;
-	}
+    public void setPriority(Long priority) {
+        this.priority = priority;
+    }
 
-	public long getPoints() {
-		return points;
-	}
+    public long getPoints() {
+        return points;
+    }
 
-	public void setPoints(long points) {
-		this.points = points;
-	}
+    public void setPoints(long points) {
+        this.points = points;
+    }
 
     @Override
     public String toString() {
         return "CardEntity [id=" + id + ", columnId=" + columnId +
                 ", name=" + name + ", description=" + description   +
-				", priority=" + priority + ", points=" + points + "]";
+                ", priority=" + priority + ", points=" + points + "]";
     }
 }

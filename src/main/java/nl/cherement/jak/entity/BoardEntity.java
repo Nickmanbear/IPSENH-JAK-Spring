@@ -11,35 +11,35 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-	@ManyToMany
-	private List<UserEntity> users;
+    @ManyToMany
+    private List<UserEntity> users;
 
     @Column(name="name", nullable = false)
     private String name;
     
     public long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public List<UserEntity> getUsers() {
-		return users;
-	}
+    public List<UserEntity> getUsers() {
+        return users;
+    }
 
-	public void setUsers(List<UserEntity> users) {
-		this.users = users;
-	}
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {
