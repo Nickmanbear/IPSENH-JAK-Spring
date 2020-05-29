@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ class CardControllerTests {
     @MockBean
     private CardService service;
 
+    @MockBean
+    private Authentication authentication;
 
     @BeforeEach
     public void initialize(){
@@ -45,11 +48,12 @@ class CardControllerTests {
         cards.add(card);
         cards.add(card2);
 
-        doReturn(Optional.of(card)).when(service).findById(any());
-        doReturn(cards).when(service).findAll();
+        doReturn(Optional.of(card)).when(service).findById(authentication,any());
+        doReturn(cards).when(service).findAll(authentication);
         doReturn(cards).when(service).getByColumnId(any());
-        doNothing().when(service).deleteById(any());
+        doNothing().when(service).deleteById(authentication,any());
         doReturn(card).when(service).save(any(CardEntity.class));
+        doReturn("alex").when(authentication).getName();
     }
 
     @Test
@@ -68,7 +72,7 @@ class CardControllerTests {
 
     @Test
     void findAll() {
-        assertSame(cards, controller.findAll());
+        assertSame(cards, controller.findAll(authentication));
     }
 
     @Test
@@ -78,7 +82,7 @@ class CardControllerTests {
 
     @Test
     void findById() {
-        assertSame(card, controller.findById(1L).get());
+        assertSame(card, controller.findById(authentication,1L).get());
     }
 
     @Test
@@ -88,6 +92,6 @@ class CardControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(1L));
+        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
     }
 }

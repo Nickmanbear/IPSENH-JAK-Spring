@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ class BoardServiceTests {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private Authentication authentication;
 
     BoardServiceTests() {
     }
@@ -62,6 +66,7 @@ class BoardServiceTests {
         doNothing().when(boardRepository).deleteById(any());
         doReturn(board).when(boardRepository).getOne(1L);
         doReturn(user).when(userRepository).getOne(1L);
+        doReturn("alex").when(authentication).getName();
     }
 
 
@@ -72,13 +77,13 @@ class BoardServiceTests {
 
     @Test
     void findAll() {
-        assertSame(boards, service.findAll());
+        assertSame(boards, service.findAll(authentication));
     }
 
-//    @Test
-//    void findById() {
-//        assertSame(board, service.findById(1L).get());
-//    }
+    @Test
+    void findById() {
+        assertSame(board, service.findById(authentication,1L).get());
+    }
 
 
     @Test
@@ -88,14 +93,14 @@ class BoardServiceTests {
 
     @Test
     void delete(){
-        service.delete(board);
+        service.delete(authentication,board);
 
         verify(boardRepository, times(1)).delete(any());
     }
 
     @Test
     void deleteById(){
-        service.deleteById(1L);
+        service.deleteById(authentication,1L);
 
         verify(boardRepository, times(1)).deleteById(any());
     }
@@ -106,6 +111,6 @@ class BoardServiceTests {
         tempList.add(user);
         board.users = tempList;
 
-        assertSame(board, service.addUser(1L, 1L));
+        assertSame(board, service.addUser(authentication, 1L, 1L));
     }
 }

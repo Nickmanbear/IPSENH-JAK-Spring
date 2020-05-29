@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ class BoardControllerTests {
     @MockBean
     private Principal principal;
 
+    @MockBean
+    private Authentication authentication;
+
     @BeforeEach
     public void initialize(){
         board.id = 1;
@@ -47,12 +51,13 @@ class BoardControllerTests {
         boards.add(board);
         boards.add(board2);
 
-        doReturn(Optional.of(board)).when(service).findById(1L);
+        doReturn(Optional.of(board)).when(service).findById(authentication,1L);
         doReturn("test").when(principal).getName();
         doReturn(boards).when(service).findByUserName("test");
-        doNothing().when(service).deleteById(1L);
+        doNothing().when(service).deleteById(authentication,1L);
         doReturn(board).when(service).save(any(BoardEntity.class));
-        doReturn(board).when(service).addUser(1L, 1L);
+        doReturn(board).when(service).addUser(authentication,1L, 1L);
+        doReturn("alex").when(authentication).getName();
     }
 
 
@@ -71,12 +76,12 @@ class BoardControllerTests {
 
     @Test
     void findById() {
-        assertSame(board, controller.findById(1L).get());
+        assertSame(board, controller.findById(authentication, 1L).get());
     }
 
     @Test
     void findAll() {
-        assertSame(boards, controller.findAll(principal));
+        assertSame(boards, controller.findAll(authentication));
     }
 
     @Test
@@ -87,7 +92,7 @@ class BoardControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(1L));
+        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
     }
 
     @Test
@@ -97,6 +102,6 @@ class BoardControllerTests {
 
     @Test
     void addUser() {
-        assertSame(board, controller.addUser(1L, 1L));
+        assertSame(board, controller.addUser(authentication,1L, 1L));
     }
 }

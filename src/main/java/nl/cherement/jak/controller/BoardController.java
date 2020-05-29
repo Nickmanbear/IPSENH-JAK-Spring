@@ -25,7 +25,7 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public Optional<BoardEntity> findById(@PathVariable("id") Long id, Authentication principal) {
+    public Optional<BoardEntity> findById(Authentication principal, @PathVariable("id") Long id) {
         return service.findById(principal, id);
     }
 
@@ -36,7 +36,7 @@ public class BoardController {
 
     @DeleteMapping("/{id}")
     public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
-        service.deleteById(authentication,id);
+        service.deleteById(authentication, id);
 
         return HttpStatus.OK;
     }
@@ -49,7 +49,7 @@ public class BoardController {
     @PostMapping("/user/{boardId}/{userId}")
     public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") Long boardId,
                                @PathVariable("userId") Long userId) {
-        return service.addUser(authentication,boardId, userId);
+        return service.addUser(authentication, boardId, userId);
     }
 }
 
