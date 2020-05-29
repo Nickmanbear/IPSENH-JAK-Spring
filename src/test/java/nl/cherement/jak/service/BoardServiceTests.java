@@ -75,10 +75,10 @@ class BoardServiceTests {
         assertSame(boards, service.findAll());
     }
 
-    @Test
-    void findById() {
-        assertSame(board, service.findById(1L).get());
-    }
+//    @Test
+//    void findById() {
+//        assertSame(board, service.findById(1L).get());
+//    }
 
 
     @Test

@@ -5,6 +5,7 @@ import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,5 +33,10 @@ public class UserService  extends AbstractService<UserEntity>{
 
     public UserEntity findByUsername(String username){
         return this.repository.findByUsername(username);
+    }
+
+    @Override
+    boolean hasAccess(Principal user, UserEntity obj) {
+        return true;
     }
 }

@@ -5,9 +5,9 @@ import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +20,13 @@ public class BoardController {
     BoardService service;
 
     @GetMapping
-    public List<BoardEntity> findAll(Principal principal) {
-        return service.findBoardByUserName(principal.getName());
+    public List<BoardEntity> findAll(Authentication principal) {
+        return service.findAll(principal);
     }
 
     @GetMapping("/{id}")
-    public Optional<BoardEntity> findById(@PathVariable("id") Long id) {
-        return service.findById(id);
+    public Optional<BoardEntity> findById(@PathVariable("id") Long id, Authentication principal) {
+        return service.findById(principal, id);
     }
 
     @PostMapping
@@ -35,8 +35,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(@PathVariable("id") Long id) {
-        service.deleteById(id);
+    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
+        service.deleteById(authentication,id);
 
         return HttpStatus.OK;
     }
@@ -47,8 +47,9 @@ public class BoardController {
     }
 
     @PostMapping("/user/{boardId}/{userId}")
-    public BoardEntity addUser(@PathVariable("boardId") Long boardId, @PathVariable("userId") Long userId) {
-        return service.addUser(boardId, userId);
+    public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") Long boardId,
+                               @PathVariable("userId") Long userId) {
+        return service.addUser(authentication,boardId, userId);
     }
 }
 
