@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,9 +21,8 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static nl.cherement.jak.config.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
 
-
+    private final AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -34,13 +32,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) {
         try {
-            UserEntity creds = new ObjectMapper()
+            UserEntity credentials = new ObjectMapper()
                     .readValue(req.getInputStream(), UserEntity.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
-                            creds.getPassword(),
+                            credentials.username,
+                            credentials.password,
                             new ArrayList<>())
             );
         } catch (IOException e) {
@@ -52,13 +50,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
-
+                                            Authentication auth) {
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withClaim("active", ((User) auth.getPrincipal()).isEnabled())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(SecurityConstants.getInstance().getsecret().getBytes()));
+                .sign(HMAC512(SecurityConstants.getInstance().getSecret().getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
 }

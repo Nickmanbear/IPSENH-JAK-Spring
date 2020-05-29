@@ -22,9 +22,9 @@ class UserControllerTests {
 
     private final UserDTO userDTO = new UserDTO();
 
-    private UserEntity userEntity = new UserEntity();
+    private final UserEntity userEntity = new UserEntity();
 
-    private HashMap<Long, String> shortenedUsers = new HashMap<>();
+    private final HashMap<Long, String> shortenedUsers = new HashMap<>();
 
     @Autowired
     private UserController controller;
@@ -37,87 +37,64 @@ class UserControllerTests {
 
     @BeforeEach
     public void initialize(){
+        userEntity.id = 1;
+        userEntity.active = true;
+        userEntity.password = "password";
+        userEntity.permissions = "admin";
+        userEntity.roles = "ROLE_ADMIN";
 
-        userEntity.setId(1);
-        userEntity.setActive(1);
-        userEntity.setPassword("password");
-        userEntity.setPermissions("admin");
-        userEntity.setRoles("ROLE_ADMIN");
-
-        userDTO.setActive(1);
-        userDTO.setId(1);
-        userDTO.setPassword("TestPassword");
-        userDTO.setPermissions("READ,WRITE");
-        userDTO.setRoles("GUEST,ADMIN");
-        userDTO.setUsername("TestUser");
+        userDTO.active = true;
+        userDTO.id = 1;
+        userDTO.password = "TestPassword";
+        userDTO.permissions = "READ,WRITE";
+        userDTO.roles = "GUEST,ADMIN";
+        userDTO.username = "TestUser";
 
         shortenedUsers.put(1L, "username1");
         shortenedUsers.put(2L, "username2");
         shortenedUsers.put(3L, "username3");
 
-
         doReturn("admin").when(principal).getName();
-
         doReturn(shortenedUsers).when(service).findAllShortened();
-
         doReturn(userEntity).when(service).findByUsername(any());
-
         doReturn(userDTO.toEntity()).when(service).save(any(UserEntity.class));
-
-    }
-
-
-    @Test
-    void DTOPassword() {
-        userDTO.setPassword("TestPassword");
-        assertEquals("TestPassword", userDTO.getPassword());
     }
 
     @Test
     void DTO() {
-        userDTO.setActive(1);
-        userDTO.setId(1);
-        userDTO.setPassword("TestPassword");
-        userDTO.setPermissions("READ,WRITE");
-        userDTO.setRoles("GUEST,ADMIN");
-        userDTO.setUsername("TestUser");
-
+        userDTO.id = (1);
+        userDTO.username = ("TestUser");
+        userDTO.password = ("TestPassword");
+        userDTO.permissions = ("READ,WRITE");
+        userDTO.roles = ("GUEST,ADMIN");
+        userDTO.active = true;
         UserEntity userEntity = userDTO.toEntity();
-        assertEquals(1, userEntity.getActive());
-        assertEquals(1, userEntity.getId());
+
+        assertEquals(1, userEntity.id);
+        assertEquals("TestUser", userEntity.username);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        assertNotEquals(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode("TestPassword")), userEntity.getPassword());
-        assertEquals("GUEST,ADMIN", userEntity.getRoles());
+        assertNotEquals(bCryptPasswordEncoder.encode(bCryptPasswordEncoder.encode("TestPassword")), userEntity.password);
+        assertEquals("GUEST,ADMIN", userEntity.roles);
         assertEquals(Arrays.asList("GUEST", "ADMIN"), userEntity.getRoleList());
-        assertEquals("READ,WRITE", userEntity.getPermissions());
+        assertEquals("READ,WRITE", userEntity.permissions);
         assertEquals(Arrays.asList("READ", "WRITE"), userEntity.getPermissionList());
-        assertEquals("TestUser", userEntity.getUsername());
+        assertTrue(userEntity.active);
     }
 
     @Test
     void findAllShortened() {
-
         assertSame(shortenedUsers, controller.findAllShortened());
     }
 
     @Test
-    void getUser() {
-
-        assertSame(userEntity, controller.findUser(principal));
-
-
-    }
-
-    @Test
     void signUp() {
-
-        assertEquals(userDTO.toEntity().getId(), controller.signUp(userDTO).getId());
-        assertEquals(userDTO.toEntity().getActive(), controller.signUp(userDTO).getActive());
+        assertEquals(userDTO.toEntity().id, controller.signUp(userDTO).id);
+        assertEquals(userDTO.toEntity().username, controller.signUp(userDTO).username);
+        assertNotEquals(userDTO.toEntity().password, controller.signUp(userDTO).password);
         assertEquals(userDTO.toEntity().getPermissionList(), controller.signUp(userDTO).getPermissionList());
-        assertEquals(userDTO.toEntity().getPermissions(), controller.signUp(userDTO).getPermissions());
+        assertEquals(userDTO.toEntity().permissions, controller.signUp(userDTO).permissions);
         assertEquals(userDTO.toEntity().getRoleList(), controller.signUp(userDTO).getRoleList());
-        assertEquals(userDTO.toEntity().getUsername(), controller.signUp(userDTO).getUsername());
-        assertNotEquals(userDTO.toEntity().getPassword(), controller.signUp(userDTO).getPassword());
-
+        assertEquals(userDTO.toEntity().roles, controller.signUp(userDTO).roles);
+        assertEquals(userDTO.toEntity().active, controller.signUp(userDTO).active);
     }
 }

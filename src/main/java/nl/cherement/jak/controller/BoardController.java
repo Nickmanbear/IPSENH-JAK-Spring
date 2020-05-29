@@ -56,9 +56,9 @@ class BoardDTO extends BoardEntity {
 
     BoardEntity toEntity() {
         BoardEntity boardEntity = new BoardEntity();
-        boardEntity.setId(getId());
-        boardEntity.setUsers(getUsers());
-        boardEntity.setName(getName());
+        boardEntity.id = id;
+        boardEntity.users = users;
+        boardEntity.name = name;
 
         return boardEntity;
     }

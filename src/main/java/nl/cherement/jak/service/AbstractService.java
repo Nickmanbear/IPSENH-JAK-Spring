@@ -25,7 +25,6 @@ public abstract class AbstractService<T> {
         this.repository.deleteById(o);
     }
 
-
     public List<T> findAll() {
         return this.repository.findAll();
     }
@@ -33,5 +32,4 @@ public abstract class AbstractService<T> {
     public Optional<T> findById(Long id) {
         return this.repository.findById(id);
     }
-
 }

@@ -27,7 +27,7 @@ class UserPrincipalTests {
     @Test
     void getAuthoritiesPermissions() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setPermissions("READ,WRITE");
+        userEntity.permissions = "READ,WRITE";
         List<GrantedAuthority> authorityList = new ArrayList<>();
         userEntity.getPermissionList().forEach(p -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(p);
@@ -41,7 +41,7 @@ class UserPrincipalTests {
     @Test
     void getAuthoritiesRoles() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setRoles("ADMIN,GUEST");
+        userEntity.roles = "ADMIN,GUEST";
         List<GrantedAuthority> authorityList = new ArrayList<>();
         userEntity.getRoleList().forEach(r -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
@@ -55,7 +55,7 @@ class UserPrincipalTests {
     @Test
     void username() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername("TestUser");
+        userEntity.username = "TestUser";
         userPrincipal = new UserPrincipal(userEntity);
         assertEquals("TestUser", userPrincipal.getUsername());
     }
@@ -63,7 +63,7 @@ class UserPrincipalTests {
     @Test
     void password() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setPassword("PasswordTest");
+        userEntity.password = "PasswordTest";
         userPrincipal = new UserPrincipal(userEntity);
         userPrincipal.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -88,7 +88,7 @@ class UserPrincipalTests {
     @Test
     void enabled() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setActive(1);
+        userEntity.active = true;
         userPrincipal = new UserPrincipal(userEntity);
 
         assertTrue(userPrincipal.isEnabled());
@@ -97,7 +97,7 @@ class UserPrincipalTests {
     @Test
     void disabled() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setActive(0);
+        userEntity.active = false;
         userPrincipal = new UserPrincipal(userEntity);
 
         assertFalse(userPrincipal.isEnabled());

@@ -18,10 +18,10 @@ import static nl.cherement.jak.config.SecurityConstants.HEADER_STRING;
 import static nl.cherement.jak.config.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
@@ -31,6 +31,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
+
             return;
         }
 
@@ -44,7 +45,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getsecret().getBytes()))
+            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getSecret().getBytes()))
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
