@@ -21,7 +21,7 @@ public class BoardController {
 
     @GetMapping
     public List<BoardEntity> findAll(Principal principal) {
-        return service.findBoardByUserName(principal.getName());
+        return service.findByUserName(principal.getName());
     }
 
     @GetMapping("/{id}")
