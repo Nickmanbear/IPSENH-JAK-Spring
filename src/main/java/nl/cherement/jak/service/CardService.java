@@ -18,6 +18,6 @@ public class CardService extends AbstractService<CardEntity> {
     }
 
     public List<CardEntity> getByColumnId(Long id) {
-        return this.repository.getByColumnId(id);
+        return this.repository.findByColumnId(id);
     }
 }

@@ -19,9 +19,6 @@ import static org.mockito.Mockito.doReturn;
 class CardServiceTests {
 
     private List<CardEntity> cards;
-    private CardEntity card;
-    private CardEntity card2;
-
 
     @Autowired
     private CardService service;
@@ -31,21 +28,16 @@ class CardServiceTests {
 
     @BeforeEach
     public void initialize() {
-        card = new CardEntity();
-        card2 = new CardEntity();
-        cards = new ArrayList<CardEntity>();
-
-        card.setId(1l);
-        card2.setId(1l);
+        CardEntity card = new CardEntity();
+        cards = new ArrayList<>();
+        card.id = 1;
         cards.add(card);
-        cards.add(card2);
 
-        doReturn(cards).when(repository).getByColumnId(any(Long.class));
+        doReturn(cards).when(repository).findByColumnId(any(Long.class));
     }
 
     @Test
     void getByColumnId() {
-
-        assertSame(cards, service.getByColumnId(1l));
+        assertSame(cards, service.getByColumnId(1L));
     }
 }

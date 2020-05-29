@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-    private final transient UserEntity user;
+    public final transient UserEntity user;
 
     public UserPrincipal(UserEntity user) {
         this.user = user;
@@ -28,17 +28,18 @@ public class UserPrincipal implements UserDetails {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
             authorityList.add(authority);
         });
+
         return authorityList;
     }
 
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return this.user.password;
     }
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.user.username;
     }
 
     @Override
@@ -58,6 +59,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.getActive() == 1;
+        return this.user.active;
     }
 }

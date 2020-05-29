@@ -1,7 +1,7 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.repository.UserRespository;
+import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.Map;
 public class UserService  extends AbstractService<UserEntity>{
 
     @Autowired
-    UserRespository repository;
+    UserRepository repository;
 
-    public UserService(UserRespository repository) {
+    public UserService(UserRepository repository) {
         super(repository);
     }
 
@@ -24,8 +24,9 @@ public class UserService  extends AbstractService<UserEntity>{
         List<UserEntity> userEntities = repository.findAll();
 
         for (UserEntity user : userEntities) {
-            shortenedUsers.put(user.getId(), user.getUsername());
+            shortenedUsers.put(user.id, user.username);
         }
+
         return shortenedUsers;
     }
 

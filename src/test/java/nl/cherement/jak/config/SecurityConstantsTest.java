@@ -4,17 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
 import java.util.Properties;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -32,20 +24,17 @@ class SecurityConstantsTest {
     public void initialize(){
         classLoader = mock(ClassLoader.class);
         properties = mock(Properties.class);
-
-
+        constants = SecurityConstants.getInstance();
     }
 
     @Test
     void getInstance() {
-        constants = SecurityConstants.getInstance();
-        assertTrue(constants instanceof SecurityConstants);
+        assertNotNull(constants);
     }
 
     @Test
     void getsecret() {
-        constants = SecurityConstants.getInstance();
-        assertTrue(StringUtils.isNotBlank(constants.getsecret()));
+        assertTrue(StringUtils.isNotBlank(constants.getSecret()));
     }
 
 

@@ -1,7 +1,7 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.repository.UserRespository;
+import nl.cherement.jak.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +15,30 @@ import static org.mockito.Mockito.doReturn;
 @SpringBootTest
 class UserDetailsServiceImplTests {
 
-
     private UserEntity user;
-
 
     @Autowired
     private UserDetailsServiceImpl service;
 
     @MockBean
-    private UserRespository repository;
+    private UserRepository repository;
 
     @BeforeEach
     public void initialize() {
-
         user = new UserEntity();
-        user.setId(1);
-        user.setActive(1);
-        user.setUsername("admin");
-        user.setPassword("password");
-        user.setPermissions("admin");
-        user.setRoles("ROLE_ADMIN");
+        user.id = 1;
+        user.active = true;
+        user.username = "admin";
+        user.password = "password";
+        user.permissions = "admin";
+        user.roles = "ADMIN";
 
         doReturn(user).when(repository).findByUsername(any());
-
-
     }
 
     @Test
     void loadUserByUsername() {
-        assertEquals(user.getUsername(), service.loadUserByUsername("admin").getUsername());
+        assertEquals(user.username, service.loadUserByUsername("admin").getUsername());
 
     }
 }

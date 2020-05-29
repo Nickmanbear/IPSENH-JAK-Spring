@@ -49,9 +49,9 @@ class ColumnDTO extends ColumnEntity {
 
     ColumnEntity toEntity() {
         ColumnEntity columnEntity = new ColumnEntity();
-        columnEntity.setId(getId());
-        columnEntity.setBoardId(getBoardId());
-        columnEntity.setName(getName());
+        columnEntity.id = id;
+        columnEntity.board = board;
+        columnEntity.name = name;
 
         return columnEntity;
     }

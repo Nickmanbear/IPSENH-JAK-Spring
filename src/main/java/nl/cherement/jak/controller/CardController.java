@@ -49,12 +49,12 @@ class CardDTO extends CardEntity {
 
     CardEntity toEntity() {
         CardEntity cardEntity = new CardEntity();
-        cardEntity.setId(getId());
-        cardEntity.setColumnId(getColumnId());
-        cardEntity.setName(getName());
-        cardEntity.setDescription(getDescription());
-        cardEntity.setPriority(getPriority());
-        cardEntity.setPoints(getPoints());
+        cardEntity.id = id;
+        cardEntity.column = column;
+        cardEntity.name = name;
+        cardEntity.description = description;
+        cardEntity.priority = priority;
+        cardEntity.points = points;
 
         return cardEntity;
     }

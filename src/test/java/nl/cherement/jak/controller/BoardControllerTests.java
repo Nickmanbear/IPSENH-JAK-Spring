@@ -24,11 +24,11 @@ import static org.mockito.Mockito.doReturn;
 class BoardControllerTests {
 
     private final BoardDTO boardDTO = new BoardDTO();
-    private BoardEntity board= new BoardEntity();
-    private BoardEntity board2 = new BoardEntity();
+    private final BoardEntity board= new BoardEntity();
+    private final BoardEntity board2 = new BoardEntity();
     private List<BoardEntity> boards;
 
-    private final List<UserEntity> userEntitys = new ArrayList<UserEntity>();
+    private final List<UserEntity> userEntities = new ArrayList<UserEntity>();
 
     @Autowired
     private BoardController controller;
@@ -41,86 +41,62 @@ class BoardControllerTests {
 
     @BeforeEach
     public void initialize(){
-
-        board.setId(1);
-        board2.setId(2);
+        board.id = 1;
+        board2.id = 2;
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
 
-
-        doReturn(Optional.of(board)).when(service).findById(1l);
-
+        doReturn(Optional.of(board)).when(service).findById(1L);
         doReturn("test").when(principal).getName();
-
-        doReturn(boards).when(service).findByUserName("test");
-
-        doNothing().when(service).deleteById(1l);
-
+        doReturn(boards).when(service).findBoardByUserName("test");
+        doNothing().when(service).deleteById(1L);
         doReturn(board).when(service).save(any(BoardEntity.class));
-
         doReturn(board).when(service).addUser(1L, 1L);
-
-
     }
 
 
     @Test
     void DTO() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(1);
-        userEntitys.add(userEntity);
-        boardDTO.setUsers(userEntitys);
+        userEntity.id = 1;
+        userEntities.add(userEntity);
+        boardDTO.users = userEntities;
+        boardDTO.id = 1;
+        boardDTO.name = "TestBoard";
 
-        boardDTO.setId(1);
-        boardDTO.setName("TestBoard");
-
-        assertEquals("BoardEntity [id=" + boardDTO.getId() + ", users=" + boardDTO.getUsers()
-                + ", name=" + boardDTO.getName() + "]", boardDTO.toEntity().toString());
+        assertEquals("BoardEntity [id=" + boardDTO.id + ", users=" + boardDTO.users
+                + ", name=" + boardDTO.name + "]", boardDTO.toEntity().toString());
     }
 
     @Test
     void findById() {
-
-
-        assertSame(board,  controller.findById(1l).get());
-
-
+        assertSame(board, controller.findById(1L).get());
     }
 
     @Test
     void findAll() {
-
-
-        assertSame(boards,  controller.findAll(principal));
-
-
+        assertSame(boards, controller.findAll(principal));
     }
 
     @Test
     void save() {
-
-        boardDTO.setId(1l);
+        boardDTO.id = 1L;
         assertSame(board, controller.save(boardDTO));
     }
 
     @Test
     void deleteById() {
-
-        assertSame(HttpStatus.OK, controller.deleteById(1l));
+        assertSame(HttpStatus.OK, controller.deleteById(1L));
     }
 
     @Test
     void cardMoved() {
-        
       assertTrue(controller.cardMoved());
-    
     }
 
     @Test
     void addUser() {
-
         assertSame(board, controller.addUser(1L, 1L));
-
     }
 }

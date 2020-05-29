@@ -16,12 +16,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-class ColumnnServiceTests {
+class ColumnServiceTests {
 
     private List<ColumnEntity> columns;
-    private ColumnEntity column;
-    private ColumnEntity column2;
-
 
     @Autowired
     private ColumnService service;
@@ -31,23 +28,16 @@ class ColumnnServiceTests {
 
     @BeforeEach
     public void initialize() {
-        column = new ColumnEntity();
-        column2 = new ColumnEntity();
-        columns = new ArrayList<ColumnEntity>();
-
-        column.setId(1l);
-        column2.setId(1l);
+        ColumnEntity column = new ColumnEntity();
+        columns = new ArrayList<>();
+        column.id = 1;
         columns.add(column);
-        columns.add(column2);
 
-        doReturn(columns).when(repository).getByBoardId(any(Long.class));
-
-
+        doReturn(columns).when(repository).findByBoardId(any(Long.class));
     }
 
     @Test
     void getByBoardId() {
-
-        assertSame(columns, service.getByBoardId(1l));
+        assertSame(columns, service.getByBoardId(1L));
     }
 }
