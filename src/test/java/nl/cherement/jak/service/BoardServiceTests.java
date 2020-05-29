@@ -67,7 +67,7 @@ class BoardServiceTests {
 
     @Test
     void findByUserName() {
-        assertSame(boards, service.findBoardByUserName("admin"));
+        assertSame(boards, service.findByUserName("admin"));
     }
 
     @Test
