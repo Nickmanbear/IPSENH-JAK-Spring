@@ -51,6 +51,7 @@ class CardDTO extends CardEntity {
         CardEntity cardEntity = new CardEntity();
         cardEntity.id = id;
         cardEntity.column = column;
+        cardEntity.assignedUser = assignedUser;
         cardEntity.name = name;
         cardEntity.description = description;
         cardEntity.priority = priority;

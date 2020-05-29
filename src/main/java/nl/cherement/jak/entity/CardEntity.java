@@ -13,6 +13,9 @@ public class CardEntity {
     @ManyToOne
     public ColumnEntity column;
 
+    @ManyToOne
+    public UserEntity assignedUser;
+
     @Column(name="name", nullable = false)
     public String name;
 
