@@ -51,13 +51,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (user != null) {
-
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
-
             return null;
         }
-
         return null;
     }
 }

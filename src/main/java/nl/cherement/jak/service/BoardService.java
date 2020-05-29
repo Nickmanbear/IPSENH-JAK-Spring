@@ -24,7 +24,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         super(repository);
     }
 
-    public List<BoardEntity> findBoardByUserName(String username) {
+    public List<BoardEntity> findByUserName(String username) {
         return boardRepository.findByUsers_Username(username);
     }
 

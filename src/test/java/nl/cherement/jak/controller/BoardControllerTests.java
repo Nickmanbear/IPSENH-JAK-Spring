@@ -49,7 +49,7 @@ class BoardControllerTests {
 
         doReturn(Optional.of(board)).when(service).findById(1L);
         doReturn("test").when(principal).getName();
-        doReturn(boards).when(service).findBoardByUserName("test");
+        doReturn(boards).when(service).findByUserName("test");
         doNothing().when(service).deleteById(1L);
         doReturn(board).when(service).save(any(BoardEntity.class));
         doReturn(board).when(service).addUser(1L, 1L);
