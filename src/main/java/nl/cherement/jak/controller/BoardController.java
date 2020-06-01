@@ -46,6 +46,11 @@ public class BoardController {
         return true;
     }
 
+    @GetMapping("/team/{id}")
+    public List<BoardEntity> findByTeam(@PathVariable("id") Long id) {
+        return service.findByTeam(id);
+    }
+
     @PostMapping("/user/{boardId}/{userId}")
     public BoardEntity addUser(@PathVariable("boardId") Long boardId, @PathVariable("userId") Long userId) {
         return service.addUser(boardId, userId);
@@ -59,6 +64,7 @@ class BoardDTO extends BoardEntity {
         boardEntity.id = id;
         boardEntity.users = users;
         boardEntity.name = name;
+        boardEntity.team = team;
 
         return boardEntity;
     }

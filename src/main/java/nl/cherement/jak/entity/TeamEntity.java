@@ -4,24 +4,25 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="boards")
-public class BoardEntity {
+@Table(name = "teams")
+public class TeamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToMany
-    public List<UserEntity> users;
-
     @Column(name="name", nullable = false)
     public String name;
 
     @ManyToOne
-    public TeamEntity team;
+    public UserEntity leader;
+
+    @ManyToMany
+    public List<UserEntity> members;
 
     @Override
     public String toString() {
-        return "BoardEntity [id=" + id + ", users=" + users + ", name=" + name + ", team=" + team + "]";
+        return "ColumnEntity [id=" + id + ", name=" + name +
+                ", leader=" + leader + ", members=" + members + "]";
     }
 }
