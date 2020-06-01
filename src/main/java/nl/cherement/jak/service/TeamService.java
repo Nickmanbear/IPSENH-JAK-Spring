@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeamService extends AbstractService<TeamEntity> {
@@ -26,5 +27,16 @@ public class TeamService extends AbstractService<TeamEntity> {
         UserEntity userEntity = userRepository.findByUsername(memberName);
 
         return teamRepository.findByMembers(userEntity);
+    }
+
+    public TeamEntity addMember(Long teamId, Long memberId) {
+        Optional<TeamEntity> teamEntity = teamRepository.findById(teamId);
+        Optional<UserEntity> userEntity = userRepository.findById(memberId);
+        if (teamEntity.isPresent() && userEntity.isPresent()) {
+            teamEntity.get().members.add(userEntity.get());
+
+            return teamRepository.save(teamEntity.get());
+        }
+        return null;
     }
 }

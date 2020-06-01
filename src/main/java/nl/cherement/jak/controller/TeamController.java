@@ -38,6 +38,11 @@ public class TeamController {
 
         return HttpStatus.OK;
     }
+
+    @PostMapping("/member/{teamId}/{userId}")
+    public TeamEntity addUser(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
+        return service.addMember(teamId, userId);
+    }
 }
 
 class TeamDTO extends TeamEntity {
