@@ -27,10 +27,15 @@ public class BoardService extends AbstractService<BoardEntity> {
     }
 
     public BoardEntity addUser(Long boardId, Long userId) {
-        BoardEntity board = boardRepository.getOne(boardId);
+        Optional<BoardEntity> optionalBoard = boardRepository.findById(boardId);
         Optional<UserEntity> optionalUser = userService.findById(userId);
-        optionalUser.ifPresent(userEntity -> board.users.add(userEntity));
+        if (optionalBoard.isPresent() && optionalUser.isPresent()) {
+            UserEntity userEntity = optionalUser.get();
+            BoardEntity boardEntity = optionalBoard.get();
+            boardEntity.users.add(userEntity);
 
-        return boardRepository.save(board);
+            return boardRepository.save(boardEntity);
+        }
+        return null;
     }
 }
