@@ -3,7 +3,6 @@ package nl.cherement.jak.service;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.repository.ColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;

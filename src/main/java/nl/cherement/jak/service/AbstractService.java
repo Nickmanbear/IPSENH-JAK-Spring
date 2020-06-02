@@ -20,14 +20,16 @@ public abstract class AbstractService<T> {
 
     abstract boolean hasAccess(Principal user, T obj);
 
-    public T save( T o) {
-
+    public T save(Authentication user, T o) {
+        if(!hasAccess(user, o)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
+        }
         return this.repository.save(o);
     }
 
     public void delete(Authentication user, T o) {
         if(!hasAccess(user, o)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + "Cannot delete this");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
         }
         this.repository.delete(o);
     }
@@ -35,7 +37,7 @@ public abstract class AbstractService<T> {
     public void deleteById(Authentication user, Long o) {
         Optional<T> obj = this.repository.findById(o);
         if(!hasAccess(user, obj.get())){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + "Cannot delete this");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
 
         }
         this.repository.deleteById(o);

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -45,19 +46,23 @@ class BoardServiceTests {
     @BeforeEach
     public void initialize() {
         board = new BoardEntity();
+        board.users = new ArrayList<UserEntity>();
         boards = new ArrayList<BoardEntity>();
         user = new UserEntity();
 
-        board.id = 1L;
-        board.users = new ArrayList<>();
-        boards.add(board);
-
         user.id = 1;
-        user.username = "test user";
+        user.username = "alex";
         user.password = "password";
         user.permissions = "admin";
         user.roles = "ROLE_ADMIN";
         user.active = true;
+
+        board.id = 1L;
+
+        board.users.add(user);
+        boards.add(board);
+
+
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
@@ -77,7 +82,7 @@ class BoardServiceTests {
 
     @Test
     void findAll() {
-        assertSame(boards, service.findAll(authentication));
+        assertEquals(boards, service.findAll(authentication));
     }
 
     @Test
@@ -88,7 +93,7 @@ class BoardServiceTests {
 
     @Test
     void save(){
-        assertSame(board, service.save(board));
+        assertSame(board, service.save(authentication,board));
     }
 
     @Test
@@ -107,10 +112,10 @@ class BoardServiceTests {
 
     @Test
     void addUser() {
-        List<UserEntity> tempList = board.users;
-        tempList.add(user);
-        board.users = tempList;
+        UserEntity user2 = new UserEntity();
+        user2.id = 2;
+        board.users.add(user2);
 
-        assertSame(board, service.addUser(authentication, 1L, 1L));
+        assertEquals(board, service.addUser(authentication, 1L, user2));
     }
 }

@@ -48,12 +48,12 @@ class CardControllerTests {
         cards.add(card);
         cards.add(card2);
 
-        doReturn(Optional.of(card)).when(service).findById(authentication,any());
-        doReturn(cards).when(service).findAll(authentication);
-        doReturn(cards).when(service).getByColumnId(any());
-        doNothing().when(service).deleteById(authentication,any());
-        doReturn(card).when(service).save(any(CardEntity.class));
         doReturn("alex").when(authentication).getName();
+        doReturn(Optional.of(card)).when(service).findById(any(Authentication.class),any());
+        doReturn(cards).when(service).findAll(any(Authentication.class));
+        doReturn(cards).when(service).getByColumnId(any());
+        doNothing().when(service).deleteById(any(Authentication.class),any());
+        doReturn(card).when(service).save(any(Authentication.class),any(CardEntity.class));
     }
 
     @Test
@@ -87,7 +87,7 @@ class CardControllerTests {
 
     @Test
     void save() {
-        assertSame(card, controller.save(cardDTO));
+        assertSame(card, controller.save(authentication,cardDTO));
     }
 
     @Test

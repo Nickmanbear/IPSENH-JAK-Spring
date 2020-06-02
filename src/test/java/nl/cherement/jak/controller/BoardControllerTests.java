@@ -50,13 +50,13 @@ class BoardControllerTests {
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
-
-        doReturn(Optional.of(board)).when(service).findById(authentication,1L);
-        doReturn("test").when(principal).getName();
-        doReturn(boards).when(service).findByUserName("test");
-        doNothing().when(service).deleteById(authentication,1L);
-        doReturn(board).when(service).save(any(BoardEntity.class));
-        doReturn(board).when(service).addUser(authentication,1L, 1L);
+//TODO RECHECK THIS MESS
+        doReturn(Optional.of(board)).when(service).findById(any(Authentication.class),any(Long.class));
+        doReturn(boards).when(service).findByUserName(any());
+        doNothing().when(service).deleteById(any(Authentication.class),any(Long.class));
+        doReturn(board).when(service).save(any(Authentication.class), any(BoardEntity.class));
+        doReturn(board).when(service).addUser(any(Authentication.class),any(Long.class), any(UserEntity.class));
+        doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
     }
 
@@ -87,7 +87,7 @@ class BoardControllerTests {
     @Test
     void save() {
         boardDTO.id = 1L;
-        assertSame(board, controller.save(boardDTO));
+        assertSame(board, controller.save(authentication,boardDTO));
     }
 
     @Test
@@ -102,6 +102,8 @@ class BoardControllerTests {
 
     @Test
     void addUser() {
-        assertSame(board, controller.addUser(authentication,1L, 1L));
+        UserEntity user = new UserEntity();
+
+        assertSame(board, controller.addUser(authentication,1L, user));
     }
 }

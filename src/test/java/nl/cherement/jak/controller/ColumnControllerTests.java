@@ -47,11 +47,11 @@ class ColumnControllerTests {
         columns.add(column);
         columns.add(column2);
 
-        doReturn(columns).when(service).findAll(authentication);
+        doReturn(columns).when(service).findAll(any(Authentication.class));
         doReturn(columns).when(service).getByBoardId(any());
-        doReturn(Optional.of(column)).when(service).findById(authentication,any());
-        doReturn(column).when(service).save(any(ColumnEntity.class));
-        doNothing().when(service).deleteById(authentication,any());
+        doReturn(Optional.of(column)).when(service).findById(any(Authentication.class),any());
+        doReturn(column).when(service).save(any(Authentication.class),any(ColumnEntity.class));
+        doNothing().when(service).deleteById(any(Authentication.class),any());
         doReturn("alex").when(authentication).getName();
     }
 
@@ -82,7 +82,7 @@ class ColumnControllerTests {
 
     @Test
     void save() {
-        assertSame(column, controller.save(columnDTO));
+        assertSame(column, controller.save(authentication,columnDTO));
     }
 
     @Test

@@ -34,8 +34,8 @@ public class ColumnController {
     }
 
     @PostMapping
-    public ColumnEntity save(@RequestBody ColumnDTO columnDTO) {
-        return service.save(columnDTO.toEntity());
+    public ColumnEntity save(Authentication authentication, @RequestBody ColumnDTO columnDTO) {
+        return service.save(authentication,columnDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")

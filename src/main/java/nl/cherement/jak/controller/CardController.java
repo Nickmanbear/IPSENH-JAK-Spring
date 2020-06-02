@@ -34,8 +34,8 @@ public class CardController {
     }
 
     @PostMapping
-    public CardEntity save(@RequestBody CardDTO cardDTO) {
-        return service.save(cardDTO.toEntity());
+    public CardEntity save(Authentication authentication, @RequestBody CardDTO cardDTO) {
+        return service.save(authentication, cardDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")

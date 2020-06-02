@@ -3,6 +3,7 @@ package nl.cherement.jak.service;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -38,5 +39,9 @@ public class UserService  extends AbstractService<UserEntity>{
     @Override
     boolean hasAccess(Principal user, UserEntity obj) {
         return true;
+    }
+
+    public UserEntity save( UserEntity user) {
+        return repository.save(user);
     }
 }

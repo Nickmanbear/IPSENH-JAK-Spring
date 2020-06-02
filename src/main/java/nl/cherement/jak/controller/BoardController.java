@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,8 @@ public class BoardController {
     }
 
     @PostMapping
-    public BoardEntity save(@RequestBody BoardDTO boardDTO) {
-        return service.save(boardDTO.toEntity());
+    public BoardEntity save(Authentication authentication, @RequestBody BoardDTO boardDTO) {
+        return service.save(authentication, boardDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
@@ -48,8 +49,8 @@ public class BoardController {
 
     @PostMapping("/user/{boardId}/{userId}")
     public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") Long boardId,
-                               @PathVariable("userId") Long userId) {
-        return service.addUser(authentication, boardId, userId);
+                               @PathVariable("userId") UserEntity user) {
+        return service.addUser(authentication, boardId, user);
     }
 }
 
