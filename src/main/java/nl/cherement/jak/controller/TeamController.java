@@ -39,6 +39,11 @@ public class TeamController {
         return HttpStatus.OK;
     }
 
+    @PostMapping("/new/{teamName}")
+    public TeamEntity saveNew(@PathVariable("teamName") String teamName, Principal principal) {
+        return service.saveNew(teamName, principal);
+    }
+
     @PostMapping("/member/{teamId}/{userId}")
     public TeamEntity addUser(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
         return service.addMember(teamId, userId);

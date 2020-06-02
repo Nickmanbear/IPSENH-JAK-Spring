@@ -7,6 +7,8 @@ import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,18 @@ public class TeamService extends AbstractService<TeamEntity> {
         UserEntity userEntity = userRepository.findByUsername(memberName);
 
         return teamRepository.findByMembers(userEntity);
+    }
+
+    public TeamEntity saveNew(String teamName, Principal principal) {
+        UserEntity userEntity = userRepository.findByUsername(principal.getName());
+        TeamEntity teamEntity = new TeamEntity();
+        teamEntity.members = new ArrayList<>();
+        teamEntity.id = 0;
+        teamEntity.name = teamName;
+        teamEntity.leader = userEntity;
+        teamEntity.members.add(userEntity);
+
+        return teamRepository.save(teamEntity);
     }
 
     public TeamEntity addMember(Long teamId, Long memberId) {
