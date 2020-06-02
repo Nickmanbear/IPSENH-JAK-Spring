@@ -10,7 +10,7 @@ public class CardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     public ColumnEntity column;
 
     @ManyToOne

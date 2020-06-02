@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static nl.cherement.jak.config.SecurityConstants.HEADER_STRING;
-import static nl.cherement.jak.config.SecurityConstants.TOKEN_PREFIX;
+import static nl.cherement.jak.config.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -24,37 +23,33 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(HEADER_STRING);
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+        String token = req.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-            chain.doFilter(req, res);
+        if (token == null || !token.startsWith(TOKEN_PREFIX)) {
+            String protocols = req.getHeader(WEBSOCKET_HEADER_STRING);
+            if (protocols == null || !protocols.contains(WEBSOCKET_TOKEN_PREFIX)) {
+                chain.doFilter(req, res);
 
-            return;
+                return;
+            }
+            token = protocols.substring(protocols.indexOf(WEBSOCKET_TOKEN_PREFIX))
+                    .replace(WEBSOCKET_TOKEN_PREFIX, "");
         }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getSecret().getBytes()))
+                .build()
+                .verify(token.replace(TOKEN_PREFIX, ""))
+                .getSubject();
+
+        UsernamePasswordAuthenticationToken authentication = null;
+
+        if (user != null) {
+            authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
-    }
-
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
-            // parse the token.
-            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getSecret().getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();
-
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-            }
-            return null;
-        }
-        return null;
     }
 }
