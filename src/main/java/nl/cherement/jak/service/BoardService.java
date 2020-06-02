@@ -6,7 +6,6 @@ import nl.cherement.jak.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -37,10 +36,13 @@ public class BoardService extends AbstractService<BoardEntity> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
         }
 
-        BoardEntity board = boardRepository.findById(boardId).get();
-        board.users.add(user);
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
+        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        return save(authentication,board);
+        BoardEntity boardEntity = board.get();
+        boardEntity.users.add(user);
+
+        return save(authentication,boardEntity);
     }
 
     @Override

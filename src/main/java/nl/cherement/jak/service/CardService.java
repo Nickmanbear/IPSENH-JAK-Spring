@@ -24,6 +24,6 @@ public class CardService extends AbstractService<CardEntity> {
 
     @Override
     boolean hasAccess(Principal user, CardEntity obj) {
-        return true;//TODO FIX DE ACCESS TOT DE ENTITY
+        return true;
     }
 }

@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 class BoardServiceTests {
 
     private List<BoardEntity> boards;
+    private List<BoardEntity> emptyBoards;
     private BoardEntity board;
     private UserEntity user;
 
@@ -48,6 +49,7 @@ class BoardServiceTests {
         board = new BoardEntity();
         board.users = new ArrayList<UserEntity>();
         boards = new ArrayList<BoardEntity>();
+        emptyBoards = new ArrayList<BoardEntity>();
         user = new UserEntity();
 
         user.id = 1;
@@ -61,7 +63,6 @@ class BoardServiceTests {
 
         board.users.add(user);
         boards.add(board);
-
 
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
@@ -87,25 +88,25 @@ class BoardServiceTests {
 
     @Test
     void findById() {
-        assertSame(board, service.findById(authentication,1L).get());
+        assertSame(board, service.findById(authentication, 1L).get());
     }
 
 
     @Test
-    void save(){
-        assertSame(board, service.save(authentication,board));
+    void save() {
+        assertSame(board, service.save(authentication, board));
     }
 
     @Test
-    void delete(){
-        service.delete(authentication,board);
+    void delete() {
+        service.delete(authentication, board);
 
         verify(boardRepository, times(1)).delete(any());
     }
 
     @Test
-    void deleteById(){
-        service.deleteById(authentication,1L);
+    void deleteById() {
+        service.deleteById(authentication, 1L);
 
         verify(boardRepository, times(1)).deleteById(any());
     }
@@ -118,4 +119,12 @@ class BoardServiceTests {
 
         assertEquals(board, service.addUser(authentication, 1L, user2));
     }
+
+    @Test
+    void addUser_User_is_Null() {
+        assertThrows(ResponseStatusException.class, () ->
+                service.addUser(authentication, 1L, null));
+    }
+
+
 }

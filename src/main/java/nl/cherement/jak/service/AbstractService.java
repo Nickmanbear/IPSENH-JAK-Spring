@@ -21,22 +21,25 @@ public abstract class AbstractService<T> {
     abstract boolean hasAccess(Principal user, T obj);
 
     public T save(Authentication user, T o) {
-        if(!hasAccess(user, o)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
+        if (!hasAccess(user, o)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName());
         }
         return this.repository.save(o);
     }
 
     public void delete(Authentication user, T o) {
-        if(!hasAccess(user, o)){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
+        if (!hasAccess(user, o)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName());
         }
         this.repository.delete(o);
     }
 
     public void deleteById(Authentication user, Long o) {
         Optional<T> obj = this.repository.findById(o);
-        if(!hasAccess(user, obj.get())){
+
+        if (!obj.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        if (!hasAccess(user, obj.get())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
 
         }
@@ -44,10 +47,10 @@ public abstract class AbstractService<T> {
     }
 
     public List<T> findAll(Authentication user) {
-         List<T> objs =  this.repository.findAll();
+        List<T> objs = this.repository.findAll();
         return objs
                 .stream()
-                .filter(o ->  this.hasAccess(user, o))
+                .filter(o -> this.hasAccess(user, o))
                 .collect(Collectors.toList())
                 ;
     }
@@ -55,9 +58,12 @@ public abstract class AbstractService<T> {
     public Optional<T> findById(Authentication user, Long id) {
 
         Optional<T> obj = this.repository.findById(id);
-        if (!hasAccess(user, obj.get())){
+        if (!obj.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        if (!hasAccess(user, obj.get())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unable to find " + id.toString());
         }
         return obj;
+
     }
 }
