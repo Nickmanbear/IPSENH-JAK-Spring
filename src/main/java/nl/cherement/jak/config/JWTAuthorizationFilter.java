@@ -25,31 +25,39 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+        String token = getToken(req);
+
+        if (token != null) {
+            SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
+        }
+
+        chain.doFilter(req, res);
+    }
+
+    String getToken(HttpServletRequest req) {
         String token = req.getHeader(HEADER_STRING);
 
         if (token == null || !token.startsWith(TOKEN_PREFIX)) {
             String protocols = req.getHeader(WEBSOCKET_HEADER_STRING);
             if (protocols == null || !protocols.contains(WEBSOCKET_TOKEN_PREFIX)) {
-                chain.doFilter(req, res);
-
-                return;
+                return null;
             }
-            token = protocols.substring(protocols.indexOf(WEBSOCKET_TOKEN_PREFIX))
+            return protocols.substring(protocols.indexOf(WEBSOCKET_TOKEN_PREFIX))
                     .replace(WEBSOCKET_TOKEN_PREFIX, "");
         }
+        return token.replace(TOKEN_PREFIX, "");
+    }
 
-        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getSecret().getBytes()))
-                .build()
-                .verify(token.replace(TOKEN_PREFIX, ""))
-                .getSubject();
+    UsernamePasswordAuthenticationToken getAuthentication(String token) {
+        try {
+            String user = JWT.require(Algorithm.HMAC512(SecurityConstants.getInstance().getSecret().getBytes()))
+                    .build()
+                    .verify(token)
+                    .getSubject();
 
-        UsernamePasswordAuthenticationToken authentication = null;
-
-        if (user != null) {
-            authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+        } catch (Exception e) {
+            return null;
         }
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
     }
 }
