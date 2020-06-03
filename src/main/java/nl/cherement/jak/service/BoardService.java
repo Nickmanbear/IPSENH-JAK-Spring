@@ -5,8 +5,12 @@ import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +40,29 @@ public class BoardService extends AbstractService<BoardEntity> {
         return optionalTeam.map(teamEntity -> boardRepository.findByTeam(teamEntity)).orElse(null);
     }
 
-    public BoardEntity addUser(Long boardId, Long userId) {
-        BoardEntity board = boardRepository.getOne(boardId);
-        Optional<UserEntity> optionalUser = userService.findById(userId);
-        optionalUser.ifPresent(userEntity -> board.users.add(userEntity));
+    public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
+        }
 
-        return boardRepository.save(board);
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
+        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        BoardEntity boardEntity = board.get();
+        boardEntity.users.add(user);
+
+        return save(authentication,boardEntity);
+    }
+
+    @Override
+    boolean hasAccess(Principal user, BoardEntity obj) {
+        boolean userAcces = false;
+        for (UserEntity userEntity : obj.users) {
+            if (userEntity.username.equals(user.getName())) {
+                userAcces = true;
+                break;
+            }
+        }
+        return userAcces;
     }
 }

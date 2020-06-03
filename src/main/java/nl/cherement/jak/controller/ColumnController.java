@@ -4,6 +4,7 @@ import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.service.ColumnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class ColumnController {
     ColumnService service;
 
     @GetMapping
-    public List<ColumnEntity> findAll() {
-        return service.findAll();
+    public List<ColumnEntity> findAll(Authentication authentication) {
+        return service.findAll(authentication);
     }
 
     @GetMapping("/board/{id}")
@@ -28,18 +29,18 @@ public class ColumnController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ColumnEntity> findById(@PathVariable("id") Long id) {
-        return service.findById(id);
+    public Optional<ColumnEntity> findById(Authentication authentication, @PathVariable("id") Long id) {
+        return service.findById(authentication,id);
     }
 
     @PostMapping
-    public ColumnEntity save(@RequestBody ColumnDTO columnDTO) {
-        return service.save(columnDTO.toEntity());
+    public ColumnEntity save(Authentication authentication, @RequestBody ColumnDTO columnDTO) {
+        return service.save(authentication,columnDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(@PathVariable("id") Long id) {
-        service.deleteById(id);
+    public HttpStatus deleteById(Authentication authentication,@PathVariable("id") Long id) {
+        service.deleteById(authentication,id);
 
         return HttpStatus.OK;
     }
