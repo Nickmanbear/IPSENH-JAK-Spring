@@ -4,8 +4,12 @@ import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,17 +29,30 @@ public class BoardService extends AbstractService<BoardEntity> {
     public List<BoardEntity> findByUserName(String username) {
         return boardRepository.findByUsers_Username(username);
     }
+    public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
 
-    public BoardEntity addUser(Long boardId, Long userId) {
-        Optional<BoardEntity> optionalBoard = boardRepository.findById(boardId);
-        Optional<UserEntity> optionalUser = userService.findById(userId);
-        if (optionalBoard.isPresent() && optionalUser.isPresent()) {
-            UserEntity userEntity = optionalUser.get();
-            BoardEntity boardEntity = optionalBoard.get();
-            boardEntity.users.add(userEntity);
-
-            return boardRepository.save(boardEntity);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
         }
-        return null;
+
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
+        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        BoardEntity boardEntity = board.get();
+        boardEntity.users.add(user);
+
+        return save(authentication,boardEntity);
+    }
+
+    @Override
+    boolean hasAccess(Principal user, BoardEntity obj) {
+        boolean userAcces = false;
+        for (UserEntity userEntity : obj.users) {
+            if (userEntity.username.equals(user.getName())) {
+                userAcces = true;
+                break;
+            }
+        }
+        return userAcces;
     }
 }

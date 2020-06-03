@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ class BoardControllerTests {
     @MockBean
     private Principal principal;
 
+    @MockBean
+    private Authentication authentication;
+
     @BeforeEach
     public void initialize(){
         board.id = 1;
@@ -46,13 +50,14 @@ class BoardControllerTests {
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
-
-        doReturn(Optional.of(board)).when(service).findById(1L);
-        doReturn("test").when(principal).getName();
-        doReturn(boards).when(service).findByUserName("test");
-        doNothing().when(service).deleteById(1L);
-        doReturn(board).when(service).save(any(BoardEntity.class));
-        doReturn(board).when(service).addUser(1L, 1L);
+//TODO RECHECK THIS MESS
+        doReturn(Optional.of(board)).when(service).findById(any(Authentication.class),any(Long.class));
+        doReturn(boards).when(service).findByUserName(any());
+        doNothing().when(service).deleteById(any(Authentication.class),any(Long.class));
+        doReturn(board).when(service).save(any(Authentication.class), any(BoardEntity.class));
+        doReturn(board).when(service).addUser(any(Authentication.class),any(Long.class), any(UserEntity.class));
+        doReturn(boards).when(service).findAll(any(Authentication.class));
+        doReturn("alex").when(authentication).getName();
     }
 
 
@@ -71,23 +76,23 @@ class BoardControllerTests {
 
     @Test
     void findById() {
-        assertSame(board, controller.findById(1L).get());
+        assertSame(board, controller.findById(authentication, 1L).get());
     }
 
     @Test
     void findAll() {
-        assertSame(boards, controller.findAll(principal));
+        assertSame(boards, controller.findAll(authentication));
     }
 
     @Test
     void save() {
         boardDTO.id = 1L;
-        assertSame(board, controller.save(boardDTO));
+        assertSame(board, controller.save(authentication,boardDTO));
     }
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(1L));
+        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
     }
 
     @Test
@@ -97,6 +102,8 @@ class BoardControllerTests {
 
     @Test
     void addUser() {
-        assertSame(board, controller.addUser(1L, 1L));
+        UserEntity user = new UserEntity();
+
+        assertSame(board, controller.addUser(authentication,1L, user));
     }
 }

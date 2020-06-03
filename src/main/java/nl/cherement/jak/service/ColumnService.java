@@ -5,6 +5,7 @@ import nl.cherement.jak.repository.ColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -19,5 +20,10 @@ public class ColumnService extends AbstractService<ColumnEntity> {
 
     public List<ColumnEntity> getByBoardId(Long id) {
         return this.repository.findByBoardId(id);
+    }
+
+    @Override
+    boolean hasAccess(Principal user, ColumnEntity obj) {
+        return false;
     }
 }
