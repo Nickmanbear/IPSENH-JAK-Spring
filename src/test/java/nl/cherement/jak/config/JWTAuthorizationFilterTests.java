@@ -37,15 +37,13 @@ class JWTAuthorizationFilterTests {
 
     @Test
     void getTokenAndAuthorization() {
-
         String token = jwtAuthorizationFilter.getToken(req);
         assertEquals("test", token);
     }
+    
     @Test
     void doFilterInternal() throws IOException, ServletException {
         jwtAuthorizationFilter.doFilterInternal(req,res,chain);
         verify(req,atLeastOnce()).getHeader("Authorization");
-
-
     }
 }
