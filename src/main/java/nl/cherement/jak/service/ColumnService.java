@@ -24,6 +24,6 @@ public class ColumnService extends AbstractService<ColumnEntity> {
 
     @Override
     boolean hasAccess(Principal user, ColumnEntity obj) {
-        return false;
+        return true;
     }
 }

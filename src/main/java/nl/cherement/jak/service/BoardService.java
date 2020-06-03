@@ -29,7 +29,6 @@ public class BoardService extends AbstractService<BoardEntity> {
     public List<BoardEntity> findByUserName(String username) {
         return boardRepository.findByUsers_Username(username);
     }
-
     public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
 
         if (user == null) {
@@ -55,7 +54,5 @@ public class BoardService extends AbstractService<BoardEntity> {
             }
         }
         return userAcces;
-
-
     }
 }

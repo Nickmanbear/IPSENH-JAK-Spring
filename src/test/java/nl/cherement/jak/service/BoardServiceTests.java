@@ -76,6 +76,7 @@ class BoardServiceTests {
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
+        doReturn(Optional.of(user)).when(userRepository).findById(any(Long.class));
         doReturn(Optional.of(boardWithoutUsers)).when(boardRepository).findById(3L);
         doReturn(Optional.empty()).when(boardRepository).findById(2L);
         doReturn(Optional.of(board)).when(boardRepository).findById(1L);
