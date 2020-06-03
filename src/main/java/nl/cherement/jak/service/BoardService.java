@@ -49,7 +49,16 @@ public class BoardService extends AbstractService<BoardEntity> {
         return save(authentication,boardEntity);
     }
 
-    public List<EventEntity> getTimeline(Long boardId) {
+    public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
+        Optional<BoardEntity> boardOptional = repository.findById(boardId);
+        if (!boardOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        if (!hasAccess(authentication, boardOptional.get())) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + boardId);
+        }
         return eventService.getByBoardId(boardId);
     }
 

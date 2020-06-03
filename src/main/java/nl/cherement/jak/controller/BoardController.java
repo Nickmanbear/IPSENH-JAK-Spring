@@ -56,7 +56,7 @@ public class BoardController {
 
     @GetMapping("/timeline/{boardId}")
     public List<EventEntity> getTimeline(Authentication authentication, @PathVariable("boardId") Long boardId) {
-        return service.getTimeline(boardId);
+        return service.getTimeline(authentication, boardId);
     }
 }
 
