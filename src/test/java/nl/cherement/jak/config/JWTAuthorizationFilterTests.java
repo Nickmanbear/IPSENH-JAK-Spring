@@ -19,7 +19,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class JWTAuthorizationFilterTests {
+class JWTAuthorizationFilterTests {
 
     JWTAuthorizationFilter  jwtAuthorizationFilter = new JWTAuthorizationFilter(authentication -> null);
 
