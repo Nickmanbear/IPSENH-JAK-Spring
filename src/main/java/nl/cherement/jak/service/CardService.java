@@ -5,6 +5,7 @@ import nl.cherement.jak.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -19,5 +20,10 @@ public class CardService extends AbstractService<CardEntity> {
 
     public List<CardEntity> getByColumnId(Long id) {
         return this.repository.findByColumnId(id);
+    }
+
+    @Override
+    boolean hasAccess(Principal user, CardEntity obj) {
+        return true;
     }
 }

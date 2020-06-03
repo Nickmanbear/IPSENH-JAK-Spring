@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.Principal;
@@ -34,6 +35,9 @@ class UserControllerTests {
 
     @MockBean
     private Principal principal;
+
+    @MockBean
+    private Authentication authentication;
 
     @BeforeEach
     public void initialize(){

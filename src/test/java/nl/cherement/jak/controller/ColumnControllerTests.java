@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ class ColumnControllerTests {
     @MockBean
     private ColumnService service;
 
+    @MockBean
+    private Authentication authentication;
+
     @BeforeEach
     public void initialize(){
         columnDTO.id = 1;
@@ -43,11 +47,12 @@ class ColumnControllerTests {
         columns.add(column);
         columns.add(column2);
 
-        doReturn(columns).when(service).findAll();
+        doReturn(columns).when(service).findAll(any(Authentication.class));
         doReturn(columns).when(service).getByBoardId(any());
-        doReturn(Optional.of(column)).when(service).findById(any());
-        doReturn(column).when(service).save(any(ColumnEntity.class));
-        doNothing().when(service).deleteById(any());
+        doReturn(Optional.of(column)).when(service).findById(any(Authentication.class),any());
+        doReturn(column).when(service).save(any(Authentication.class),any(ColumnEntity.class));
+        doNothing().when(service).deleteById(any(Authentication.class),any());
+        doReturn("alex").when(authentication).getName();
     }
 
     @Test
@@ -62,7 +67,7 @@ class ColumnControllerTests {
 
     @Test
     void findAll() {
-        assertSame(columns, controller.findAll());
+        assertSame(columns, controller.findAll(authentication));
     }
 
     @Test
@@ -72,16 +77,16 @@ class ColumnControllerTests {
 
     @Test
     void findById() {
-        assertSame(column, controller.findById(1L).get());
+        assertSame(column, controller.findById(authentication,1L).get());
     }
 
     @Test
     void save() {
-        assertSame(column, controller.save(columnDTO));
+        assertSame(column, controller.save(authentication,columnDTO));
     }
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(1L));
+        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
     }
 }
