@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class BoardController {
     public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") Long boardId,
                                @PathVariable("userId") UserEntity user) {
         return service.addUser(authentication, boardId, user);
+    }
+
+    @GetMapping("/timeline/{boardId}")
+    public List<EventEntity> getTimeline(Authentication authentication, @PathVariable("boardId") Long boardId) {
+        return service.getTimeline(boardId);
     }
 }
 
