@@ -58,6 +58,7 @@ class BoardServiceTests {
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
         doReturn(Optional.of(board)).when(boardRepository).findById(any(Long.class));
+        doReturn(Optional.of(user)).when(userRepository).findById(any(Long.class));
         doReturn(board).when(boardRepository).save(any(BoardEntity.class));
         doNothing().when(boardRepository).deleteById(any());
         doReturn(board).when(boardRepository).getOne(1L);
