@@ -26,8 +26,6 @@ class BoardServiceTests {
 
     private List<BoardEntity> boards;
     private BoardEntity board;
-    private UserEntity user;
-    private UserEntity user2;
     private BoardEntity boardWithoutUsers;
 
 
@@ -53,18 +51,8 @@ class BoardServiceTests {
         boards = new ArrayList<BoardEntity>();
         boardWithoutUsers = new BoardEntity();
         boardWithoutUsers.users = new ArrayList<UserEntity>();
-        user = new UserEntity();
-        user2 = new UserEntity();
-
-        user2.id= 2;
-        user2.username= "alex2";
-
-        user.id = 1;
-        user.username = "alex";
-        user.password = "password";
-        user.permissions = "admin";
-        user.roles = "ROLE_ADMIN";
-        user.active = true;
+        UserEntity user = new UserEntity();
+        UserEntity user2 = new UserEntity();
 
         board.id = 1L;
         boardWithoutUsers.id = 2L;
@@ -72,7 +60,15 @@ class BoardServiceTests {
         boardWithoutUsers.users.add(user2);
         board.users.add(user);
         boards.add(board);
+        user.id = 1;
+        user.username = "alex";
+        user.password = "password";
+        user.permissions = "admin";
+        user.roles = "ROLE_ADMIN";
+        user.active = true;
 
+        user2.id= 2;
+        user2.username= "alex2";
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
@@ -129,7 +125,7 @@ class BoardServiceTests {
         user2.id = 2;
         board.users.add(user2);
 
-        assertEquals(board, service.addUser(authentication, 1L, user2));
+        assertEquals(board, service.addUser(authentication, 1L, 2L));
     }
 
     @Test
@@ -154,7 +150,7 @@ class BoardServiceTests {
     @Test
     void addUser_object_is_not_present() {
         assertThrows(ResponseStatusException.class, () ->
-                service.addUser(authentication, 2L, user));
+                service.addUser(authentication, 2L, 1L));
     }
 
     @Test

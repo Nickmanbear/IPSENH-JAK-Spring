@@ -29,17 +29,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) {
         try {
-            UserEntity credentials = new ObjectMapper()
-                    .readValue(req.getInputStream(), UserEntity.class);
+            UserEntity credentials = new ObjectMapper().readValue(req.getInputStream(), UserEntity.class);
 
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            credentials.username,
-                            credentials.password,
-                            new ArrayList<>())
+                new UsernamePasswordAuthenticationToken(
+                    credentials.username,
+                    credentials.password,
+                    new ArrayList<>())
             );
         } catch (IOException e) {
             throw new AuthenticationException(e + "Not Authenticated");
@@ -47,15 +45,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req,
-                                            HttpServletResponse res,
-                                            FilterChain chain,
-                                            Authentication auth) {
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res,
+                                            FilterChain chain, Authentication auth) {
         String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getUsername())
-                .withClaim("active", ((User) auth.getPrincipal()).isEnabled())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(HMAC512(SecurityConstants.getInstance().getSecret().getBytes()));
+            .withSubject(((User) auth.getPrincipal()).getUsername())
+            .withClaim("active", ((User) auth.getPrincipal()).isEnabled())
+            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+            .sign(HMAC512(SecurityConstants.getInstance().getSecret().getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
 }

@@ -39,7 +39,7 @@ public class CardController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(Authentication authentication,@PathVariable("id") Long id) {
+    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
         service.deleteById(authentication,id);
 
         return HttpStatus.OK;

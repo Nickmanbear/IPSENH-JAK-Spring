@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,54 +17,54 @@ public abstract class AbstractService<T> {
         this.repository = repository;
     }
 
-    abstract boolean hasAccess(Principal user, T obj);
+    abstract boolean hasAccess(Authentication authentication, T entity);
 
-    public T save(Authentication user, T o) {
-        if (!hasAccess(user, o)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName());
+    public T save(Authentication authentication, T entity) {
+        if (!hasAccess(authentication, entity)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, authentication.getName());
         }
-        return this.repository.save(o);
+        return this.repository.save(entity);
     }
 
-    public void delete(Authentication user, T o) {
-        if (!hasAccess(user, o)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName());
+    public void delete(Authentication authentication, T entity) {
+        if (!hasAccess(authentication, entity)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, authentication.getName());
         }
-        this.repository.delete(o);
+        this.repository.delete(entity);
     }
 
-    public void deleteById(Authentication user, Long o) {
-        Optional<T> obj = this.repository.findById(o);
+    public void deleteById(Authentication authentication, Long id) {
+        Optional<T> entity = this.repository.findById(id);
 
-        if (!obj.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        if (!hasAccess(user, obj.get())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, user.getName() + " Cannot delete this");
-
+        if (!entity.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        this.repository.deleteById(o);
+
+        if (!hasAccess(authentication, entity.get())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, authentication.getName() + " Cannot delete this");
+        }
+        this.repository.deleteById(id);
     }
 
-    public List<T> findAll(Authentication user) {
-        List<T> objs = this.repository.findAll();
-        return objs
+    public List<T> findAll(Authentication authentication) {
+        List<T> entities = this.repository.findAll();
+        return entities
                 .stream()
-                .filter(o -> this.hasAccess(user, o))
-                .collect(Collectors.toList())
-                ;
+                .filter(entity -> this.hasAccess(authentication, entity))
+                .collect(Collectors.toList());
     }
 
-    public Optional<T> findById(Authentication user, Long id) {
+    public Optional<T> findById(Authentication authentication, Long id) {
+        Optional<T> entity = this.repository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
 
-        Optional<T> obj = this.repository.findById(id);
-        if (!obj.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        if (!hasAccess(user, obj.get())) {
+        if (!hasAccess(authentication, entity.get())) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
                     "You do not have access to the object with id " + id);
         }
-        return obj;
-
+        return entity;
     }
 }

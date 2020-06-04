@@ -34,26 +34,27 @@ public class BoardService extends AbstractService<BoardEntity> {
         return repository.findByUsers_Username(username);
     }
 
-    public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
+    public BoardEntity addUser(Authentication authentication, Long boardId, Long userId) {
+        Optional<UserEntity> userOptional = userService.findById(authentication, userId);
+        Optional<BoardEntity> boardOptional = repository.findById(boardId);
 
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
+        if (!boardOptional.isPresent() || !userOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        Optional<BoardEntity> board = repository.findById(boardId);
-        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        BoardEntity boardEntity = board.get();
-        boardEntity.users.add(user);
+        BoardEntity boardEntity = boardOptional.get();
+        boardEntity.users.add(userOptional.get());
 
         return save(authentication,boardEntity);
     }
 
     public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
         Optional<BoardEntity> boardOptional = repository.findById(boardId);
+
         if (!boardOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
         if (!hasAccess(authentication, boardOptional.get())) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
@@ -63,10 +64,10 @@ public class BoardService extends AbstractService<BoardEntity> {
     }
 
     @Override
-    boolean hasAccess(Principal user, BoardEntity obj) {
+    boolean hasAccess(Authentication authentication, BoardEntity entity) {
         boolean userAccess = false;
-        for (UserEntity userEntity : obj.users) {
-            if (userEntity.username.equals(user.getName())) {
+        for (UserEntity userEntity : entity.users) {
+            if (userEntity.username.equals(authentication.getName())) {
                 userAccess = true;
                 break;
             }

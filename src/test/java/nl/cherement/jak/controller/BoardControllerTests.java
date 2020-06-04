@@ -55,7 +55,7 @@ class BoardControllerTests {
         doReturn(boards).when(service).findByUserName(any());
         doNothing().when(service).deleteById(any(Authentication.class),any(Long.class));
         doReturn(board).when(service).save(any(Authentication.class), any(BoardEntity.class));
-        doReturn(board).when(service).addUser(any(Authentication.class),any(Long.class), any(UserEntity.class));
+        doReturn(board).when(service).addUser(any(Authentication.class),any(Long.class), any(Long.class));
         doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
     }
@@ -102,8 +102,6 @@ class BoardControllerTests {
 
     @Test
     void addUser() {
-        UserEntity user = new UserEntity();
-
-        assertSame(board, controller.addUser(authentication,1L, user));
+        assertSame(board, controller.addUser(authentication,1L, 1L));
     }
 }

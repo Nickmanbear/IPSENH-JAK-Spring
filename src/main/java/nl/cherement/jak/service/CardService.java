@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -30,24 +29,24 @@ public class CardService extends AbstractService<CardEntity> {
     }
 
     @Override
-    public CardEntity save(Authentication user, CardEntity o) {
-        Optional<CardEntity> cardOptional = repository.findById(o.id);
+    public CardEntity save(Authentication authentication, CardEntity entity) {
+        Optional<CardEntity> cardOptional = repository.findById(entity.id);
         if (cardOptional.isPresent()) {
             CardEntity cardEntity = cardOptional.get();
-            if (cardEntity.column.id != o.column.id) {
+            if (cardEntity.column.id != entity.column.id) {
                 EventEntity eventEntity = new EventEntity();
-                eventEntity.card = o;
+                eventEntity.card = entity;
                 eventEntity.from = cardEntity.column;
-                eventEntity.to = o.column;
+                eventEntity.to = entity.column;
                 eventEntity.timestamp = new Timestamp(System.currentTimeMillis());
-                eventService.save(user, eventEntity);
+                eventService.save(authentication, eventEntity);
             }
         }
-        return super.save(user, o);
+        return super.save(authentication, entity);
     }
 
     @Override
-    boolean hasAccess(Principal user, CardEntity obj) {
+    boolean hasAccess(Authentication authentication, CardEntity entity) {
         return true;
     }
 }
