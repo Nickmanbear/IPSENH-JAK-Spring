@@ -58,28 +58,14 @@ public class BoardService extends AbstractService<BoardEntity> {
         return save(authentication,boardEntity);
     }
 
-    public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
-        Optional<BoardEntity> boardOptional = repository.findById(boardId);
-        if (!boardOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        if (!hasAccess(authentication, boardOptional.get())) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "You do not have access to the object with id " + boardId);
-        }
-        return eventService.getByBoardId(boardId);
-    }
+    public BoardEntity deleteUser(Long teamId, Long memberId) {
+        Optional<BoardEntity> optionalBoard = boardRepository.findById(teamId);
+        Optional<UserEntity> optionalUser = userService.findById(memberId);
+        if (optionalBoard.isPresent() && optionalUser.isPresent()) {
+            optionalBoard.get().users.remove(optionalUser.get());
 
-    @Override
-    boolean hasAccess(Principal user, BoardEntity obj) {
-        boolean userAccess = false;
-        for (UserEntity userEntity : obj.users) {
-            if (userEntity.username.equals(user.getName())) {
-                userAccess = true;
-                break;
-            }
+            return boardRepository.save(optionalBoard.get());
         }
-        return userAccess;
+        return null;
     }
 }

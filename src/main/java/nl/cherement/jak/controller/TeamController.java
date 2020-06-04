@@ -45,8 +45,13 @@ public class TeamController {
     }
 
     @PostMapping("/member/{teamId}/{userId}")
-    public TeamEntity addUser(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
+    public TeamEntity addMember(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
         return service.addMember(teamId, userId);
+    }
+
+    @DeleteMapping("/member/{teamId}/{userId}")
+    public TeamEntity deleteMember(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
+        return service.deleteMember(teamId, userId);
     }
 }
 

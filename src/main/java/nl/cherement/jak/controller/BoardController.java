@@ -63,6 +63,11 @@ public class BoardController {
     public List<EventEntity> getTimeline(Authentication authentication, @PathVariable("boardId") Long boardId) {
         return service.getTimeline(authentication, boardId);
     }
+
+    @DeleteMapping("/user/{boardId}/{userId}")
+    public BoardEntity deleteUser(@PathVariable("boardId") Long teamId, @PathVariable("userId") Long userId) {
+        return service.deleteUser(teamId, userId);
+    }
 }
 
 class BoardDTO extends BoardEntity {

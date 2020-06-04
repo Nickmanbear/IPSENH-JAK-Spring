@@ -14,10 +14,10 @@ public class TeamEntity {
     @Column(name="name", nullable = false)
     public String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     public UserEntity leader;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     public List<UserEntity> members;
 
     @Override
