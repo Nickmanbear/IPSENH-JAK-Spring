@@ -4,6 +4,7 @@ import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -30,21 +31,25 @@ public class TeamService extends AbstractService<TeamEntity> {
         return teamRepository.findByMembers(userEntity);
     }
 
-    public TeamEntity saveNew(String teamName, Principal principal) {
-        UserEntity userEntity = userService.findByUsername(principal.getName());
-        TeamEntity teamEntity = new TeamEntity();
-        teamEntity.members = new ArrayList<>();
-        teamEntity.id = 0;
-        teamEntity.name = teamName;
-        teamEntity.leader = userEntity;
-        teamEntity.members.add(userEntity);
+    @Override
+    public TeamEntity save(Authentication authentication, TeamEntity teamEntity) {
+        if (teamEntity.id == 0) {
+            UserEntity userEntity = userService.findByUsername(authentication.getName());
+            TeamEntity temporaryTeamEntity = new TeamEntity();
+            temporaryTeamEntity.members = new ArrayList<>();
+            temporaryTeamEntity.id = 0;
+            temporaryTeamEntity.name = teamEntity.name;
+            temporaryTeamEntity.leader = userEntity;
+            temporaryTeamEntity.members.add(userEntity);
+            teamEntity = temporaryTeamEntity;
+        }
 
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity addMember(Long teamId, Long memberId) {
+    public TeamEntity addMember(Authentication authentication, Long teamId, Long memberId) {
         Optional<TeamEntity> teamEntity = teamRepository.findById(teamId);
-        Optional<UserEntity> userEntity = userService.findById(memberId);
+        Optional<UserEntity> userEntity = userService.findById(authentication, memberId);
         if (teamEntity.isPresent() && userEntity.isPresent()) {
             teamEntity.get().members.add(userEntity.get());
 
@@ -53,14 +58,19 @@ public class TeamService extends AbstractService<TeamEntity> {
         return null;
     }
 
-    public TeamEntity deleteMember(Long teamId, Long memberId) {
+    public TeamEntity deleteMember(Authentication authentication, Long teamId, Long memberId) {
         Optional<TeamEntity> optionalTeam = teamRepository.findById(teamId);
-        Optional<UserEntity> optionalUser = userService.findById(memberId);
+        Optional<UserEntity> optionalUser = userService.findById(authentication, memberId);
         if (optionalTeam.isPresent() && optionalUser.isPresent()) {
             optionalTeam.get().members.remove(optionalUser.get());
 
             return teamRepository.save(optionalTeam.get());
         }
         return null;
+    }
+
+    @Override
+    boolean hasAccess(Principal user, TeamEntity obj) {
+        return true;
     }
 }

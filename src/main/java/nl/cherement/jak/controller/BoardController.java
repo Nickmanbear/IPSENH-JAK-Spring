@@ -49,8 +49,8 @@ public class BoardController {
     }
 
     @GetMapping("/team/{id}")
-    public List<BoardEntity> findByTeam(@PathVariable("id") Long id) {
-        return service.findByTeam(id);
+    public List<BoardEntity> findByTeam(Authentication authentication, @PathVariable("id") Long id) {
+        return service.findByTeam(authentication, id);
     }
 
     @PostMapping("/user/{boardId}/{userId}")
@@ -65,8 +65,9 @@ public class BoardController {
     }
 
     @DeleteMapping("/user/{boardId}/{userId}")
-    public BoardEntity deleteUser(@PathVariable("boardId") Long teamId, @PathVariable("userId") Long userId) {
-        return service.deleteUser(teamId, userId);
+    public BoardEntity deleteUser(Authentication authentication, @PathVariable("boardId") Long teamId,
+                                  @PathVariable("userId") Long userId) {
+        return service.deleteUser(authentication, teamId, userId);
     }
 }
 

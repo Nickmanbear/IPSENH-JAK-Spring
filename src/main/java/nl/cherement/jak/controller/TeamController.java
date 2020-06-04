@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,19 +39,16 @@ public class TeamController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("/new/{teamName}")
-    public TeamEntity saveNew(@PathVariable("teamName") String teamName, Principal principal) {
-        return service.saveNew(teamName, principal);
-    }
-
     @PostMapping("/member/{teamId}/{userId}")
-    public TeamEntity addMember(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
-        return service.addMember(teamId, userId);
+    public TeamEntity addMember(Authentication authentication, @PathVariable("teamId") Long teamId,
+                                @PathVariable("userId") Long userId) {
+        return service.addMember(authentication, teamId, userId);
     }
 
     @DeleteMapping("/member/{teamId}/{userId}")
-    public TeamEntity deleteMember(@PathVariable("teamId") Long teamId, @PathVariable("userId") Long userId) {
-        return service.deleteMember(teamId, userId);
+    public TeamEntity deleteMember(Authentication authentication, @PathVariable("teamId") Long teamId,
+                                   @PathVariable("userId") Long userId) {
+        return service.deleteMember(authentication, teamId, userId);
     }
 }
 
