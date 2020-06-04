@@ -4,6 +4,7 @@ import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -18,23 +19,23 @@ public class TeamController {
     TeamService service;
 
     @GetMapping
-    public List<TeamEntity> findAll(Principal principal) {
-        return service.findByMember(principal.getName());
+    public List<TeamEntity> findAll(Authentication authentication) {
+        return service.findByMember(authentication.getName());
     }
 
     @GetMapping("/{id}")
-    public Optional<TeamEntity> findById(@PathVariable("id") Long id) {
-        return service.findById(id);
+    public Optional<TeamEntity> findById(Authentication authentication, @PathVariable("id") Long id) {
+        return service.findById(authentication, id);
     }
 
     @PostMapping
-    public TeamEntity save(@RequestBody TeamDTO teamDTO) {
-        return service.save(teamDTO.toEntity());
+    public TeamEntity save(Authentication authentication, @RequestBody TeamDTO teamDTO) {
+        return service.save(authentication, teamDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(@PathVariable("id") Long id) {
-        service.deleteById(id);
+    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
+        service.deleteById(authentication, id);
 
         return HttpStatus.OK;
     }
