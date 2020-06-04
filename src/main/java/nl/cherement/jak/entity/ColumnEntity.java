@@ -10,7 +10,7 @@ public class ColumnEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     public BoardEntity board;
 
     @Column(name="name", nullable = false)

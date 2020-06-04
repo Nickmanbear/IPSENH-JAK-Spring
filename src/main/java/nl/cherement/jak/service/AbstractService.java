@@ -61,7 +61,9 @@ public abstract class AbstractService<T> {
         if (!obj.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         if (!hasAccess(user, obj.get())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unable to find " + id.toString());
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + id);
         }
         return obj;
 
