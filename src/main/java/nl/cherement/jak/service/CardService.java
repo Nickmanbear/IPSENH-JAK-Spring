@@ -1,13 +1,11 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.CardEntity;
-import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,20 +27,15 @@ public class CardService extends AbstractService<CardEntity> {
     }
 
     @Override
-    public CardEntity save(Authentication authentication, CardEntity entity) {
-        Optional<CardEntity> cardOptional = repository.findById(entity.id);
+    public CardEntity save(Authentication authentication, CardEntity updatedEntity) {
+        Optional<CardEntity> cardOptional = repository.findById(updatedEntity.id);
         if (cardOptional.isPresent()) {
-            CardEntity cardEntity = cardOptional.get();
-            if (cardEntity.column.id != entity.column.id) {
-                EventEntity eventEntity = new EventEntity();
-                eventEntity.card = entity;
-                eventEntity.from = cardEntity.column;
-                eventEntity.to = entity.column;
-                eventEntity.timestamp = new Timestamp(System.currentTimeMillis());
-                eventService.save(authentication, eventEntity);
+            CardEntity currentEntity = cardOptional.get();
+            if (currentEntity.column.id != updatedEntity.column.id) {
+                eventService.createEvent(authentication, updatedEntity, currentEntity);
             }
         }
-        return super.save(authentication, entity);
+        return super.save(authentication, updatedEntity);
     }
 
     @Override
