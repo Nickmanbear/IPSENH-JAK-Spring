@@ -24,11 +24,11 @@ public class EventService extends AbstractService<EventEntity> {
         return repository.findByTo_BoardId(boardId);
     }
 
-    public void createEvent(Authentication authentication, CardEntity updatedEntity, CardEntity currentEntity) {
+    public void createEvent(Authentication authentication, CardEntity updatedCardEntity, CardEntity currentCardEntity) {
         EventEntity eventEntity = new EventEntity();
-        eventEntity.card = updatedEntity;
-        eventEntity.from = currentEntity.column;
-        eventEntity.to = updatedEntity.column;
+        eventEntity.card = updatedCardEntity;
+        eventEntity.from = currentCardEntity.column;
+        eventEntity.to = updatedCardEntity.column;
         eventEntity.timestamp = new Timestamp(System.currentTimeMillis());
         save(authentication, eventEntity);
     }
