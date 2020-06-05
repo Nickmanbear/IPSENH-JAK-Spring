@@ -106,13 +106,6 @@ class BoardServiceTests {
     }
 
     @Test
-    void delete() {
-        service.delete(authentication, board);
-
-        verify(boardRepository, times(1)).delete(any());
-    }
-
-    @Test
     void deleteById() {
         service.deleteById(authentication, 1L);
 

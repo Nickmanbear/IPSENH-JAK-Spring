@@ -92,7 +92,7 @@ class BoardControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
+        assertSame(HttpStatus.OK, controller.delete(authentication,1L));
     }
 
     @Test

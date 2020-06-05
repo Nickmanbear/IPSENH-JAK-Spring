@@ -41,7 +41,9 @@ public abstract class AbstractService<T> {
         }
 
         if (!hasAccess(authentication, entity.get())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, authentication.getName() + " Cannot delete this");
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    authentication.getName() + "You do not have access to the object with id " + id);
         }
         this.repository.deleteById(id);
     }

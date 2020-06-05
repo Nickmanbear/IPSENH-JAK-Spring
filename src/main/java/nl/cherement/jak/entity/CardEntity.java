@@ -1,5 +1,10 @@
 package nl.cherement.jak.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,10 +15,12 @@ public class CardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete( action = OnDeleteAction.CASCADE )
     public ColumnEntity column;
 
     @ManyToOne
+    @NotFound( action = NotFoundAction.IGNORE )
     public UserEntity assignedUser;
 
     @Column(name="name", nullable = false)

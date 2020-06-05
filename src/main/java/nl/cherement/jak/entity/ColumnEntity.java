@@ -1,5 +1,8 @@
 package nl.cherement.jak.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +13,8 @@ public class ColumnEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
+    @OnDelete( action = OnDeleteAction.CASCADE )
     public BoardEntity board;
 
     @Column(name="name", nullable = false)
