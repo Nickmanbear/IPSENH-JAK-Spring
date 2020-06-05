@@ -1,5 +1,8 @@
 package nl.cherement.jak.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,13 +15,16 @@ public class EventEntity {
     public long id;
 
     @ManyToOne
+    @OnDelete( action = OnDeleteAction.CASCADE )
     public CardEntity card;
 
     @ManyToOne
-    public ColumnEntity from;
+    @OnDelete( action = OnDeleteAction.CASCADE )
+    public ColumnEntity fromColumn;
 
     @ManyToOne
-    public ColumnEntity to;
+    @OnDelete( action = OnDeleteAction.CASCADE )
+    public ColumnEntity toColumn;
 
     @Column(nullable = false)
     public Timestamp timestamp;
@@ -26,6 +32,6 @@ public class EventEntity {
     @Override
     public String toString() {
         return "EventEntity [id=" + id + ", card=" + card +
-                ", from=" + from + ", to=" + to + ", timestamp=" + timestamp + "]";
+                ", fromColumn=" + fromColumn + ", toColumn=" + toColumn + ", timestamp=" + timestamp + "]";
     }
 }

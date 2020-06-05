@@ -23,13 +23,13 @@ public class BoardController {
     BoardService service;
 
     @GetMapping
-    public List<BoardEntity> findAll(Authentication principal) {
-        return service.findAll(principal);
+    public List<BoardEntity> findAll(Authentication authentication) {
+        return service.findAll(authentication);
     }
 
     @GetMapping("/{id}")
-    public Optional<BoardEntity> findById(Authentication principal, @PathVariable("id") Long id) {
-        return service.findById(principal, id);
+    public Optional<BoardEntity> findById(Authentication authentication, @PathVariable Long id) {
+        return service.findById(authentication, id);
     }
 
     @PostMapping
@@ -38,8 +38,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
-        service.deleteById(authentication, id);
+    public HttpStatus delete(Authentication authentication, @PathVariable("id") BoardEntity boardEntity) {
+        service.delete(authentication, boardEntity);
 
         return HttpStatus.OK;
     }
@@ -55,9 +55,9 @@ public class BoardController {
     }
 
     @PostMapping("/user/{boardId}/{userId}")
-    public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") Long boardId,
-                               @PathVariable("userId") UserEntity user) {
-        return service.addUser(authentication, boardId, user);
+    public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") BoardEntity boardEntity,
+                               @PathVariable("userId") UserEntity userEntity) {
+        return service.addUser(authentication, boardEntity, userEntity);
     }
 
     @PostMapping("/team/{boardId}/{teamId}")
@@ -67,8 +67,9 @@ public class BoardController {
     }
 
     @GetMapping("/timeline/{boardId}")
-    public List<EventEntity> getTimeline(Authentication authentication, @PathVariable("boardId") Long boardId) {
-        return service.getTimeline(authentication, boardId);
+    public List<EventEntity> getTimeline(Authentication authentication,
+                                         @PathVariable("boardId") BoardEntity boardEntity) {
+        return service.getTimeline(authentication, boardEntity);
     }
 
     @DeleteMapping("/user/{boardId}/{userId}")

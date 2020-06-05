@@ -3,9 +3,9 @@ package nl.cherement.jak.service;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +36,11 @@ public class UserService  extends AbstractService<UserEntity>{
     }
 
     @Override
-    boolean hasAccess(Principal user, UserEntity obj) {
+    boolean hasAccess(Authentication authentication, UserEntity entity) {
         return true;
     }
 
-    public UserEntity save( UserEntity user) {
+    public UserEntity save(UserEntity user) {
         return repository.save(user);
     }
 }
