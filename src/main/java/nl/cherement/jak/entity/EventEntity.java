@@ -20,11 +20,11 @@ public class EventEntity {
 
     @ManyToOne
     @OnDelete( action = OnDeleteAction.CASCADE )
-    public ColumnEntity from;
+    public ColumnEntity fromColumn;
 
     @ManyToOne
     @OnDelete( action = OnDeleteAction.CASCADE )
-    public ColumnEntity to;
+    public ColumnEntity toColumn;
 
     @Column(nullable = false)
     public Timestamp timestamp;
@@ -32,6 +32,6 @@ public class EventEntity {
     @Override
     public String toString() {
         return "EventEntity [id=" + id + ", card=" + card +
-                ", from=" + from + ", to=" + to + ", timestamp=" + timestamp + "]";
+                ", fromColumn=" + fromColumn + ", toColumn=" + toColumn + ", timestamp=" + timestamp + "]";
     }
 }

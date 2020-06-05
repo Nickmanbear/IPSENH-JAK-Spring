@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @java.lang.SuppressWarnings("java:S100")
-    List<EventEntity> findByTo_Board(BoardEntity board);
+    List<EventEntity> findByToColumn_Board(BoardEntity board);
 }
