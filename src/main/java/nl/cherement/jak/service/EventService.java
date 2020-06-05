@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.repository.EventRepository;
@@ -20,8 +21,8 @@ public class EventService extends AbstractService<EventEntity> {
         super(repository);
     }
 
-    public List<EventEntity> getByBoardId(Long boardId) {
-        return repository.findByTo_BoardId(boardId);
+    public List<EventEntity> getByBoard(BoardEntity boardEntity) {
+        return repository.findByTo_Board(boardEntity);
     }
 
     public void createEvent(Authentication authentication, CardEntity updatedEntity, CardEntity currentEntity) {

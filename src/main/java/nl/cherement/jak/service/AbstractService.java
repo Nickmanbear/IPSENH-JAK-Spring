@@ -33,21 +33,6 @@ public abstract class AbstractService<T> {
         this.repository.delete(entity);
     }
 
-    public void deleteById(Authentication authentication, Long id) {
-        Optional<T> entity = this.repository.findById(id);
-
-        if (!entity.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        if (!hasAccess(authentication, entity.get())) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    authentication.getName() + "You do not have access to the object with id " + id);
-        }
-        this.repository.deleteById(id);
-    }
-
     public List<T> findAll(Authentication authentication) {
         List<T> entities = this.repository.findAll();
         return entities

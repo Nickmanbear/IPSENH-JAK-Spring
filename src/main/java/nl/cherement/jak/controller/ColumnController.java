@@ -24,23 +24,23 @@ public class ColumnController {
     }
 
     @GetMapping("/board/{id}")
-    public List<ColumnEntity> byBoard(@PathVariable("id") Long id) {
+    public List<ColumnEntity> findByBoardId(@PathVariable Long id) {
         return service.getByBoardId(id);
     }
 
     @GetMapping("/{id}")
-    public Optional<ColumnEntity> findById(Authentication authentication, @PathVariable("id") Long id) {
-        return service.findById(authentication,id);
+    public Optional<ColumnEntity> findById(Authentication authentication, @PathVariable Long id) {
+        return service.findById(authentication, id);
     }
 
     @PostMapping
     public ColumnEntity save(Authentication authentication, @RequestBody ColumnDTO columnDTO) {
-        return service.save(authentication,columnDTO.toEntity());
+        return service.save(authentication, columnDTO.toEntity());
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
-        service.deleteById(authentication,id);
+    public HttpStatus delete(Authentication authentication, @PathVariable("id") ColumnEntity columnEntity) {
+        service.delete(authentication, columnEntity);
 
         return HttpStatus.OK;
     }

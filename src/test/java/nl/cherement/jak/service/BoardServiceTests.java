@@ -106,10 +106,10 @@ class BoardServiceTests {
     }
 
     @Test
-    void deleteById() {
-        service.deleteById(authentication, 1L);
+    void delete() {
+        service.delete(authentication, board);
 
-        verify(boardRepository, times(1)).deleteById(any());
+        verify(boardRepository, times(1)).delete(any());
     }
 
     @Test
@@ -135,39 +135,27 @@ class BoardServiceTests {
     }
 
     @Test
-    void deleteById_object_is_not_present() {
-        assertThrows(ResponseStatusException.class, () ->
-                service.deleteById(authentication, 2L));
-    }
-
-    @Test
     void addUser_object_is_not_present() {
         assertThrows(ResponseStatusException.class, () ->
                 service.addUser(authentication, 2L, 1L));
     }
 
     @Test
-    void save_no_acces() {
+    void save_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.save(authentication, boardWithoutUsers));
 
     }
 
     @Test
-    void delete_no_acces() {
+    void delete_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.delete(authentication, boardWithoutUsers));
 
     }
 
     @Test
-    void deleteById_no_acces() {
-        assertThrows(ResponseStatusException.class, () ->
-                service.deleteById(authentication, 3L));
-
-    }
-    @Test
-    void findById_no_acces() {
+    void findById_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.findById(authentication, 3L));
 

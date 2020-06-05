@@ -51,7 +51,7 @@ class ColumnControllerTests {
         doReturn(columns).when(service).getByBoardId(any());
         doReturn(Optional.of(column)).when(service).findById(any(Authentication.class),any());
         doReturn(column).when(service).save(any(Authentication.class),any(ColumnEntity.class));
-        doNothing().when(service).deleteById(any(Authentication.class),any());
+        doNothing().when(service).delete(any(Authentication.class),any(ColumnEntity.class));
         doReturn("alex").when(authentication).getName();
     }
 
@@ -72,7 +72,7 @@ class ColumnControllerTests {
 
     @Test
     void byBoard() {
-        assertSame(columns, controller.byBoard(1L));
+        assertSame(columns, controller.findByBoardId(1L));
     }
 
     @Test
@@ -87,6 +87,6 @@ class ColumnControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
+        assertSame(HttpStatus.OK, controller.delete(authentication,column));
     }
 }

@@ -1,7 +1,5 @@
 package nl.cherement.jak.entity;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,7 +18,6 @@ public class CardEntity {
     public ColumnEntity column;
 
     @ManyToOne
-    @NotFound( action = NotFoundAction.IGNORE )
     public UserEntity assignedUser;
 
     @Column(name="name", nullable = false)
