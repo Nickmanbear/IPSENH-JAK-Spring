@@ -22,7 +22,7 @@ public class TeamEntity {
 
     @Override
     public String toString() {
-        return "ColumnEntity [id=" + id + ", name=" + name +
+        return "TeamEntity [id=" + id + ", name=" + name +
                 ", leader=" + leader + ", members=" + members + "]";
     }
 }

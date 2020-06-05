@@ -71,7 +71,7 @@ class BoardControllerTests {
         boardDTO.name = "TestBoard";
 
         assertEquals("BoardEntity [id=" + boardDTO.id + ", users=" + boardDTO.users
-                + ", name=" + boardDTO.name + "]", boardDTO.toEntity().toString());
+                + ", name=" + boardDTO.name + ", team=" + boardDTO.team + "]", boardDTO.toEntity().toString());
     }
 
     @Test

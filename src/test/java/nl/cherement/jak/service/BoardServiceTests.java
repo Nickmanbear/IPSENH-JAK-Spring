@@ -73,7 +73,6 @@ class BoardServiceTests {
         board.users.add(user);
         boards.add(board);
 
-
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
         doReturn(Optional.of(user)).when(userRepository).findById(any(Long.class));
