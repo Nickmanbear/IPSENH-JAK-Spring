@@ -27,15 +27,15 @@ public class CardService extends AbstractService<CardEntity> {
     }
 
     @Override
-    public CardEntity save(Authentication authentication, CardEntity updatedEntity) {
-        Optional<CardEntity> cardOptional = repository.findById(updatedEntity.id);
+    public CardEntity save(Authentication authentication, CardEntity updatedCardEntity) {
+        Optional<CardEntity> cardOptional = repository.findById(updatedCardEntity.id);
         if (cardOptional.isPresent()) {
-            CardEntity currentEntity = cardOptional.get();
-            if (currentEntity.column.id != updatedEntity.column.id) {
-                eventService.createEvent(authentication, updatedEntity, currentEntity);
+            CardEntity currentCardEntity = cardOptional.get();
+            if (currentCardEntity.column.id != updatedCardEntity.column.id) {
+                eventService.createEvent(authentication, updatedCardEntity, currentCardEntity);
             }
         }
-        return super.save(authentication, updatedEntity);
+        return super.save(authentication, updatedCardEntity);
     }
 
     @Override
