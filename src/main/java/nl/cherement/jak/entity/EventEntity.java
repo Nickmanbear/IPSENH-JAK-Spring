@@ -15,10 +15,10 @@ public class EventEntity {
     public CardEntity card;
 
     @ManyToOne
-    public ColumnEntity from;
+    public ColumnEntity fromColumnEntity;
 
     @ManyToOne
-    public ColumnEntity to;
+    public ColumnEntity toColumnEntity;
 
     @Column(nullable = false)
     public Timestamp timestamp;
@@ -26,6 +26,6 @@ public class EventEntity {
     @Override
     public String toString() {
         return "EventEntity [id=" + id + ", card=" + card +
-                ", from=" + from + ", to=" + to + ", timestamp=" + timestamp + "]";
+                ", from=" + fromColumnEntity + ", to=" + toColumnEntity + ", timestamp=" + timestamp + "]";
     }
 }

@@ -37,8 +37,8 @@ public class CardService extends AbstractService<CardEntity> {
             if (cardEntity.column.id != o.column.id) {
                 EventEntity eventEntity = new EventEntity();
                 eventEntity.card = o;
-                eventEntity.from = cardEntity.column;
-                eventEntity.to = o.column;
+                eventEntity.fromColumnEntity = cardEntity.column;
+                eventEntity.toColumnEntity = o.column;
                 eventEntity.timestamp = new Timestamp(System.currentTimeMillis());
                 eventService.save(user, eventEntity);
             }

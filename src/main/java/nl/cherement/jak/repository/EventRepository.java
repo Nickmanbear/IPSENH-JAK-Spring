@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @java.lang.SuppressWarnings("java:S100")
-    List<EventEntity> findByTo_BoardId(Long boardId);
+    List<EventEntity> findByToColumnEntity_BoardId(Long boardId);
+
+    List<EventEntity> findByToColumnEntity_id(Long columnId);
 }

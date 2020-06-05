@@ -19,7 +19,11 @@ public class EventService extends AbstractService<EventEntity> {
     }
 
     public List<EventEntity> getByBoardId(Long boardId) {
-        return repository.findByTo_BoardId(boardId);
+        return repository.findByToColumnEntity_BoardId(boardId);
+    }
+
+    public List<EventEntity> getByColumnId(Long columnId) {
+        return repository.findByToColumnEntity_id(columnId);
     }
 
     @Override
