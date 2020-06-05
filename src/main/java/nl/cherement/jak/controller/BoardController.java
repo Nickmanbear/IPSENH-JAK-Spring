@@ -2,6 +2,7 @@ package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.EventEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,15 +60,26 @@ public class BoardController {
         return service.addUser(authentication, boardId, user);
     }
 
+    @PostMapping("/team/{boardId}/{teamId}")
+    public BoardEntity addTeam(Authentication authentication, @PathVariable("boardId") Long boardId,
+                               @PathVariable("teamId") TeamEntity teamId) {
+        return service.addTeam(authentication, boardId, teamId);
+    }
+
     @GetMapping("/timeline/{boardId}")
     public List<EventEntity> getTimeline(Authentication authentication, @PathVariable("boardId") Long boardId) {
         return service.getTimeline(authentication, boardId);
     }
 
     @DeleteMapping("/user/{boardId}/{userId}")
-    public BoardEntity deleteUser(Authentication authentication, @PathVariable("boardId") Long teamId,
+    public BoardEntity deleteUser(Authentication authentication, @PathVariable("boardId") Long boardId,
                                   @PathVariable("userId") Long userId) {
-        return service.deleteUser(authentication, teamId, userId);
+        return service.deleteUser(authentication, boardId, userId);
+    }
+
+    @DeleteMapping("/team/{boardId}")
+    public BoardEntity deleteTeam(@PathVariable("boardId") Long boardId) {
+        return service.deleteTeam(boardId);
     }
 }
 

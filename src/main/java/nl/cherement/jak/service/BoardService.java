@@ -56,6 +56,18 @@ public class BoardService extends AbstractService<BoardEntity> {
         return save(authentication,boardEntity);
     }
 
+    public BoardEntity addTeam(Authentication authentication, Long boardId, TeamEntity team) {
+        if (team == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Team does not exists");
+        }
+        Optional<BoardEntity> board = repository.findById(boardId);
+        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        BoardEntity boardEntity = board.get();
+        boardEntity.team = team;
+
+        return save(authentication,boardEntity);
+    }
+
     public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
         Optional<BoardEntity> boardOptional = repository.findById(boardId);
         if (!boardOptional.isPresent()) {
@@ -69,11 +81,21 @@ public class BoardService extends AbstractService<BoardEntity> {
         return eventService.getByBoardId(boardId);
     }
 
-    public BoardEntity deleteUser(Authentication authentication, Long teamId, Long memberId) {
-        Optional<BoardEntity> optionalBoard = repository.findById(teamId);
+    public BoardEntity deleteUser(Authentication authentication, Long boardId, Long memberId) {
+        Optional<BoardEntity> optionalBoard = repository.findById(boardId);
         Optional<UserEntity> optionalUser = userService.findById(authentication, memberId);
         if (optionalBoard.isPresent() && optionalUser.isPresent()) {
             optionalBoard.get().users.remove(optionalUser.get());
+
+            return repository.save(optionalBoard.get());
+        }
+        return null;
+    }
+
+    public BoardEntity deleteTeam(Long boardId) {
+        Optional<BoardEntity> optionalBoard = repository.findById(boardId);
+        if (optionalBoard.isPresent()) {
+            optionalBoard.get().team = null;
 
             return repository.save(optionalBoard.get());
         }

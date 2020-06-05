@@ -17,7 +17,7 @@ public class BoardEntity {
     @Column(name="name", nullable = false)
     public String name;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     public TeamEntity team;
 
     @Override

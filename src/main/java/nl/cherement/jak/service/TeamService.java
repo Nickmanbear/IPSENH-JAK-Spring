@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.TeamRepository;
@@ -20,6 +21,9 @@ public class TeamService extends AbstractService<TeamEntity> {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BoardService boardService;
 
     public TeamService(TeamRepository repository) {
         super(repository);
@@ -67,6 +71,15 @@ public class TeamService extends AbstractService<TeamEntity> {
             return teamRepository.save(optionalTeam.get());
         }
         return null;
+    }
+
+    public void deleteById (Authentication authentication, Long teamId) {
+        List<BoardEntity> boardEntities = boardService.findByTeam(authentication, teamId);
+        for (BoardEntity board:boardEntities) {
+            boardService.deleteTeam(board.id);
+        }
+
+        teamRepository.deleteById(teamId);
     }
 
     @Override
