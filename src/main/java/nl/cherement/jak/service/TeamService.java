@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,17 +73,17 @@ public class TeamService extends AbstractService<TeamEntity> {
     }
 
     @Override
-    public void deleteById (Authentication authentication, Long teamId) {
-        List<BoardEntity> boardEntities = boardService.findByTeam(authentication, teamId);
+    public void delete (Authentication authentication, TeamEntity team) {
+        List<BoardEntity> boardEntities = boardService.findByTeam(authentication, team.id);
         for (BoardEntity board:boardEntities) {
             boardService.deleteTeam(board.id);
         }
 
-        teamRepository.deleteById(teamId);
+        teamRepository.delete(team);
     }
 
     @Override
-    boolean hasAccess(Principal user, TeamEntity obj) {
+    boolean hasAccess(Authentication authentication, TeamEntity entity) {
         return true;
     }
 }

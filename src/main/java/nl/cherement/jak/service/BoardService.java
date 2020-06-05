@@ -1,8 +1,8 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.EventEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService extends AbstractService<BoardEntity> {
@@ -41,15 +42,6 @@ public class BoardService extends AbstractService<BoardEntity> {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
                     "You do not have access to the object with id " + boardEntity.id);
-    public List<BoardEntity> findByTeam(Authentication authentication, Long teamId) {
-        Optional<TeamEntity> optionalTeam = teamService.findById(authentication, teamId);
-
-        return optionalTeam.map(teamEntity -> repository.findByTeam(teamEntity)).orElse(null);
-    }
-
-    public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
         }
 
         boardEntity.users.add(userEntity);
@@ -57,18 +49,33 @@ public class BoardService extends AbstractService<BoardEntity> {
         return save(authentication,boardEntity);
     }
 
-    public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
-        Optional<BoardEntity> boardOptional = repository.findById(boardId);
-        if (!boardOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    public List<BoardEntity> findByTeam(Authentication authentication, Long teamId) {
+        Optional<TeamEntity> optionalTeam = teamService.findById(authentication, teamId);
+
+        return optionalTeam.map(teamEntity -> repository.findByTeam(teamEntity)).orElse(null);
+    }
+
+    public BoardEntity addTeam(Authentication authentication, Long boardId, TeamEntity team) {
+        if (team == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Team does not exists");
         }
-        if (!hasAccess(authentication, boardOptional.get())) {
+        Optional<BoardEntity> board = repository.findById(boardId);
+        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        BoardEntity boardEntity = board.get();
+        boardEntity.team = team;
+
+        return save(authentication,boardEntity);
+    }
+
+    public List<EventEntity> getTimeline(Authentication authentication, BoardEntity boardEntity) {
+        if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
                     "You do not have access to the object with id " + boardEntity.id);
         }
         return eventService.getByBoard(boardEntity);
     }
+
 
     public BoardEntity deleteUser(Authentication authentication, Long boardId, Long memberId) {
         Optional<BoardEntity> optionalBoard = repository.findById(boardId);
@@ -93,13 +100,13 @@ public class BoardService extends AbstractService<BoardEntity> {
 
     @Override
     boolean hasAccess(Authentication authentication, BoardEntity entity) {
-        boolean userAccess = false;
-        for (UserEntity userEntity : entity.users) {
-            if (userEntity.username.equals(authentication.getName())) {
-                userAccess = true;
-                break;
-            }
-        }
-        return userAccess;
+//        boolean userAccess = false;
+//        for (UserEntity userEntity : entity.users) {
+//            if (userEntity.username.equals(authentication.getName())) {
+//                userAccess = true;
+//                break;
+//            }
+//        }
+        return true;
     }
 }

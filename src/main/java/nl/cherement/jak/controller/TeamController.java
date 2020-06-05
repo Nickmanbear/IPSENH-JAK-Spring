@@ -33,8 +33,8 @@ public class TeamController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(Authentication authentication, @PathVariable("id") Long id) {
-        service.deleteById(authentication, id);
+    public HttpStatus delete(Authentication authentication, @PathVariable("id") TeamEntity team) {
+        service.delete(authentication, team);
 
         return HttpStatus.OK;
     }
