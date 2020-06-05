@@ -10,9 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoardService extends AbstractService<BoardEntity> {
@@ -34,39 +32,32 @@ public class BoardService extends AbstractService<BoardEntity> {
         return repository.findByUsers_Username(username);
     }
 
-    public BoardEntity addUser(Authentication authentication, Long boardId, UserEntity user) {
-
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User does not exists");
+    public BoardEntity addUser(Authentication authentication, BoardEntity boardEntity, UserEntity userEntity) {
+        if (!hasAccess(authentication, boardEntity)) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + boardEntity.id);
         }
 
-        Optional<BoardEntity> board = repository.findById(boardId);
-        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        BoardEntity boardEntity = board.get();
-        boardEntity.users.add(user);
+        boardEntity.users.add(userEntity);
 
         return save(authentication,boardEntity);
     }
 
-    public List<EventEntity> getTimeline(Authentication authentication, Long boardId) {
-        Optional<BoardEntity> boardOptional = repository.findById(boardId);
-        if (!boardOptional.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        if (!hasAccess(authentication, boardOptional.get())) {
+    public List<EventEntity> getTimeline(Authentication authentication, BoardEntity boardEntity) {
+        if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
-                    "You do not have access to the object with id " + boardId);
+                    "You do not have access to the object with id " + boardEntity.id);
         }
-        return eventService.getByBoardId(boardId);
+        return eventService.getByBoard(boardEntity);
     }
 
     @Override
-    boolean hasAccess(Principal user, BoardEntity obj) {
+    boolean hasAccess(Authentication authentication, BoardEntity entity) {
         boolean userAccess = false;
-        for (UserEntity userEntity : obj.users) {
-            if (userEntity.username.equals(user.getName())) {
+        for (UserEntity userEntity : entity.users) {
+            if (userEntity.username.equals(authentication.getName())) {
                 userAccess = true;
                 break;
             }
