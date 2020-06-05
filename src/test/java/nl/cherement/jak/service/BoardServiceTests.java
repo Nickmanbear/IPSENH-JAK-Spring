@@ -118,47 +118,31 @@ class BoardServiceTests {
         user2.id = 2;
         board.users.add(user2);
 
-        assertEquals(board, service.addUser(authentication, 1L, 2L));
-    }
-
-    @Test
-    void addUser_User_is_Null() {
-        assertThrows(ResponseStatusException.class, () ->
-                service.addUser(authentication, 1L, null));
+        assertEquals(board, service.addUser(authentication, board, user2));
     }
 
     @Test
     void findById_object_is_not_present() {
-
         assertThrows(ResponseStatusException.class, () ->
                 service.findById(authentication, 2L));
-    }
-
-    @Test
-    void addUser_object_is_not_present() {
-        assertThrows(ResponseStatusException.class, () ->
-                service.addUser(authentication, 2L, 1L));
     }
 
     @Test
     void save_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.save(authentication, boardWithoutUsers));
-
     }
 
     @Test
     void delete_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.delete(authentication, boardWithoutUsers));
-
     }
 
     @Test
     void findById_no_access() {
         assertThrows(ResponseStatusException.class, () ->
                 service.findById(authentication, 3L));
-
     }
 
 }
