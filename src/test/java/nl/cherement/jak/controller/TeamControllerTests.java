@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-public class TeamControllerTests {
+class TeamControllerTests {
 
     private final TeamDTO teamDTO = new TeamDTO();
     private final TeamEntity team = new TeamEntity();

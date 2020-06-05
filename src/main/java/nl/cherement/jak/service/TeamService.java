@@ -73,6 +73,7 @@ public class TeamService extends AbstractService<TeamEntity> {
         return null;
     }
 
+    @Override
     public void deleteById (Authentication authentication, Long teamId) {
         List<BoardEntity> boardEntities = boardService.findByTeam(authentication, teamId);
         for (BoardEntity board:boardEntities) {
