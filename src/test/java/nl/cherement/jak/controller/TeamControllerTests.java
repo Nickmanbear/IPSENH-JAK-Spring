@@ -73,7 +73,7 @@ class TeamControllerTests {
         doReturn(teams).when(service).findByMember(any());
         doReturn(Optional.of(team)).when(service).findById(any(Authentication.class), any());
         doReturn(team).when(service).save(any(Authentication.class), any());
-        doNothing().when(service).deleteById(any(Authentication.class), any());
+        doNothing().when(service).delete(any(Authentication.class), any());
         doReturn(team).when(service).addMember(any(Authentication.class), any(), any());
         doReturn(team).when(service).deleteMember(any(Authentication.class), any(), any());
     }
@@ -106,8 +106,8 @@ class TeamControllerTests {
     }
 
     @Test
-    void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(authentication, 1L));
+    void delete() {
+        assertSame(HttpStatus.OK, controller.delete(authentication, team));
     }
 
     @Test

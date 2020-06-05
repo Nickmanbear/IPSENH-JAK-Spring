@@ -100,13 +100,13 @@ public class BoardService extends AbstractService<BoardEntity> {
 
     @Override
     boolean hasAccess(Authentication authentication, BoardEntity entity) {
-//        boolean userAccess = false;
-//        for (UserEntity userEntity : entity.users) {
-//            if (userEntity.username.equals(authentication.getName())) {
-//                userAccess = true;
-//                break;
-//            }
-//        }
-        return true;
+        boolean userAccess = false;
+        for (UserEntity userEntity : entity.users) {
+            if (userEntity.username.equals(authentication.getName())) {
+                userAccess = true;
+                break;
+            }
+        }
+        return userAccess;
     }
 }

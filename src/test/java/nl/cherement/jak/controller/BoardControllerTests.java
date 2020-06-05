@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,8 @@ class BoardControllerTests {
 
     private final List<UserEntity> userEntities = new ArrayList<UserEntity>();
 
+    private TeamEntity team = new TeamEntity();
+
     @Autowired
     private BoardController controller;
 
@@ -50,6 +53,10 @@ class BoardControllerTests {
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
+
+        team.id = 1;
+        team.name = "team";
+
 //TODO RECHECK THIS MESS
         doReturn(Optional.of(board)).when(service).findById(any(Authentication.class),any(Long.class));
         doReturn(boards).when(service).findByUserName(any());
@@ -58,6 +65,9 @@ class BoardControllerTests {
         doReturn(board).when(service).addUser(any(Authentication.class),any(BoardEntity.class), any(UserEntity.class));
         doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
+        doReturn(board).when(service).addTeam(any(Authentication.class), any(), any());
+        doReturn(board).when(service).deleteUser(any(Authentication.class), any(), any());
+        doReturn(board).when(service).deleteTeam(any());
     }
 
 
@@ -75,13 +85,13 @@ class BoardControllerTests {
     }
 
     @Test
-    void findById() {
-        assertSame(board, controller.findById(authentication, 1L).get());
+    void findAll() {
+        assertSame(boards, controller.findAll(authentication));
     }
 
     @Test
-    void findAll() {
-        assertSame(boards, controller.findAll(authentication));
+    void findById() {
+        assertSame(board, controller.findById(authentication, 1L).get());
     }
 
     @Test
@@ -91,7 +101,7 @@ class BoardControllerTests {
     }
 
     @Test
-    void deleteById() {
+    void delete() {
         assertSame(HttpStatus.OK, controller.delete(authentication, board));
     }
 
@@ -103,5 +113,20 @@ class BoardControllerTests {
     @Test
     void addUser() {
         assertSame(board, controller.addUser(authentication, board, new UserEntity()));
+    }
+
+    @Test
+    void addTeam() {
+        assertSame(board, controller.addTeam(authentication, 1L, team));
+    }
+
+    @Test
+    void deleteUser() {
+        assertSame(board, controller.deleteUser(authentication, 1L, 1L));
+    }
+
+    @Test
+    void deleteTeam() {
+        assertSame(board, controller.deleteTeam(1L));
     }
 }

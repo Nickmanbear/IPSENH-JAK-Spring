@@ -123,9 +123,9 @@ class TeamServiceTests {
     }
 
     @Test
-    void deleteById() {
-        teamService.deleteById(authentication, 1L);
+    void delete() {
+        teamService.delete(authentication, team);
 
-        verify(repository, times(1)).deleteById(any());
+        verify(repository, times(1)).delete(any());
     }
 }
