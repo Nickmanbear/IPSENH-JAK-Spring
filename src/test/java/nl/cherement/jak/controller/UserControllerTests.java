@@ -1,5 +1,6 @@
 package nl.cherement.jak.controller;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class UserControllerTests {
 
     private final UserDTO userDTO = new UserDTO();

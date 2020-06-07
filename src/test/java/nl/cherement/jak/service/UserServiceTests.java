@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class UserServiceTests {
 
     private UserEntity user;

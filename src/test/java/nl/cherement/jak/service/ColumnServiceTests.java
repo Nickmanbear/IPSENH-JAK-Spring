@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.repository.ColumnRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class ColumnServiceTests {
 
     private List<ColumnEntity> columns;

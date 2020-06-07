@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.entity.EventEntity;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class CardServiceTests {
 
     private List<CardEntity> cards;

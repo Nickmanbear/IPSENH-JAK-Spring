@@ -1,5 +1,6 @@
 package nl.cherement.jak.controller;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.service.ColumnService;
@@ -21,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class ColumnControllerTests {
 
     private final ColumnDTO columnDTO = new ColumnDTO();

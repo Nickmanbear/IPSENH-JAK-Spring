@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class BoardServiceTests {
 
     private List<BoardEntity> boards;

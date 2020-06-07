@@ -1,5 +1,6 @@
 package nl.cherement.jak.controller;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.TeamService;
@@ -21,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 class TeamControllerTests {
 
     private final TeamDTO teamDTO = new TeamDTO();
