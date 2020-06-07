@@ -73,7 +73,7 @@ public class TeamService extends AbstractService<TeamEntity> {
     public void delete (Authentication authentication, TeamEntity team) {
         List<BoardEntity> boardEntities = boardService.findByTeam(authentication, team.id);
         for (BoardEntity board:boardEntities) {
-            boardService.deleteTeam(board.id);
+            boardService.deleteTeam(board);
         }
 
         teamRepository.delete(team);
