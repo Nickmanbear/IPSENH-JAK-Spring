@@ -27,6 +27,10 @@ public class CardController {
     public List<CardEntity> byColumn(@PathVariable("id") Long id) {
         return service.getByColumnId(id);
     }
+    @GetMapping("/board/{id}")
+    public List<CardEntity> findByBoardId(@PathVariable Long id) {
+        return service.getByBoardId(id);
+    }
 
     @GetMapping("/{id}")
     public Optional<CardEntity> findById(Authentication authentication, @PathVariable("id") Long id) {
