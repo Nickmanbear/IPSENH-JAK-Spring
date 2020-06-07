@@ -45,13 +45,13 @@ public class TeamService extends AbstractService<TeamEntity> {
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity addMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+    public TeamEntity addMember(TeamEntity teamEntity, UserEntity userEntity) {
         teamEntity.members.add(userEntity);
 
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity deleteMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+    public TeamEntity deleteMember(TeamEntity teamEntity, UserEntity userEntity) {
             teamEntity.members.remove(userEntity);
 
             return teamRepository.save(teamEntity);
