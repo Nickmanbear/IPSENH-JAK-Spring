@@ -114,12 +114,12 @@ class TeamServiceTests {
 
     @Test
     void addMember() {
-        assertSame(team, teamService.addMember(authentication, team, user));
+        assertSame(team, teamService.addMember(team, user));
     }
 
     @Test
     void deleteMember() {
-        assertSame(team, teamService.deleteMember(authentication, team, user));
+        assertSame(team, teamService.deleteMember(team, user));
     }
 
     @Test
