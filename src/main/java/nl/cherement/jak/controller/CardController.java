@@ -28,7 +28,7 @@ public class CardController {
         return service.getByColumnId(id);
     }
     @GetMapping("/board/{id}")
-    public List<CardEntity> findByBoardId(@PathVariable Long id) {
+    public List<CardEntity> findAllByBoardId(@PathVariable Long id) {
         return service.getByBoardId(id);
     }
 

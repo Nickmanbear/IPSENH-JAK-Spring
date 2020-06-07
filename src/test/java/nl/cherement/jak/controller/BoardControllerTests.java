@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,11 +26,13 @@ import static org.mockito.Mockito.doReturn;
 class BoardControllerTests {
 
     private final BoardDTO boardDTO = new BoardDTO();
-    private final BoardEntity board= new BoardEntity();
+    private final BoardEntity board = new BoardEntity();
     private final BoardEntity board2 = new BoardEntity();
     private List<BoardEntity> boards;
 
     private final List<UserEntity> userEntities = new ArrayList<UserEntity>();
+
+    private List<EventEntity> events;
 
     @Autowired
     private BoardController controller;
@@ -44,20 +47,29 @@ class BoardControllerTests {
     private Authentication authentication;
 
     @BeforeEach
-    public void initialize(){
+    public void initialize() {
         board.id = 1;
         board2.id = 2;
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
+
+        EventEntity event = new EventEntity();
+        EventEntity event2 = new EventEntity();
+        event.id = 1L;
+        event2.id = 2L;
+        events = new ArrayList<EventEntity>();
+        events.add(event);
+        events.add(event2);
 //TODO RECHECK THIS MESS
-        doReturn(Optional.of(board)).when(service).findById(any(Authentication.class),any(Long.class));
+        doReturn(Optional.of(board)).when(service).findById(any(Authentication.class), any(Long.class));
         doReturn(boards).when(service).findByUserName(any());
-        doNothing().when(service).delete(any(Authentication.class),any(BoardEntity.class));
+        doNothing().when(service).delete(any(Authentication.class), any(BoardEntity.class));
         doReturn(board).when(service).save(any(Authentication.class), any(BoardEntity.class));
-        doReturn(board).when(service).addUser(any(Authentication.class),any(BoardEntity.class), any(UserEntity.class));
+        doReturn(board).when(service).addUser(any(Authentication.class), any(BoardEntity.class), any(UserEntity.class));
         doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
+        doReturn(events).when(service).getTimeline(any(Authentication.class), any(BoardEntity.class));
     }
 
 
@@ -87,7 +99,7 @@ class BoardControllerTests {
     @Test
     void save() {
         boardDTO.id = 1L;
-        assertSame(board, controller.save(authentication,boardDTO));
+        assertSame(board, controller.save(authentication, boardDTO));
     }
 
     @Test
@@ -97,11 +109,17 @@ class BoardControllerTests {
 
     @Test
     void cardMoved() {
-      assertTrue(controller.cardMoved());
+        assertTrue(controller.cardMoved());
     }
 
     @Test
     void addUser() {
         assertSame(board, controller.addUser(authentication, board, new UserEntity()));
+    }
+
+    @Test
+    void getTimeline() {
+        assertSame(events, controller.getTimeline(authentication, new BoardEntity()));
+
     }
 }
