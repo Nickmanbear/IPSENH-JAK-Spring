@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 class ColumnServiceTests {
 
     private List<ColumnEntity> columns;

@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 class TeamServiceTests {
     private final TeamEntity team = new TeamEntity();
     private final TeamEntity team2 = new TeamEntity();

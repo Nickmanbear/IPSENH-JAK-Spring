@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 class CardControllerTests {
 
     private final CardDTO cardDTO = new CardDTO();

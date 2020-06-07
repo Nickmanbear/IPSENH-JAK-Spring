@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 class UserControllerTests {
 
     private final UserDTO userDTO = new UserDTO();
