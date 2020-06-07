@@ -41,13 +41,15 @@ public class TeamController {
     }
 
     @PostMapping("/member/{teamId}/{userId}")
-    public TeamEntity addMember(@PathVariable("teamId") TeamEntity team, @PathVariable("userId") UserEntity user) {
-        return service.addMember(team, user);
+    public TeamEntity addMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
+                                @PathVariable("userId") UserEntity user) {
+        return service.addMember(authentication, team, user);
     }
 
     @DeleteMapping("/member/{teamId}/{userId}")
-    public TeamEntity deleteMember(@PathVariable("teamId") TeamEntity team, @PathVariable("userId") UserEntity user) {
-        return service.deleteMember(team, user);
+    public TeamEntity deleteMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
+                                   @PathVariable("userId") UserEntity user) {
+        return service.deleteMember(authentication, team, user);
     }
 }
 

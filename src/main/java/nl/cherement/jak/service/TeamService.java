@@ -5,8 +5,10 @@ import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +47,24 @@ public class TeamService extends AbstractService<TeamEntity> {
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity addMember(TeamEntity teamEntity, UserEntity userEntity) {
+    public TeamEntity addMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+        if (!hasAccess(authentication, teamEntity)) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + teamEntity.id);
+        }
         teamEntity.members.add(userEntity);
 
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity deleteMember(TeamEntity teamEntity, UserEntity userEntity) {
-            teamEntity.members.remove(userEntity);
+    public TeamEntity deleteMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+        if (!hasAccess(authentication, teamEntity)) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + teamEntity.id);
+        }
+        teamEntity.members.remove(userEntity);
 
             return teamRepository.save(teamEntity);
     }
@@ -69,6 +81,10 @@ public class TeamService extends AbstractService<TeamEntity> {
 
     @Override
     boolean hasAccess(Authentication authentication, TeamEntity entity) {
-        return true;
+        boolean userAccess = false;
+        if (entity.leader.username.equals(authentication.getName())) {
+            userAccess = true;
+        }
+        return userAccess;
     }
 }
