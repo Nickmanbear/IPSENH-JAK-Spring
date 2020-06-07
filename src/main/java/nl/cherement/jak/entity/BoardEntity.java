@@ -11,7 +11,7 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToMany()
+    @ManyToMany
     public List<UserEntity> users;
 
     @Column(nullable = false)
