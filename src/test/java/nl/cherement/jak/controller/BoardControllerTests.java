@@ -53,9 +53,9 @@ class BoardControllerTests {
 //TODO RECHECK THIS MESS
         doReturn(Optional.of(board)).when(service).findById(any(Authentication.class),any(Long.class));
         doReturn(boards).when(service).findByUserName(any());
-        doNothing().when(service).deleteById(any(Authentication.class),any(Long.class));
+        doNothing().when(service).delete(any(Authentication.class),any(BoardEntity.class));
         doReturn(board).when(service).save(any(Authentication.class), any(BoardEntity.class));
-        doReturn(board).when(service).addUser(any(Authentication.class),any(Long.class), any(UserEntity.class));
+        doReturn(board).when(service).addUser(any(Authentication.class),any(BoardEntity.class), any(UserEntity.class));
         doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
     }
@@ -92,7 +92,7 @@ class BoardControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
+        assertSame(HttpStatus.OK, controller.delete(authentication, board));
     }
 
     @Test
@@ -102,8 +102,6 @@ class BoardControllerTests {
 
     @Test
     void addUser() {
-        UserEntity user = new UserEntity();
-
-        assertSame(board, controller.addUser(authentication,1L, user));
+        assertSame(board, controller.addUser(authentication, board, new UserEntity()));
     }
 }

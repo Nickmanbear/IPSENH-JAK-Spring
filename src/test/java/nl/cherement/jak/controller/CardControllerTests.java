@@ -52,7 +52,7 @@ class CardControllerTests {
         doReturn(Optional.of(card)).when(service).findById(any(Authentication.class),any());
         doReturn(cards).when(service).findAll(any(Authentication.class));
         doReturn(cards).when(service).getByColumnId(any());
-        doNothing().when(service).deleteById(any(Authentication.class),any());
+        doNothing().when(service).delete(any(Authentication.class),any(CardEntity.class));
         doReturn(card).when(service).save(any(Authentication.class),any(CardEntity.class));
     }
 
@@ -77,7 +77,7 @@ class CardControllerTests {
 
     @Test
     void byColumn() {
-        assertSame(cards, controller.byColumn(1L));
+        assertSame(cards, controller.findByColumnId(1L));
     }
 
     @Test
@@ -92,6 +92,6 @@ class CardControllerTests {
 
     @Test
     void deleteById() {
-        assertSame(HttpStatus.OK, controller.deleteById(authentication,1L));
+        assertSame(HttpStatus.OK, controller.delete(authentication,card));
     }
 }

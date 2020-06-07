@@ -2,9 +2,13 @@ package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.ColumnEntity;
+import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.repository.CardRepository;
+import nl.cherement.jak.repository.EventRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,8 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CardServiceTests {
@@ -29,8 +32,14 @@ class CardServiceTests {
     @Autowired
     private CardService service;
 
+    @Autowired
+    private EventService eventService;
+
     @MockBean
     private CardRepository repository;
+
+    @MockBean
+    private EventRepository eventRepository;
 
     @BeforeEach
     public void initialize() {
@@ -56,5 +65,20 @@ class CardServiceTests {
     void save() {
         Authentication user = mock(Authentication.class);
         assertEquals(card, service.save(user, card));
+
+        List<EventEntity> eventEntities = new ArrayList<>();
+        when(eventRepository.save(any(EventEntity.class))).then((Answer<EventEntity>) invocation -> {
+            EventEntity eventEntity = new EventEntity();
+            eventEntities.add(eventEntity);
+            return eventEntity;
+        });
+
+        CardEntity newCard = new CardEntity();
+        newCard.id = 1;
+        newCard.column = new ColumnEntity();
+        newCard.column.id = 2;
+
+        service.save(user, newCard);
+        assertEquals(1, eventEntities.size());
     }
 }

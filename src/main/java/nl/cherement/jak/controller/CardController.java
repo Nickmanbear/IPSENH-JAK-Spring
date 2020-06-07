@@ -24,7 +24,7 @@ public class CardController {
     }
 
     @GetMapping("/column/{id}")
-    public List<CardEntity> byColumn(@PathVariable("id") Long id) {
+    public List<CardEntity> findByColumnId(@PathVariable Long id) {
         return service.getByColumnId(id);
     }
     @GetMapping("/board/{id}")
@@ -33,8 +33,8 @@ public class CardController {
     }
 
     @GetMapping("/{id}")
-    public Optional<CardEntity> findById(Authentication authentication, @PathVariable("id") Long id) {
-        return service.findById(authentication,id);
+    public Optional<CardEntity> findById(Authentication authentication, @PathVariable Long id) {
+        return service.findById(authentication, id);
     }
 
     @PostMapping
@@ -43,8 +43,8 @@ public class CardController {
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteById(Authentication authentication,@PathVariable("id") Long id) {
-        service.deleteById(authentication,id);
+    public HttpStatus delete(Authentication authentication, @PathVariable("id") CardEntity cardEntity) {
+        service.delete(authentication, cardEntity);
 
         return HttpStatus.OK;
     }
