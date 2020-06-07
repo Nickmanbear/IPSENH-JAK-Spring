@@ -1,6 +1,5 @@
 package nl.cherement.jak.controller;
 
-import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.EventEntity;
 import nl.cherement.jak.entity.TeamEntity;
@@ -136,16 +135,18 @@ class BoardControllerTests {
 
     @Test
     void addTeam() {
-        assertSame(board, controller.addTeam(authentication, 1L, team));
+        assertSame(board, controller.addTeam(authentication, board, team));
     }
 
     @Test
     void deleteUser() {
-        assertSame(board, controller.deleteUser(authentication, 1L, 1L));
+        UserEntity userEntity = new UserEntity();
+        userEntity.id = 1;
+        assertSame(board, controller.deleteUser(authentication, board, userEntity));
     }
 
     @Test
     void deleteTeam() {
-        assertSame(board, controller.deleteTeam(1L));
+        assertSame(board, controller.deleteTeam(board));
     }
 }

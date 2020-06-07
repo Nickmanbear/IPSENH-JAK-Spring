@@ -141,17 +141,19 @@ class BoardServiceTests {
 
     @Test
     void addTeam() {
-        assertSame(board, boardService.addTeam(authentication, 1L, team));
+        assertSame(board, boardService.addTeam(authentication, board, team));
     }
 
     @Test
     void deleteUser() {
-        assertSame(board, boardService.deleteUser(authentication, 1L, 1L));
+        UserEntity userEntity = new UserEntity();
+        userEntity.id = 1;
+        assertSame(board, boardService.deleteUser(authentication, board, userEntity));
     }
 
     @Test
     void deleteTeam() {
-        assertSame(board, boardService.deleteTeam(1L));
+        assertSame(board, boardService.deleteTeam(board));
     }
 
     @Test
