@@ -54,33 +54,33 @@ public class BoardController {
         return service.findByTeam(authentication, id);
     }
 
-    @PostMapping("/user/{boardId}/{userId}")
-    public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") BoardEntity boardEntity,
-                               @PathVariable("userId") UserEntity userEntity) {
+    @PostMapping("/user/{board}/{user}")
+    public BoardEntity addUser(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                               @PathVariable("user") UserEntity userEntity) {
         return service.addUser(authentication, boardEntity, userEntity);
     }
 
-    @PostMapping("/team/{boardId}/{teamId}")
-    public BoardEntity addTeam(Authentication authentication, @PathVariable("boardId") Long boardId,
-                               @PathVariable("teamId") TeamEntity teamId) {
-        return service.addTeam(authentication, boardId, teamId);
+    @PostMapping("/team/{board}/{team}")
+    public BoardEntity addTeam(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                               @PathVariable("team") TeamEntity teamEntity) {
+        return service.addTeam(authentication, boardEntity, teamEntity);
     }
 
-    @GetMapping("/timeline/{boardId}")
+    @GetMapping("/timeline/{board}")
     public List<EventEntity> getTimeline(Authentication authentication,
-                                         @PathVariable("boardId") BoardEntity boardEntity) {
+                                         @PathVariable("board") BoardEntity boardEntity) {
         return service.getTimeline(authentication, boardEntity);
     }
 
-    @DeleteMapping("/user/{boardId}/{userId}")
-    public BoardEntity deleteUser(Authentication authentication, @PathVariable("boardId") Long boardId,
-                                  @PathVariable("userId") Long userId) {
-        return service.deleteUser(authentication, boardId, userId);
+    @DeleteMapping("/user/{board}/{user}")
+    public BoardEntity deleteUser(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                                  @PathVariable("user") UserEntity userEntity) {
+        return service.deleteUser(authentication, boardEntity, userEntity);
     }
 
-    @DeleteMapping("/team/{boardId}")
-    public BoardEntity deleteTeam(@PathVariable("boardId") Long boardId) {
-        return service.deleteTeam(boardId);
+    @DeleteMapping("/team/{board}")
+    public BoardEntity deleteTeam(@PathVariable("board") BoardEntity boardEntity) {
+        return service.deleteTeam(boardEntity);
     }
 }
 

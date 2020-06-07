@@ -55,16 +55,13 @@ public class BoardService extends AbstractService<BoardEntity> {
         return optionalTeam.map(teamEntity -> repository.findByTeam(teamEntity)).orElse(null);
     }
 
-    public BoardEntity addTeam(Authentication authentication, Long boardId, TeamEntity team) {
+    public BoardEntity addTeam(Authentication authentication, BoardEntity board, TeamEntity team) {
         if (team == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Team does not exists");
         }
-        Optional<BoardEntity> board = repository.findById(boardId);
-        if (!board.isPresent()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        BoardEntity boardEntity = board.get();
-        boardEntity.team = team;
+        board.team = team;
 
-        return save(authentication,boardEntity);
+        return save(authentication, board);
     }
 
     public List<EventEntity> getTimeline(Authentication authentication, BoardEntity boardEntity) {
@@ -77,25 +74,21 @@ public class BoardService extends AbstractService<BoardEntity> {
     }
 
 
-    public BoardEntity deleteUser(Authentication authentication, Long boardId, Long memberId) {
-        Optional<BoardEntity> optionalBoard = repository.findById(boardId);
-        Optional<UserEntity> optionalUser = userService.findById(authentication, memberId);
-        if (optionalBoard.isPresent() && optionalUser.isPresent()) {
-            optionalBoard.get().users.remove(optionalUser.get());
-
-            return repository.save(optionalBoard.get());
+    public BoardEntity deleteUser(Authentication authentication, BoardEntity boardEntity, UserEntity member) {
+        if (!hasAccess(authentication, boardEntity)) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "You do not have access to the object with id " + boardEntity.id);
         }
-        return null;
+            boardEntity.users.remove(member);
+
+            return repository.save(boardEntity);
     }
 
-    public BoardEntity deleteTeam(Long boardId) {
-        Optional<BoardEntity> optionalBoard = repository.findById(boardId);
-        if (optionalBoard.isPresent()) {
-            optionalBoard.get().team = null;
+    public BoardEntity deleteTeam(BoardEntity boardEntity) {
+        boardEntity.team = null;
 
-            return repository.save(optionalBoard.get());
-        }
-        return null;
+        return repository.save(boardEntity);
     }
 
     @Override
