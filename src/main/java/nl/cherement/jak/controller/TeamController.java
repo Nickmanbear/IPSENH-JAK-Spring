@@ -40,15 +40,15 @@ public class TeamController {
         return HttpStatus.OK;
     }
 
-    @PostMapping("/member/{teamId}/{userId}")
-    public TeamEntity addMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
-                                @PathVariable("userId") UserEntity user) {
+    @PostMapping("/member/{team}/{user}")
+    public TeamEntity addMember(Authentication authentication, @PathVariable("team") TeamEntity team,
+                                @PathVariable("user") UserEntity user) {
         return service.addMember(authentication, team, user);
     }
 
-    @DeleteMapping("/member/{teamId}/{userId}")
-    public TeamEntity deleteMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
-                                   @PathVariable("userId") UserEntity user) {
+    @DeleteMapping("/member/{team}/{user}")
+    public TeamEntity deleteMember(Authentication authentication, @PathVariable("team") TeamEntity team,
+                                   @PathVariable("user") UserEntity user) {
         return service.deleteMember(authentication, team, user);
     }
 }
