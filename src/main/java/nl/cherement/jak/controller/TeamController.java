@@ -1,6 +1,7 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.TeamEntity;
+import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,15 +41,15 @@ public class TeamController {
     }
 
     @PostMapping("/member/{teamId}/{userId}")
-    public TeamEntity addMember(Authentication authentication, @PathVariable("teamId") Long teamId,
-                                @PathVariable("userId") Long userId) {
-        return service.addMember(authentication, teamId, userId);
+    public TeamEntity addMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
+                                @PathVariable("userId") UserEntity user) {
+        return service.addMember(authentication, team, user);
     }
 
     @DeleteMapping("/member/{teamId}/{userId}")
-    public TeamEntity deleteMember(Authentication authentication, @PathVariable("teamId") Long teamId,
-                                   @PathVariable("userId") Long userId) {
-        return service.deleteMember(authentication, teamId, userId);
+    public TeamEntity deleteMember(Authentication authentication, @PathVariable("teamId") TeamEntity team,
+                                   @PathVariable("userId") UserEntity user) {
+        return service.deleteMember(authentication, team, user);
     }
 }
 

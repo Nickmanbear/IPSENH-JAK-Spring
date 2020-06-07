@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TeamService extends AbstractService<TeamEntity> {
@@ -38,38 +37,24 @@ public class TeamService extends AbstractService<TeamEntity> {
     public TeamEntity save(Authentication authentication, TeamEntity teamEntity) {
         if (teamEntity.id == 0) {
             UserEntity userEntity = userService.findByUsername(authentication.getName());
-            TeamEntity temporaryTeamEntity = new TeamEntity();
-            temporaryTeamEntity.members = new ArrayList<>();
-            temporaryTeamEntity.id = 0;
-            temporaryTeamEntity.name = teamEntity.name;
-            temporaryTeamEntity.leader = userEntity;
-            temporaryTeamEntity.members.add(userEntity);
-            teamEntity = temporaryTeamEntity;
+            teamEntity.members = new ArrayList<>();
+            teamEntity.members.add(userEntity);
+            teamEntity.leader = userEntity;
         }
 
         return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity addMember(Authentication authentication, Long teamId, Long memberId) {
-        Optional<TeamEntity> teamEntity = teamRepository.findById(teamId);
-        Optional<UserEntity> userEntity = userService.findById(authentication, memberId);
-        if (teamEntity.isPresent() && userEntity.isPresent()) {
-            teamEntity.get().members.add(userEntity.get());
+    public TeamEntity addMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+        teamEntity.members.add(userEntity);
 
-            return teamRepository.save(teamEntity.get());
-        }
-        return null;
+        return teamRepository.save(teamEntity);
     }
 
-    public TeamEntity deleteMember(Authentication authentication, Long teamId, Long memberId) {
-        Optional<TeamEntity> optionalTeam = teamRepository.findById(teamId);
-        Optional<UserEntity> optionalUser = userService.findById(authentication, memberId);
-        if (optionalTeam.isPresent() && optionalUser.isPresent()) {
-            optionalTeam.get().members.remove(optionalUser.get());
+    public TeamEntity deleteMember(Authentication authentication, TeamEntity teamEntity, UserEntity userEntity) {
+            teamEntity.members.remove(userEntity);
 
-            return teamRepository.save(optionalTeam.get());
-        }
-        return null;
+            return teamRepository.save(teamEntity);
     }
 
     @Override

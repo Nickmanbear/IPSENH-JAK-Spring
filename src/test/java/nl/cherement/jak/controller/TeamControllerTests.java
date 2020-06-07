@@ -1,6 +1,5 @@
 package nl.cherement.jak.controller;
 
-import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.TeamService;
@@ -113,11 +112,11 @@ class TeamControllerTests {
 
     @Test
     void addMember() {
-        assertSame(team, controller.addMember(authentication, 1L, 1L));
+        assertSame(team, controller.addMember(authentication, team, user));
     }
 
     @Test
     void deleteMember() {
-        assertSame(team, controller.deleteMember(authentication, 1L, 1L));
+        assertSame(team, controller.deleteMember(authentication, team, user));
     }
 }

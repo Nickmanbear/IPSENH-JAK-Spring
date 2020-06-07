@@ -1,6 +1,5 @@
 package nl.cherement.jak.service;
 
-import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @SpringBootTest
 class TeamServiceTests {
@@ -110,17 +108,18 @@ class TeamServiceTests {
 
     @Test
     void save() {
+        team.id = 0;
         assertSame(team, teamService.save(authentication, team));
     }
 
     @Test
     void addMember() {
-        assertSame(team, teamService.addMember(authentication, 1L, 1L));
+        assertSame(team, teamService.addMember(authentication, team, user));
     }
 
     @Test
     void deleteMember() {
-        assertSame(team, teamService.deleteMember(authentication, 1L, 1L));
+        assertSame(team, teamService.deleteMember(authentication, team, user));
     }
 
     @Test
