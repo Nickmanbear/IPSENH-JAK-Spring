@@ -99,6 +99,7 @@ class TeamServiceTests {
         doReturn(boards).when(boardService).findByTeam(any(Authentication.class), any());
         doReturn(board).when(boardService).deleteTeam(any());
         doNothing().when(repository).deleteById(any());
+        doReturn("user").when(authentication).getName();
     }
 
     @Test
