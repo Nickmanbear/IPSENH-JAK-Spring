@@ -29,6 +29,8 @@ public class BoardService extends AbstractService<BoardEntity> {
     @Autowired
     EventService eventService;
 
+    String unauthorizedMessage = "You do not have access to the object with id ";
+
     public BoardService(BoardRepository repository) {
         super(repository);
     }
@@ -41,7 +43,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
-                    "You do not have access to the object with id " + boardEntity.id);
+                    unauthorizedMessage + boardEntity.id);
         }
 
         boardEntity.users.add(userEntity);
@@ -68,7 +70,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
-                    "You do not have access to the object with id " + boardEntity.id);
+                    unauthorizedMessage + boardEntity.id);
         }
         return eventService.getByBoard(boardEntity);
     }
@@ -78,7 +80,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
-                    "You do not have access to the object with id " + boardEntity.id);
+                    unauthorizedMessage + boardEntity.id);
         }
             boardEntity.users.remove(member);
 
