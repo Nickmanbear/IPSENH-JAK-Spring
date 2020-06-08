@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.entity.EventEntity;
@@ -7,7 +8,6 @@ import nl.cherement.jak.repository.CardRepository;
 import nl.cherement.jak.repository.EventRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

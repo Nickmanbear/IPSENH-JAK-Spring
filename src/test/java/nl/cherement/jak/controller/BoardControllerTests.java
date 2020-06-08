@@ -2,6 +2,7 @@ package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.EventEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,8 @@ class BoardControllerTests {
 
     private List<EventEntity> events;
 
+    private TeamEntity team = new TeamEntity();
+
     @Autowired
     private BoardController controller;
 
@@ -61,6 +64,10 @@ class BoardControllerTests {
         events = new ArrayList<EventEntity>();
         events.add(event);
         events.add(event2);
+
+        team.id = 1;
+        team.name = "team";
+
 //TODO RECHECK THIS MESS
         doReturn(Optional.of(board)).when(service).findById(any(Authentication.class), any(Long.class));
         doReturn(boards).when(service).findByUserName(any());
@@ -69,6 +76,9 @@ class BoardControllerTests {
         doReturn(board).when(service).addUser(any(Authentication.class), any(BoardEntity.class), any(UserEntity.class));
         doReturn(boards).when(service).findAll(any(Authentication.class));
         doReturn("alex").when(authentication).getName();
+        doReturn(board).when(service).addTeam(any(Authentication.class), any(), any());
+        doReturn(board).when(service).deleteUser(any(Authentication.class), any(), any());
+        doReturn(board).when(service).deleteTeam(any());
         doReturn(events).when(service).getTimeline(any(Authentication.class), any(BoardEntity.class));
     }
 
@@ -83,17 +93,17 @@ class BoardControllerTests {
         boardDTO.name = "TestBoard";
 
         assertEquals("BoardEntity [id=" + boardDTO.id + ", users=" + boardDTO.users
-                + ", name=" + boardDTO.name + "]", boardDTO.toEntity().toString());
-    }
-
-    @Test
-    void findById() {
-        assertSame(board, controller.findById(authentication, 1L).get());
+                + ", name=" + boardDTO.name + ", team=" + boardDTO.team + "]", boardDTO.toEntity().toString());
     }
 
     @Test
     void findAll() {
         assertSame(boards, controller.findAll(authentication));
+    }
+
+    @Test
+    void findById() {
+        assertSame(board, controller.findById(authentication, 1L).get());
     }
 
     @Test
@@ -103,7 +113,7 @@ class BoardControllerTests {
     }
 
     @Test
-    void deleteById() {
+    void delete() {
         assertSame(HttpStatus.OK, controller.delete(authentication, board));
     }
 
@@ -121,5 +131,22 @@ class BoardControllerTests {
     void getTimeline() {
         assertSame(events, controller.getTimeline(authentication, new BoardEntity()));
 
+    }
+
+    @Test
+    void addTeam() {
+        assertSame(board, controller.addTeam(authentication, board, team));
+    }
+
+    @Test
+    void deleteUser() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.id = 1;
+        assertSame(board, controller.deleteUser(authentication, board, userEntity));
+    }
+
+    @Test
+    void deleteTeam() {
+        assertSame(board, controller.deleteTeam(board));
     }
 }

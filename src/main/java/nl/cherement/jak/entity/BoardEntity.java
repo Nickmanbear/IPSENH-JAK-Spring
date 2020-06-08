@@ -17,8 +17,11 @@ public class BoardEntity {
     @Column(nullable = false)
     public String name;
 
+    @ManyToOne
+    public TeamEntity team;
+
     @Override
     public String toString() {
-        return "BoardEntity [id=" + id + ", users=" + users + ", name=" + name + "]";
+        return "BoardEntity [id=" + id + ", users=" + users + ", name=" + name + ", team=" + team + "]";
     }
 }

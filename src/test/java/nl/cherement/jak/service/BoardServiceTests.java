@@ -1,6 +1,7 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.BoardRepository;
 import nl.cherement.jak.repository.UserRepository;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -27,10 +27,14 @@ class BoardServiceTests {
     private List<BoardEntity> boards;
     private BoardEntity board;
     private BoardEntity boardWithoutUsers;
+    private TeamEntity team;
 
 
     @Autowired
-    private BoardService service;
+    private BoardService boardService;
+
+    @MockBean
+    private TeamService teamService;
 
     @MockBean
     private BoardRepository boardRepository;
@@ -51,6 +55,7 @@ class BoardServiceTests {
         boards = new ArrayList<BoardEntity>();
         boardWithoutUsers = new BoardEntity();
         boardWithoutUsers.users = new ArrayList<UserEntity>();
+        team = new TeamEntity();
         UserEntity user = new UserEntity();
         UserEntity user2 = new UserEntity();
 
@@ -70,9 +75,18 @@ class BoardServiceTests {
         user2.id= 2;
         user2.username= "alex2";
 
+        boardWithoutUsers.users.add(user2);
+        board.users.add(user);
+        boards.add(board);
+
+        team.id = 1;
+        team.name = "team";
+
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
         doReturn(Optional.of(user)).when(userRepository).findById(any(Long.class));
+        doReturn(Optional.of(team)).when(teamService).findById(any(Authentication.class), any());
+        doReturn(boards).when(boardRepository).findByTeam(any());
         doReturn(Optional.of(boardWithoutUsers)).when(boardRepository).findById(3L);
         doReturn(Optional.empty()).when(boardRepository).findById(2L);
         doReturn(Optional.of(board)).when(boardRepository).findById(1L);
@@ -86,28 +100,32 @@ class BoardServiceTests {
 
     @Test
     void findByUserName() {
-        assertSame(boards, service.findByUserName("admin"));
+        assertSame(boards, boardService.findByUserName("admin"));
+    }
+
+    @Test
+    void findByTeam() {
+        assertSame(boards, boardService.findByTeam(authentication, 1L));
     }
 
     @Test
     void findAll() {
-        assertEquals(boards, service.findAll(authentication));
+        assertEquals(boards, boardService.findAll(authentication));
     }
 
     @Test
     void findById() {
-        assertSame(board, service.findById(authentication, 1L).get());
+        assertSame(board, boardService.findById(authentication, 1L).get());
     }
-
 
     @Test
     void save() {
-        assertSame(board, service.save(authentication, board));
+        assertSame(board, boardService.save(authentication, board));
     }
 
     @Test
     void delete() {
-        service.delete(authentication, board);
+        boardService.delete(authentication, board);
 
         verify(boardRepository, times(1)).delete(any());
     }
@@ -118,31 +136,48 @@ class BoardServiceTests {
         user2.id = 2;
         board.users.add(user2);
 
-        assertEquals(board, service.addUser(authentication, board, user2));
+        assertEquals(board, boardService.addUser(authentication, board, user2));
+    }
+
+    @Test
+    void addTeam() {
+        assertSame(board, boardService.addTeam(authentication, board, team));
+    }
+
+    @Test
+    void deleteUser() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.id = 1;
+        assertSame(board, boardService.deleteUser(authentication, board, userEntity));
+    }
+
+    @Test
+    void deleteTeam() {
+        assertSame(board, boardService.deleteTeam(board));
     }
 
     @Test
     void findById_object_is_not_present() {
         assertThrows(ResponseStatusException.class, () ->
-                service.findById(authentication, 2L));
+                boardService.findById(authentication, 2L));
     }
 
     @Test
     void save_no_access() {
         assertThrows(ResponseStatusException.class, () ->
-                service.save(authentication, boardWithoutUsers));
+                boardService.save(authentication, boardWithoutUsers));
     }
 
     @Test
     void delete_no_access() {
         assertThrows(ResponseStatusException.class, () ->
-                service.delete(authentication, boardWithoutUsers));
+                boardService.delete(authentication, boardWithoutUsers));
     }
 
     @Test
     void findById_no_access() {
         assertThrows(ResponseStatusException.class, () ->
-                service.findById(authentication, 3L));
+                boardService.findById(authentication, 3L));
     }
 
 }
