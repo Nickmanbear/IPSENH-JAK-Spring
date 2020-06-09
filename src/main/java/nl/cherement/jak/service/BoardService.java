@@ -113,9 +113,11 @@ public class BoardService extends AbstractService<BoardEntity> {
             }
         }
 
-        for (UserEntity teamMember : boardEntity.team.members) {
-            if (teamMember.id == requestingUser.id) {
-                return true;
+        if (boardEntity.team != null) {
+            for (UserEntity teamMember : boardEntity.team.members) {
+                if (teamMember.id == requestingUser.id) {
+                    return true;
+                }
             }
         }
         return false;
