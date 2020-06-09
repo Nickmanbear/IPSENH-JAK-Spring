@@ -21,6 +21,9 @@ public class ColumnService extends AbstractService<ColumnEntity> {
     public List<ColumnEntity> getByBoardId(Long id) {
         return this.repository.findByBoardId(id);
     }
+    public List<ColumnEntity> getLastColumnByBoardId(Long id) {
+        return this.repository.findTopByBoard_IdOrderByIdDesc(id);
+    }
 
     @Override
     boolean hasAccess(Authentication authentication, ColumnEntity entity) {
