@@ -25,6 +25,7 @@ public class CardService extends AbstractService<CardEntity> {
     public List<CardEntity> getByColumnId(Long id) {
         return this.repository.findByColumnId(id);
     }
+
     public List<CardEntity> getByBoardId(Long id) {
         return this.repository.findByColumnBoardId(id);
     }
