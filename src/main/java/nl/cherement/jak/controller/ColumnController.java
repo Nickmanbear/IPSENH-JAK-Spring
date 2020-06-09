@@ -27,6 +27,10 @@ public class ColumnController {
     public List<ColumnEntity> findByBoardId(@PathVariable Long id) {
         return service.getByBoardId(id);
     }
+    @GetMapping("/board/{id}/last")
+    public List<ColumnEntity> findLastColumnByBoardId(@PathVariable Long id) {
+        return service.getLastColumnByBoardId(id);
+    }
 
     @GetMapping("/{id}")
     public Optional<ColumnEntity> findById(Authentication authentication, @PathVariable Long id) {
