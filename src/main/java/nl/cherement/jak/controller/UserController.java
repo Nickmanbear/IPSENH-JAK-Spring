@@ -29,9 +29,6 @@ public class UserController {
 
     @PostMapping("/register")
     public UserEntity signUp(@RequestBody UserDTO userDTO) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        userDTO.password = bCryptPasswordEncoder.encode(userDTO.password);
-
         return userService.save(userDTO.toEntity());
     }
 }

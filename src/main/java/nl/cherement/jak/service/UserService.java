@@ -4,6 +4,7 @@ import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -35,12 +36,18 @@ public class UserService  extends AbstractService<UserEntity>{
         return this.repository.findByUsername(username);
     }
 
+    public UserEntity save(UserEntity userEntity) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
+        userEntity.roles = "";
+        userEntity.permissions = "";
+        userEntity.active = true;
+
+        return repository.save(userEntity);
+    }
+
     @Override
     boolean hasAccess(Authentication authentication, UserEntity entity) {
         return true;
-    }
-
-    public UserEntity save(UserEntity user) {
-        return repository.save(user);
     }
 }
