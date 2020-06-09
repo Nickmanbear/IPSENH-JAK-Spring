@@ -42,7 +42,7 @@ public class BoardService extends AbstractService<BoardEntity> {
 
     @Override
     public BoardEntity save(Authentication authentication, BoardEntity boardEntity) {
-        if (boardEntity.id == 0) {
+        if (boardEntity.id == 0L) {
             boardEntity.users = new ArrayList<>();
             boardEntity.users.add(userService.findByUsername(authentication.getName()));
         }
@@ -108,14 +108,14 @@ public class BoardService extends AbstractService<BoardEntity> {
         UserEntity requestingUser = userService.findByUsername(authentication.getName());
 
         for (UserEntity boardMember : boardEntity.users) {
-            if (boardMember.id == requestingUser.id) {
+            if (boardMember.id.equals(requestingUser.id)) {
                 return true;
             }
         }
 
         if (boardEntity.team != null) {
             for (UserEntity teamMember : boardEntity.team.members) {
-                if (teamMember.id == requestingUser.id) {
+                if (teamMember.id.equals(requestingUser.id)) {
                     return true;
                 }
             }

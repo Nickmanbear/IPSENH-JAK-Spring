@@ -9,7 +9,7 @@ public class BoardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     @ManyToMany
     public List<UserEntity> users;

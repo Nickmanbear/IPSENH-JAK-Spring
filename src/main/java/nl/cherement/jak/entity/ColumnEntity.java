@@ -11,7 +11,7 @@ public class ColumnEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     @ManyToOne
     @OnDelete( action = OnDeleteAction.CASCADE )

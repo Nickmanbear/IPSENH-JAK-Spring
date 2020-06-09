@@ -42,9 +42,9 @@ class CardControllerTests {
     @BeforeEach
     public void initialize(){
 
-        cardDTO.id = 1;
-        card.id = 1;
-        card2.id = 2;
+        cardDTO.id = 1L;
+        card.id = 1L;
+        card2.id = 2L;
         cards = new ArrayList<CardEntity>();
         cards.add(card);
         cards.add(card2);
@@ -60,12 +60,12 @@ class CardControllerTests {
 
     @Test
     void DTO() {
-        cardDTO.id = 1;
+        cardDTO.id = 1L;
         cardDTO.column = new ColumnEntity();
         cardDTO.name = "TestCard";
         cardDTO.description = "TestCardDescription";
         cardDTO.priority = 1L;
-        cardDTO.points = 1;
+        cardDTO.points = 1L;
 
         assertEquals("CardEntity [id=" + cardDTO.id + ", column=" + cardDTO.column +
                 ", name=" + cardDTO.name + ", description=" + cardDTO.description   +

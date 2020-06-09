@@ -11,7 +11,7 @@ public class CardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     @ManyToOne
     @OnDelete( action = OnDeleteAction.CASCADE )
@@ -27,10 +27,10 @@ public class CardEntity {
     public String description;
 
     @Column(name="priority")
-    public Long priority;
+    public Long priority = 0L;
 
     @Column(name="points")
-    public long points;
+    public Long points = 0L;
 
     @Override
     public String toString() {

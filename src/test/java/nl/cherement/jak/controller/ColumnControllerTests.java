@@ -41,9 +41,9 @@ class ColumnControllerTests {
 
     @BeforeEach
     public void initialize(){
-        columnDTO.id = 1;
-        column.id = 1;
-        column2.id = 2;
+        columnDTO.id = 1L;
+        column.id = 1L;
+        column2.id = 2L;
         columns = new ArrayList<>();
         columns.add(column);
         columns.add(column2);
@@ -58,7 +58,7 @@ class ColumnControllerTests {
 
     @Test
     void DTO() {
-        columnDTO.id = 1;
+        columnDTO.id = 1L;
         columnDTO.board = new BoardEntity();
         columnDTO.name = "TestColumn";
 

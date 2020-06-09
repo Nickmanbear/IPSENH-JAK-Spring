@@ -51,10 +51,10 @@ class TeamServiceTests {
 
     @BeforeEach
     public void initialize() {
-        user.id = 1;
+        user.id = 1L;
         user.username = "user";
 
-        user2.id = 2;
+        user2.id = 2L;
         user2.username = "user2";
 
         users = new ArrayList<UserEntity>();
@@ -64,12 +64,12 @@ class TeamServiceTests {
         users2 = new ArrayList<UserEntity>();
         users2.add(user);
 
-        team.id = 1;
+        team.id = 1L;
         team.name = "team1";
         team.leader = user;
         team.members = users;
 
-        team2.id = 2;
+        team2.id = 2L;
         team2.name = "team2";
         team2.leader = user2;
         team2.members = users2;
@@ -78,12 +78,12 @@ class TeamServiceTests {
         teams.add(team);
         teams.add(team2);
 
-        board.id = 1;
+        board.id = 1L;
         board.name = "board";
         board.users = users;
         board.team = team;
 
-        board2.id = 2;
+        board2.id = 2L;
         board2.name = "board2";
         board2.users = users;
 
@@ -109,7 +109,7 @@ class TeamServiceTests {
 
     @Test
     void save() {
-        team.id = 0;
+        team.id = 0L;
         assertSame(team, teamService.save(authentication, team));
     }
 

@@ -27,7 +27,7 @@ class UserDetailsServiceImplTests {
     @BeforeEach
     public void initialize() {
         user = new UserEntity();
-        user.id = 1;
+        user.id = 1L;
         user.active = true;
         user.username = "admin";
         user.password = "password";
