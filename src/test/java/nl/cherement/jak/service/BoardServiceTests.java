@@ -85,6 +85,7 @@ class BoardServiceTests {
         team.id = 1L;
         team.name = "team";
         team.members = new ArrayList<>();
+        team.members.add(user);
 
         board.team = team;
 
@@ -127,6 +128,8 @@ class BoardServiceTests {
 
     @Test
     void save() {
+        assertSame(board, boardService.save(authentication, board));
+        board.users = new ArrayList<>();
         assertSame(board, boardService.save(authentication, board));
 
         board.id = 0L;
