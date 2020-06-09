@@ -3,9 +3,11 @@ package nl.cherement.jak.service;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +39,12 @@ public class UserService  extends AbstractService<UserEntity>{
     }
 
     public UserEntity save(UserEntity userEntity) {
-        if (userEntity.id == 0L) {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
+        if (userEntity.id != 0L) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can not edit existing users");
         }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
 
         return repository.save(userEntity);
     }
