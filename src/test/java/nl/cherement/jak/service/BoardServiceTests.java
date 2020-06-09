@@ -84,6 +84,9 @@ class BoardServiceTests {
 
         team.id = 1L;
         team.name = "team";
+        team.members = new ArrayList<>();
+
+        board.team = team;
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
@@ -125,6 +128,13 @@ class BoardServiceTests {
     @Test
     void save() {
         assertSame(board, boardService.save(authentication, board));
+
+        board.id = 0L;
+        BoardEntity savedBoard = boardService.save(authentication, board);
+        board.users = new ArrayList<>();
+        board.users.add(userService.findByUsername(authentication.getName()));
+
+        assertSame(board, savedBoard);
     }
 
     @Test
