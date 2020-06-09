@@ -37,8 +37,10 @@ public class UserService  extends AbstractService<UserEntity>{
     }
 
     public UserEntity save(UserEntity userEntity) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
+        if (userEntity.id == 0L) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
+        }
 
         return repository.save(userEntity);
     }
