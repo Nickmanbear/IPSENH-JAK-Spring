@@ -24,7 +24,7 @@ public class UserEntity implements Serializable {
     public String password;
 
     @Column(name="active")
-    public boolean active;
+    public boolean active = true;
 
     @Column(name="roles")
     public String roles = "";
