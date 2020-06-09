@@ -1,5 +1,6 @@
 package nl.cherement.jak.service;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

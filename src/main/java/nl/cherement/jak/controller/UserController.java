@@ -3,6 +3,7 @@ package nl.cherement.jak.controller;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,12 @@ public class UserController {
     @GetMapping
     public Map<Long, String> findAllShortened() {
         return userService.findAllShortened();
+    }
+
+    @GetMapping("/me")
+    public UserEntity getUser(Authentication authentication) {
+
+        return userService.findByUsername(authentication.getName());
     }
 
     @PostMapping("/register")

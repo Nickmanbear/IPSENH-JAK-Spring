@@ -1,5 +1,6 @@
 package nl.cherement.jak.controller;
 
+import nl.cherement.jak.Application;
 import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.ColumnEntity;
 import nl.cherement.jak.service.CardService;

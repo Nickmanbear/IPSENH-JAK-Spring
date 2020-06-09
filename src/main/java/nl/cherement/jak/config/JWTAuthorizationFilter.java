@@ -36,16 +36,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     String getToken(HttpServletRequest req) {
         String token = req.getHeader(HEADER_STRING);
-
         if (token == null || !token.startsWith(TOKEN_PREFIX)) {
-            String protocols = req.getHeader(WEBSOCKET_HEADER_STRING);
-            if (protocols == null || !protocols.contains(WEBSOCKET_TOKEN_PREFIX)) {
-                return null;
+            token = req.getQueryString();
+            if (token != null) {
+                token = token.contains(URL_SPACE)? token.replace(URL_SPACE, " ") : token;
+                token = token.contains("&") ? token.substring(0, token.indexOf('&')) : token;
             }
-            return protocols.substring(protocols.indexOf(WEBSOCKET_TOKEN_PREFIX))
-                    .replace(WEBSOCKET_TOKEN_PREFIX, "");
         }
-        return token.replace(TOKEN_PREFIX, "");
+        return token != null && token.startsWith(TOKEN_PREFIX) ? token.replace(TOKEN_PREFIX, "") : null;
     }
 
      UsernamePasswordAuthenticationToken getAuthentication(String token) {

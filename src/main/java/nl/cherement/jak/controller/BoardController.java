@@ -2,6 +2,7 @@ package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.BoardEntity;
 import nl.cherement.jak.entity.EventEntity;
+import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +49,38 @@ public class BoardController {
         return true;
     }
 
-    @PostMapping("/user/{boardId}/{userId}")
-    public BoardEntity addUser(Authentication authentication, @PathVariable("boardId") BoardEntity boardEntity,
-                               @PathVariable("userId") UserEntity userEntity) {
+    @GetMapping("/team/{id}")
+    public List<BoardEntity> findByTeam(Authentication authentication, @PathVariable("id") Long id) {
+        return service.findByTeam(authentication, id);
+    }
+
+    @PostMapping("/user/{board}/{user}")
+    public BoardEntity addUser(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                               @PathVariable("user") UserEntity userEntity) {
         return service.addUser(authentication, boardEntity, userEntity);
     }
 
-    @GetMapping("/timeline/{boardId}")
+    @PostMapping("/team/{board}/{team}")
+    public BoardEntity addTeam(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                               @PathVariable("team") TeamEntity teamEntity) {
+        return service.addTeam(authentication, boardEntity, teamEntity);
+    }
+
+    @GetMapping("/timeline/{board}")
     public List<EventEntity> getTimeline(Authentication authentication,
-                                         @PathVariable("boardId") BoardEntity boardEntity) {
+                                         @PathVariable("board") BoardEntity boardEntity) {
         return service.getTimeline(authentication, boardEntity);
+    }
+
+    @DeleteMapping("/user/{board}/{user}")
+    public BoardEntity deleteUser(Authentication authentication, @PathVariable("board") BoardEntity boardEntity,
+                                  @PathVariable("user") UserEntity userEntity) {
+        return service.deleteUser(authentication, boardEntity, userEntity);
+    }
+
+    @DeleteMapping("/team/{board}")
+    public BoardEntity deleteTeam(@PathVariable("board") BoardEntity boardEntity) {
+        return service.deleteTeam(boardEntity);
     }
 }
 
@@ -68,6 +91,7 @@ class BoardDTO extends BoardEntity {
         boardEntity.id = id;
         boardEntity.users = users;
         boardEntity.name = name;
+        boardEntity.team = team;
 
         return boardEntity;
     }
