@@ -55,6 +55,11 @@ public class TeamService extends AbstractService<TeamEntity> {
         }
         teamEntity.members.add(userEntity);
 
+        for (BoardEntity boardEntity : boardService.findByTeam(authentication, teamEntity.id)) {
+            boardEntity.users.remove(userEntity);
+            boardService.save(authentication, boardEntity);
+        }
+
         return teamRepository.save(teamEntity);
     }
 
