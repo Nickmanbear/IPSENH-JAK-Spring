@@ -42,14 +42,14 @@ class UserControllerTests {
 
     @BeforeEach
     public void initialize(){
-        userEntity.id = 1;
+        userEntity.id = 1L;
         userEntity.active = true;
         userEntity.password = "password";
         userEntity.permissions = "admin";
         userEntity.roles = "ROLE_ADMIN";
 
         userDTO.active = true;
-        userDTO.id = 1;
+        userDTO.id = 1L;
         userDTO.password = "TestPassword";
         userDTO.permissions = "READ,WRITE";
         userDTO.roles = "GUEST,ADMIN";
@@ -67,7 +67,7 @@ class UserControllerTests {
 
     @Test
     void DTO() {
-        userDTO.id = (1);
+        userDTO.id = 1l;
         userDTO.username = ("TestUser");
         userDTO.password = ("TestPassword");
         userDTO.permissions = ("READ,WRITE");
@@ -95,7 +95,7 @@ class UserControllerTests {
     void signUp() {
         assertEquals(userDTO.toEntity().id, controller.signUp(userDTO).id);
         assertEquals(userDTO.toEntity().username, controller.signUp(userDTO).username);
-        assertNotEquals(userDTO.toEntity().password, controller.signUp(userDTO).password);
+        assertEquals(userDTO.toEntity().password, controller.signUp(userDTO).password);
         assertEquals(userDTO.toEntity().getPermissionList(), controller.signUp(userDTO).getPermissionList());
         assertEquals(userDTO.toEntity().permissions, controller.signUp(userDTO).permissions);
         assertEquals(userDTO.toEntity().getRoleList(), controller.signUp(userDTO).getRoleList());

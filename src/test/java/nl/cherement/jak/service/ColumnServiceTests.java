@@ -31,7 +31,7 @@ class ColumnServiceTests {
     public void initialize() {
         ColumnEntity column = new ColumnEntity();
         columns = new ArrayList<>();
-        column.id = 1;
+        column.id = 1L;
         columns.add(column);
 
         doReturn(columns).when(repository).findByBoardId(any(Long.class));

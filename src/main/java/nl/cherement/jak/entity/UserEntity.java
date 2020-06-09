@@ -14,7 +14,7 @@ public class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     @Column(nullable = false, unique = true)
     public String username;
@@ -24,7 +24,7 @@ public class UserEntity implements Serializable {
     public String password;
 
     @Column(name="active")
-    public boolean active;
+    public boolean active = true;
 
     @Column(name="roles")
     public String roles = "";

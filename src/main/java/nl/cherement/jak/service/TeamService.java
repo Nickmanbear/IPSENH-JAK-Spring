@@ -37,7 +37,7 @@ public class TeamService extends AbstractService<TeamEntity> {
 
     @Override
     public TeamEntity save(Authentication authentication, TeamEntity teamEntity) {
-        if (teamEntity.id == 0) {
+        if (teamEntity.id == 0L) {
             UserEntity userEntity = userService.findByUsername(authentication.getName());
             teamEntity.members = new ArrayList<>();
             teamEntity.members.add(userEntity);
@@ -54,6 +54,11 @@ public class TeamService extends AbstractService<TeamEntity> {
                     "You do not have access to the object with id " + teamEntity.id);
         }
         teamEntity.members.add(userEntity);
+
+        for (BoardEntity boardEntity : boardService.findByTeam(authentication, teamEntity.id)) {
+            boardEntity.users.remove(userEntity);
+            boardService.save(authentication, boardEntity);
+        }
 
         return teamRepository.save(teamEntity);
     }

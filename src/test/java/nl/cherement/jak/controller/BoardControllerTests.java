@@ -51,8 +51,8 @@ class BoardControllerTests {
 
     @BeforeEach
     public void initialize() {
-        board.id = 1;
-        board2.id = 2;
+        board.id = 1L;
+        board2.id = 2L;
         boards = new ArrayList<BoardEntity>();
         boards.add(board);
         boards.add(board2);
@@ -65,7 +65,7 @@ class BoardControllerTests {
         events.add(event);
         events.add(event2);
 
-        team.id = 1;
+        team.id = 1L;
         team.name = "team";
 
 //TODO RECHECK THIS MESS
@@ -86,10 +86,10 @@ class BoardControllerTests {
     @Test
     void DTO() {
         UserEntity userEntity = new UserEntity();
-        userEntity.id = 1;
+        userEntity.id = 1L;
         userEntities.add(userEntity);
         boardDTO.users = userEntities;
-        boardDTO.id = 1;
+        boardDTO.id = 1L;
         boardDTO.name = "TestBoard";
 
         assertEquals("BoardEntity [id=" + boardDTO.id + ", users=" + boardDTO.users
@@ -141,7 +141,7 @@ class BoardControllerTests {
     @Test
     void deleteUser() {
         UserEntity userEntity = new UserEntity();
-        userEntity.id = 1;
+        userEntity.id = 1L;
         assertSame(board, controller.deleteUser(authentication, board, userEntity));
     }
 

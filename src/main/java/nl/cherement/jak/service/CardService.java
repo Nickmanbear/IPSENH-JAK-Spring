@@ -25,6 +25,7 @@ public class CardService extends AbstractService<CardEntity> {
     public List<CardEntity> getByColumnId(Long id) {
         return this.repository.findByColumnId(id);
     }
+
     public List<CardEntity> getByBoardId(Long id) {
         return this.repository.findByColumnBoardId(id);
     }
@@ -34,7 +35,7 @@ public class CardService extends AbstractService<CardEntity> {
         Optional<CardEntity> cardOptional = repository.findById(updatedCardEntity.id);
         if (cardOptional.isPresent()) {
             CardEntity currentCardEntity = cardOptional.get();
-            if (currentCardEntity.column.id != updatedCardEntity.column.id) {
+            if (!currentCardEntity.column.id.equals(updatedCardEntity.column.id)) {
                 eventService.createEvent(authentication, updatedCardEntity, currentCardEntity);
             }
         }

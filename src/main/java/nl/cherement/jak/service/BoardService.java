@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,15 @@ public class BoardService extends AbstractService<BoardEntity> {
         return repository.findByUsers_Username(username);
     }
 
+    @Override
+    public BoardEntity save(Authentication authentication, BoardEntity boardEntity) {
+        if (boardEntity.id == 0L) {
+            boardEntity.users = new ArrayList<>();
+            boardEntity.users.add(userService.findByUsername(authentication.getName()));
+        }
+        return super.save(authentication, boardEntity);
+    }
+
     public BoardEntity addUser(Authentication authentication, BoardEntity boardEntity, UserEntity userEntity) {
         if (!hasAccess(authentication, boardEntity)) {
             throw new ResponseStatusException(
@@ -48,7 +58,7 @@ public class BoardService extends AbstractService<BoardEntity> {
 
         boardEntity.users.add(userEntity);
 
-        return save(authentication,boardEntity);
+        return save(authentication, boardEntity);
     }
 
     public List<BoardEntity> findByTeam(Authentication authentication, Long teamId) {
@@ -82,9 +92,9 @@ public class BoardService extends AbstractService<BoardEntity> {
                     HttpStatus.UNAUTHORIZED,
                     unauthorizedMessage + boardEntity.id);
         }
-            boardEntity.users.remove(member);
+        boardEntity.users.remove(member);
 
-            return repository.save(boardEntity);
+        return repository.save(boardEntity);
     }
 
     public BoardEntity deleteTeam(BoardEntity boardEntity) {
@@ -94,14 +104,22 @@ public class BoardService extends AbstractService<BoardEntity> {
     }
 
     @Override
-    boolean hasAccess(Authentication authentication, BoardEntity entity) {
-        boolean userAccess = false;
-        for (UserEntity userEntity : entity.users) {
-            if (userEntity.username.equals(authentication.getName())) {
-                userAccess = true;
-                break;
+    boolean hasAccess(Authentication authentication, BoardEntity boardEntity) {
+        UserEntity requestingUser = userService.findByUsername(authentication.getName());
+
+        for (UserEntity boardMember : boardEntity.users) {
+            if (boardMember.id.equals(requestingUser.id)) {
+                return true;
             }
         }
-        return userAccess;
+
+        if (boardEntity.team != null) {
+            for (UserEntity teamMember : boardEntity.team.members) {
+                if (teamMember.id.equals(requestingUser.id)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

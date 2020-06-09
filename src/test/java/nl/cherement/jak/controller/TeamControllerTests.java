@@ -44,24 +44,24 @@ class TeamControllerTests {
 
     @BeforeEach
     public void initialize() {
-        teamDTO.id = 1;
+        teamDTO.id = 1L;
 
-        user.id = 1;
+        user.id = 1L;
         user.username = "user";
 
-        user2.id = 2;
+        user2.id = 2L;
         user2.username = "user2";
 
         users = new ArrayList<UserEntity>();
         users.add(user);
         users.add(user2);
 
-        team.id = 1;
+        team.id = 1L;
         team.name = "team1";
         team.leader = user;
         team.members = users;
 
-        team2.id = 2;
+        team2.id = 2L;
         team2.name = "team2";
         team2.leader = user2;
         team2.members = users;
@@ -80,7 +80,7 @@ class TeamControllerTests {
 
     @Test
     void DTO() {
-        teamDTO.id = 1;
+        teamDTO.id = 1L;
         teamDTO.name = "team1";
         teamDTO.leader = user;
         teamDTO.members = users;

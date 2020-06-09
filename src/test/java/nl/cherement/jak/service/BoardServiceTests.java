@@ -37,6 +37,9 @@ class BoardServiceTests {
     private TeamService teamService;
 
     @MockBean
+    private UserService userService;
+
+    @MockBean
     private BoardRepository boardRepository;
 
     @MockBean
@@ -65,22 +68,26 @@ class BoardServiceTests {
         boardWithoutUsers.users.add(user2);
         board.users.add(user);
         boards.add(board);
-        user.id = 1;
+        user.id = 1L;
         user.username = "alex";
         user.password = "password";
         user.permissions = "admin";
         user.roles = "ROLE_ADMIN";
         user.active = true;
 
-        user2.id= 2;
+        user2.id = 2L;
         user2.username= "alex2";
 
         boardWithoutUsers.users.add(user2);
         board.users.add(user);
         boards.add(board);
 
-        team.id = 1;
+        team.id = 1L;
         team.name = "team";
+        team.members = new ArrayList<>();
+        team.members.add(user);
+
+        board.team = team;
 
         doReturn(boards).when(boardRepository).findByUsers_Username(any());
         doReturn(boards).when(boardRepository).findAll();
@@ -94,7 +101,8 @@ class BoardServiceTests {
         doNothing().when(boardRepository).deleteById(any());
         doReturn(board).when(boardRepository).getOne(1L);
         doReturn(user).when(userRepository).getOne(1L);
-        doReturn("alex").when(authentication).getName();
+        doReturn(user.username).when(authentication).getName();
+        doReturn(user).when(userService).findByUsername(user.username);
     }
 
 
@@ -121,6 +129,15 @@ class BoardServiceTests {
     @Test
     void save() {
         assertSame(board, boardService.save(authentication, board));
+        board.users = new ArrayList<>();
+        assertSame(board, boardService.save(authentication, board));
+
+        board.id = 0L;
+        BoardEntity savedBoard = boardService.save(authentication, board);
+        board.users = new ArrayList<>();
+        board.users.add(userService.findByUsername(authentication.getName()));
+
+        assertSame(board, savedBoard);
     }
 
     @Test
@@ -133,7 +150,7 @@ class BoardServiceTests {
     @Test
     void addUser() {
         UserEntity user2 = new UserEntity();
-        user2.id = 2;
+        user2.id = 2L;
         board.users.add(user2);
 
         assertEquals(board, boardService.addUser(authentication, board, user2));
@@ -147,7 +164,7 @@ class BoardServiceTests {
     @Test
     void deleteUser() {
         UserEntity userEntity = new UserEntity();
-        userEntity.id = 1;
+        userEntity.id = 1L;
         assertSame(board, boardService.deleteUser(authentication, board, userEntity));
     }
 

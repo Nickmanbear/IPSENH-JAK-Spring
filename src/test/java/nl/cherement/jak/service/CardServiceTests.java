@@ -45,9 +45,9 @@ class CardServiceTests {
     public void initialize() {
         cards = new ArrayList<>();
         card = new CardEntity();
-        card.id = 1;
+        card.id = 1L;
         ColumnEntity columnEntity = new ColumnEntity();
-        columnEntity.id = 1;
+        columnEntity.id = 1L;
         card.column = columnEntity;
         cards.add(card);
 
@@ -74,9 +74,9 @@ class CardServiceTests {
         });
 
         CardEntity newCard = new CardEntity();
-        newCard.id = 1;
+        newCard.id = 1L;
         newCard.column = new ColumnEntity();
-        newCard.column.id = 2;
+        newCard.column.id = 2L;
 
         service.save(user, newCard);
         assertEquals(1, eventEntities.size());

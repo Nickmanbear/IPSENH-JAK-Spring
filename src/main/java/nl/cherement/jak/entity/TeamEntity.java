@@ -9,7 +9,7 @@ public class TeamEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     @Column(name="name", nullable = false)
     public String name;
