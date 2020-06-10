@@ -1,6 +1,7 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.BoardEntity;
+import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.TeamRepository;
@@ -71,14 +72,19 @@ public class TeamService extends AbstractService<TeamEntity> {
         }
         teamEntity.members.remove(userEntity);
 
-            return teamRepository.save(teamEntity);
+        List<BoardEntity> boardEntities = boardService.findByTeam(authentication, teamEntity.id);
+        for (BoardEntity boardEntity: boardEntities) {
+            boardService.removeUserFromAssignments(authentication, boardEntity, userEntity);
+        }
+
+        return teamRepository.save(teamEntity);
     }
 
     @Override
     public void delete (Authentication authentication, TeamEntity team) {
         List<BoardEntity> boardEntities = boardService.findByTeam(authentication, team.id);
         for (BoardEntity board:boardEntities) {
-            boardService.deleteTeam(board);
+            boardService.deleteTeam(authentication, board);
         }
 
         teamRepository.delete(team);
