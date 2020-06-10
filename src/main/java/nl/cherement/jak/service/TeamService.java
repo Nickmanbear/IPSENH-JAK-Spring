@@ -1,7 +1,6 @@
 package nl.cherement.jak.service;
 
 import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.entity.CardEntity;
 import nl.cherement.jak.entity.TeamEntity;
 import nl.cherement.jak.entity.UserEntity;
 import nl.cherement.jak.repository.TeamRepository;
