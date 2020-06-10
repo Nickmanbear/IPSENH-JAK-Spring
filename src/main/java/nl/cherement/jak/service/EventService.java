@@ -22,7 +22,7 @@ public class EventService extends AbstractService<EventEntity> {
     }
 
     public List<EventEntity> getByBoard(BoardEntity boardEntity) {
-        return repository.findByToColumn_Board(boardEntity);
+        return repository.findByToColumn_BoardOrderByTimestamp(boardEntity);
     }
 
     public void createEvent(Authentication authentication, CardEntity updatedCardEntity, CardEntity currentCardEntity) {
