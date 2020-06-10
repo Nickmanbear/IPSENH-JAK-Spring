@@ -39,10 +39,10 @@ public class UserService  extends AbstractService<UserEntity>{
     }
 
     public UserEntity save(UserEntity userEntity) {
-
         if (userEntity.id != null && userEntity.id != 0L) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can not edit existing users");
         }
+        userEntity.id = 0L;
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userEntity.password = bCryptPasswordEncoder.encode(userEntity.password);
 
