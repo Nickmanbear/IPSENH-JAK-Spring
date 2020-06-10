@@ -97,7 +97,7 @@ class TeamServiceTests {
         doReturn(Optional.of(team)).when(repository).findById(any());
         doReturn(Optional.of(user2)).when(userService).findById(any(Authentication.class), any());
         doReturn(boards).when(boardService).findByTeam(any(Authentication.class), any());
-        doReturn(board).when(boardService).deleteTeam(any());
+        doReturn(board).when(boardService).deleteTeam(any(Authentication.class), any());
         doNothing().when(repository).deleteById(any());
         doReturn("user").when(authentication).getName();
     }

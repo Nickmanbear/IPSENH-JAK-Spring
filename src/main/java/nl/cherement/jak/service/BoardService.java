@@ -111,7 +111,7 @@ public class BoardService extends AbstractService<BoardEntity> {
         List<CardEntity> cardEntities = cardService.getByBoardId(boardEntity.id);
 
         for (CardEntity cardEntity: cardEntities) {
-            if (cardEntity.assignedUser.equals(userEntity)) {
+            if (cardEntity.assignedUser != null && cardEntity.assignedUser.equals(userEntity)) {
                 cardEntity.assignedUser = null;
                 cardService.save(authentication, cardEntity);
             }
