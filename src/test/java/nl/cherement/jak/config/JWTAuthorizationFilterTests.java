@@ -33,11 +33,16 @@ class JWTAuthorizationFilterTests {
         req = mock(HttpServletRequest.class);
         doReturn("Bearer test").when(req).getHeader("Authorization");
         doReturn("Bearer.test").when(req).getHeader("sec-websocket-protocol");
+        doReturn("Bearer%20test").when(req).getQueryString();
     }
 
     @Test
     void getTokenAndAuthorization() {
         String token = jwtAuthorizationFilter.getToken(req);
+        assertEquals("test", token);
+
+        doReturn(null).when(req).getHeader("Authorization");
+        token = jwtAuthorizationFilter.getToken(req);
         assertEquals("test", token);
     }
     
