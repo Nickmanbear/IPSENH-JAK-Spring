@@ -30,7 +30,7 @@ jobs:
       if: branch = dev
       env:
         - BUILD_DIR="~/builds/backend-test/"
-      before_install: openssl aes-256-cbc -K $encrypted_ba103cbaffec_key -iv $encrypted_ba103cbaffec_iv -in src/main/resources/application.properties.staging.enc -out src/main/resources/application.properties -d
+      before_install: openssl aes-256-cbc -K $encrypted_6f27e86ce9d7_key -iv $encrypted_6f27e86ce9d7_iv -in src/main/resources/application.properties.staging.enc -out src/main/resources/application.properties -d
       deploy:
         provider: script
         skip_cleanup: true
@@ -41,7 +41,7 @@ jobs:
       if: branch = master
       env:
         - BUILD_DIR="~/builds/backend-prod/"
-      before_install: openssl aes-256-cbc -K $encrypted_a3af74d48d98_key -iv $encrypted_a3af74d48d98_iv -in src/main/resources/application.properties.production.enc -out src/main/resources/application.properties -d
+      before_install: openssl aes-256-cbc -K $encrypted_15782c7e30ad_key -iv $encrypted_15782c7e30ad_iv -in src/main/resources/application.properties.production.enc -out src/main/resources/application.properties -d
       deploy:
         provider: script
         skip_cleanup: true
