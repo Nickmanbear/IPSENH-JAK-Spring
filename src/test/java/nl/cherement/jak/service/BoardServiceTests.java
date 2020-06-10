@@ -170,7 +170,7 @@ class BoardServiceTests {
 
     @Test
     void deleteTeam() {
-        assertSame(board, boardService.deleteTeam(board));
+        assertSame(board, boardService.deleteTeam(authentication, board));
     }
 
     @Test

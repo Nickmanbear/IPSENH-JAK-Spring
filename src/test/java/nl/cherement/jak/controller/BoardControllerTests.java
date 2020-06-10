@@ -78,7 +78,7 @@ class BoardControllerTests {
         doReturn("alex").when(authentication).getName();
         doReturn(board).when(service).addTeam(any(Authentication.class), any(), any());
         doReturn(board).when(service).deleteUser(any(Authentication.class), any(), any());
-        doReturn(board).when(service).deleteTeam(any());
+        doReturn(board).when(service).deleteTeam(any(Authentication.class), any());
         doReturn(events).when(service).getTimeline(any(Authentication.class), any(BoardEntity.class));
     }
 
@@ -147,6 +147,6 @@ class BoardControllerTests {
 
     @Test
     void deleteTeam() {
-        assertSame(board, controller.deleteTeam(board));
+        assertSame(board, controller.deleteTeam(authentication, board));
     }
 }

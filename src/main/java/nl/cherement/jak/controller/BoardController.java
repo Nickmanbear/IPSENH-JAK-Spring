@@ -79,8 +79,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/team/{board}")
-    public BoardEntity deleteTeam(@PathVariable("board") BoardEntity boardEntity) {
-        return service.deleteTeam(boardEntity);
+    public BoardEntity deleteTeam(Authentication authentication, @PathVariable("board") BoardEntity boardEntity) {
+        return service.deleteTeam(authentication, boardEntity);
     }
 }
 

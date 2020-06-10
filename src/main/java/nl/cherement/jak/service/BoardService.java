@@ -1,9 +1,6 @@
 package nl.cherement.jak.service;
 
-import nl.cherement.jak.entity.BoardEntity;
-import nl.cherement.jak.entity.EventEntity;
-import nl.cherement.jak.entity.TeamEntity;
-import nl.cherement.jak.entity.UserEntity;
+import nl.cherement.jak.entity.*;
 import nl.cherement.jak.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +26,9 @@ public class BoardService extends AbstractService<BoardEntity> {
   
     @Autowired
     EventService eventService;
+
+    @Autowired
+    CardService cardService;
 
     String unauthorizedMessage = "You do not have access to the object with id ";
 
@@ -93,14 +93,29 @@ public class BoardService extends AbstractService<BoardEntity> {
                     unauthorizedMessage + boardEntity.id);
         }
         boardEntity.users.remove(member);
+        removeUserFromAssignments(authentication, boardEntity, member);
 
         return repository.save(boardEntity);
     }
 
-    public BoardEntity deleteTeam(BoardEntity boardEntity) {
+    public BoardEntity deleteTeam(Authentication authentication, BoardEntity boardEntity) {
+        for (UserEntity teamMember: boardEntity.team.members) {
+            removeUserFromAssignments(authentication, boardEntity, teamMember);
+        }
         boardEntity.team = null;
 
         return repository.save(boardEntity);
+    }
+
+    public void removeUserFromAssignments(Authentication authentication, BoardEntity boardEntity, UserEntity userEntity) {
+        List<CardEntity> cardEntities = cardService.getByBoardId(boardEntity.id);
+
+        for (CardEntity cardEntity: cardEntities) {
+            if (cardEntity.assignedUser != null && cardEntity.assignedUser.equals(userEntity)) {
+                cardEntity.assignedUser = null;
+                cardService.save(authentication, cardEntity);
+            }
+        }
     }
 
     @Override
