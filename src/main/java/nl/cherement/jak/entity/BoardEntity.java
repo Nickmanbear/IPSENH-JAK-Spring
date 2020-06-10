@@ -1,6 +1,7 @@
 package nl.cherement.jak.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="boards")
@@ -8,40 +9,19 @@ public class BoardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public Long id;
 
-	@Column(name="user_id")
-	private long userId;
+    @ManyToMany
+    public List<UserEntity> users;
 
-    @Column(name="name", nullable = false)
-    private String name;
-    
-    public long getId() {
-		return id;
-	}
+    @Column(nullable = false)
+    public String name;
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long columnId) {
-		this.userId = columnId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+    @ManyToOne
+    public TeamEntity team;
 
     @Override
     public String toString() {
-        return "BoardEntity [id=" + id + ", userId=" + userId + ", name=" + name + "]";
+        return "BoardEntity [id=" + id + ", users=" + users + ", name=" + name + ", team=" + team + "]";
     }
 }

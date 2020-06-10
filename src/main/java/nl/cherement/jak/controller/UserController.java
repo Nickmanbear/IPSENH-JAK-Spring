@@ -1,61 +1,47 @@
 package nl.cherement.jak.controller;
 
 import nl.cherement.jak.entity.UserEntity;
-import nl.cherement.jak.service.UserPrincipalDetailsService;
+import nl.cherement.jak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-
     @Autowired
-    private UserPrincipalDetailsService userPrincipalDetailsService;
-
+    private UserService userService;
 
     @GetMapping
-    public List<UserEntity> findAll(HttpServletRequest request) {
-        return userPrincipalDetailsService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<UserEntity> find(HttpServletRequest request, @PathVariable("id") Long id) {
-        return userPrincipalDetailsService.findById(id);
+    public Map<Long, String> findAllShortened() {
+        return userService.findAllShortened();
     }
 
     @GetMapping("/me")
-    public UserEntity auth(Authentication authentication) {
-        return userPrincipalDetailsService.auth(authentication);
+    public UserEntity getUser(Authentication authentication) {
+
+        return userService.findByUsername(authentication.getName());
     }
 
-    @PostMapping
-    public UserEntity save(@RequestBody UserDTO userDTO) {
-        return userPrincipalDetailsService.save(userDTO.toEntity());
+    @PostMapping("/register")
+    public UserEntity signUp(@RequestBody UserDTO userDTO) {
+        return userService.save(userDTO.toEntity());
     }
 }
 
 class UserDTO extends UserEntity {
 
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     UserEntity toEntity() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setActive(getActive());
-        userEntity.setId(getId());
-        userEntity.setPassword(getPassword());
-        userEntity.setPermissions(getPermissions());
-        userEntity.setRoles(getRoles());
-        userEntity.setUsername(getUsername());
+        userEntity.id = id;
+        userEntity.username = username;
+        userEntity.password = password;
+        userEntity.active = active;
+        userEntity.permissions = permissions;
+        userEntity.roles = roles;
 
         return userEntity;
     }
