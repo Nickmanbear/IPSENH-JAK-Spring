@@ -68,7 +68,6 @@ class BoardControllerTests {
         team.id = 1L;
         team.name = "team";
 
-//TODO RECHECK THIS MESS
         doReturn(Optional.of(board)).when(service).findById(any(Authentication.class), any(Long.class));
         doReturn(boards).when(service).findByUserName(any());
         doNothing().when(service).delete(any(Authentication.class), any(BoardEntity.class));
