@@ -4,7 +4,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="events")
@@ -27,7 +26,7 @@ public class EventEntity {
     public ColumnEntity toColumn;
 
     @Column(nullable = false)
-    public Timestamp timestamp;
+    public Long timestamp;
 
     @Override
     public String toString() {
